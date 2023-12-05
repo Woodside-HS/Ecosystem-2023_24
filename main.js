@@ -2,15 +2,18 @@
 //December 1, 2023
 //Global
 let world;
+let p;
 window.onload = init;
 
 function init(){
     world = new World();
+    p = new predDosC(new JSVector(200, 200), new JSVector(0,1), 80, world);
     animate();
 }
 
 function animate(){
   world.run();
+  p.run();
   requestAnimationFrame(animate);
 }
 
