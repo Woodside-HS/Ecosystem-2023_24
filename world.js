@@ -12,7 +12,6 @@ class World {
       width: 4000,
       height: 3000,
     };
-    this.backgroundMusic = new Audio("resources/sounds/mario.mp3");
     this.showGrid = true;
     this.numRows = 90;
     this.numCols = 120;
@@ -54,6 +53,10 @@ class World {
 
     };
 
+    // load all foods (currently only 4)
+    this.loadFood(1);
+
+
     // performance -- change the number of entities to see the effect on framerate
     this.numEntities = 50;
     this.loadEntities(
@@ -83,6 +86,7 @@ class World {
     this.ctxMain.save();
     //  move the main canvas inside of the world
     this.ctxMain.translate(-this.cnvMainLoc.x, -this.cnvMainLoc.y);
+
     this.runCreatures();
     this.runFood();
     this.ctxMain.restore();
@@ -108,19 +112,33 @@ class World {
     this.ctxMain.fillStyle = "orange";
     let fps = this.framerate + " FPS"; // frames per second
     this.ctxMain.fillText(fps, 20, this.cnvMain.height - 105);
+
+
+
   }
-  
+
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
   }
-  
+
   runCreatures() {
 
   }
- 
-  runFood() {
-    
+
+  loadFood(n) {
+    let x = Math.random() * this.cnvMain.width;
+    let y = Math.random() * this.cnvMain.height;
+    for (let i = 0; i < n; i++) {
+      this.foods.food4.push(new PartSyst(this, x, y))
+    }
   }
+
+  runFood() {
+    for (let i = 0; i < this.foods.food4.length; i++) {
+      this.foods.food4[i].run();
+    }
+  }
+
 } //++++++++++++++++++++++++++++++  end world constructor
 
 

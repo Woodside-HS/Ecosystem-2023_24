@@ -6,7 +6,7 @@ class Food extends Entity {
         this.clr = this.getRandomColor();
         this.ctx = wrld.ctxMain;
         this.size = sz;
-        this.wWidth = wrld.dims.width;
+       this.wWidth = wrld.dims.width;
         this.wHeight = wrld.dims.height;
         this.statBlock = {//  properties 
             health: 100,
@@ -23,7 +23,7 @@ class Food extends Entity {
     }
 
     update() {
-
+        
 
         
     }
