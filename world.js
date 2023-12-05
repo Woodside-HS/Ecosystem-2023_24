@@ -1,5 +1,5 @@
 class World {
-  //  Commit 1: 221109
+
   constructor() {
     this.cnvMain = document.getElementById("cnv1");
     this.ctxMain = this.cnvMain.getContext("2d");
@@ -53,8 +53,8 @@ class World {
 
     };
 
-    // load all foods (currently only 4)
-    this.loadFood(1);
+    // load all foods (currently only Food4)
+    this.loadFood(4);
 
 
     // performance -- change the number of entities to see the effect on framerate
@@ -115,7 +115,7 @@ class World {
 
 
 
-  }
+  } //++++++++++++++++++ end run
 
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
