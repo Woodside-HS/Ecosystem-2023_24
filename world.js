@@ -12,7 +12,7 @@ class World {
       width: 4000,
       height: 3000,
     };
-    this.backgroundMusic = new Audio("resources/sounds/mario.mp3");
+    //this.backgroundMusic = new Audio("resources/sounds/mario.mp3");
     this.showGrid = true;
     this.numRows = 90;
     this.numCols = 120;
@@ -109,17 +109,17 @@ class World {
     let fps = this.framerate + " FPS"; // frames per second
     this.ctxMain.fillText(fps, 20, this.cnvMain.height - 105);
   }
-  
+
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
   }
-  
+
   runCreatures() {
 
   }
- 
+
   runFood() {
-    
+
   }
 } //++++++++++++++++++++++++++++++  end world constructor
 
