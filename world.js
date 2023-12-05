@@ -12,7 +12,7 @@ class World {
       width: 4000,
       height: 3000,
     };
-    this.backgroundMusic = new Audio("resources/sounds/mario.mp3");
+
     this.showGrid = true;
     this.numRows = 90;
     this.numCols = 120;
@@ -108,6 +108,10 @@ class World {
     this.ctxMain.fillStyle = "orange";
     let fps = this.framerate + " FPS"; // frames per second
     this.ctxMain.fillText(fps, 20, this.cnvMain.height - 105);
+    for (let i = 0; i < this.creatures.length; i++) {//  All food and creatures
+      this.creatures[i].run();
+      
+    }
   }
   
   loadEntities(numEntities, ctx, w, h) {
@@ -115,7 +119,16 @@ class World {
   }
   
   runCreatures() {
+    for ( let i = 0; i < 50; i ++){
+      let x = Math.random()*this.dims.width;
+      let y = Math.random()*this.dims.height;
+      let loc = new JSVector(x, y);
+      let dx = Math.random() * 4 - 2;
+      let dy = Math.random() * 4 - 2
+      let vel = new JSVector(dx, dy);
+      this.creatures.herb3.push(new Herb4LYT(loc, vel, 22, this));
 
+    }
   }
  
   runFood() {
