@@ -25,7 +25,7 @@ class Herb4LYT extends Creature {
         //I hope me using a 240 HZ laptop does not change these interaction or that will be annoying
         this.jumpSpeed = 80;//I guess these both can be scaled with health
         this.jumpDistance = 20;
-       
+
         //but how would you do this while hoping over food 
         //what if it gets softlocked indefinity 
         //I'll figure it out 
@@ -34,35 +34,37 @@ class Herb4LYT extends Creature {
         this.update();
         this.render();
         this.life();
+        //this.checkEdges();
     }
 
-   
-        checkEdges() {
-            if (this.loc.x > world.dims.right) {
-                this.vel.x = -this.vel.x;
-            }
-            if (this.loc.x < world.dims.left) {
-                this.vel.x = -this.vel.x;
-            }
-            if (this.loc.y > world.dims.bottom) {
-                this.vel.y = -this.vel.y;
-            }
-            if (this.loc.y < world.dims.top) {
-                this.vel.y = -this.vel.y;
-            }
+
+    checkEdges() {
+       
+        if (this.loc.x > world.dims.right) {
+            this.loc.x = 0;
         }
-    
+        if (this.loc.x < world.dims.left) {
+            this.loc.x = world.dims.right;
+        }
+         if (this.loc.y < world.dims.bottom) {
+             this.loc.y = 0;
+         }
+        // if (this.loc.y  world.dims.top) {
+        //     this.loc.y = world.dims.bottom
+        // }
+    }
+
     render() {
         let ctx = this.ctx;
         ctx.save()
         ctx.translate(this.loc.x, this.loc.y)
         ctx.rotate(this.vel.getDirection() + Math.PI / 2)
-        ctx.strokeStyle =  "rgba(0,0,0,1)";//idk black outline looks better rn for me
+        ctx.strokeStyle = "rgba(0,0,0,1)";//idk black outline looks better rn for me
 
         ctx.fillStyle = this.clr;
         ctx.beginPath();
         //I'm gonna keep this bc the other code is not perfect 
-        
+
         // ctx.arc(-15, 0, this.sz, Math.PI * 2, 0, false);
         // ctx.moveTo(15, 0)//this is to remove some problem with lines going from shape to shape
         // ctx.arc(15, 0, this.sz, Math.PI * 2, 0, false);
@@ -77,32 +79,32 @@ class Herb4LYT extends Creature {
         //make this in terms of this.sz at some point 
 
         this.sz *= this.health;
-        ctx.arc(-this.sz*2, 0, this.sz, Math.PI * 2, 0, false );
-        ctx.moveTo(this.sz*2, 0, this.sz, Math.PI * 2, 0, false);
-        ctx.arc(this.sz*2, 0, this.sz, Math.PI * 2, 0, false);
-        ctx.moveTo(0, this.sz*(4/3))
-        ctx.arc(0, this.sz*(4/3), this.sz * 1.5, Math.PI * 2, 0, false);
-        ctx.moveTo(0, this.sz*4)
-        ctx.arc(0, this.sz*4, this.sz * 2.3, Math.PI * 2, 0, false);
-        ctx.moveTo(-this.sz*2, this.sz*(50/7.5));
-        ctx.arc(-this.sz*2, this.sz*(50/7.5), this.sz * 1.3, Math.PI * 2, 0, false);
-        ctx.moveTo(this.sz*2, this.sz*(50/7.5));
-        ctx.arc(this.sz*2, this.sz*(50/7.5), this.sz * 1.3, Math.PI * 2, 0, false);
-        this.sz *= (1/this.health)
+        ctx.arc(-this.sz * 2, 0, this.sz, Math.PI * 2, 0, false);
+        ctx.moveTo(this.sz * 2, 0, this.sz, Math.PI * 2, 0, false);
+        ctx.arc(this.sz * 2, 0, this.sz, Math.PI * 2, 0, false);
+        ctx.moveTo(0, this.sz * (4 / 3))
+        ctx.arc(0, this.sz * (4 / 3), this.sz * 1.5, Math.PI * 2, 0, false);
+        ctx.moveTo(0, this.sz * 4)
+        ctx.arc(0, this.sz * 4, this.sz * 2.3, Math.PI * 2, 0, false);
+        ctx.moveTo(-this.sz * 2, this.sz * (50 / 7.5));
+        ctx.arc(-this.sz * 2, this.sz * (50 / 7.5), this.sz * 1.3, Math.PI * 2, 0, false);
+        ctx.moveTo(this.sz * 2, this.sz * (50 / 7.5));
+        ctx.arc(this.sz * 2, this.sz * (50 / 7.5), this.sz * 1.3, Math.PI * 2, 0, false);
+        this.sz *= (1 / this.health)
         ctx.stroke();
         ctx.fill();
         ctx.restore();
 
     }
     update() {
-        this.health = (this.lifeSpan/this.maxLifeSpan);
+        this.health = (this.lifeSpan / this.maxLifeSpan);
 
         this.count++;
         if (this.count >= this.jumpSpeed) {
 
-            this.vel.multiply(this.jumpDistance*this.health);
+            this.vel.multiply(this.jumpDistance * this.health);
             this.loc.add(this.vel);
-            this.vel.divide(this.jumpDistance*this.health);
+            this.vel.divide(this.jumpDistance * this.health);
             //Make this more stable/not just teleporting 
             //could you somehow make this more leap like
             this.count = 0;
@@ -110,13 +112,13 @@ class Herb4LYT extends Creature {
     }
     life() {//would just putting this in update be better? 
         //yeah I agree proboly should do that 
-        if(this.lifeSpan >= 0){
-        this.lifeSpan--;
-        
+        if (this.lifeSpan >= 0) {
+            this.lifeSpan--;
+
         }
-        if(this.lifeSpan <= 0){
+        if (this.lifeSpan <= 3000) {
             this.isDead = true;
-            
+
         }
     }
 
