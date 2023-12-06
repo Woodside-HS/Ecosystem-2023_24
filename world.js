@@ -123,7 +123,7 @@ class World {
       let dx = Math.random() * 4 - 2;
       let dy = Math.random() * 4 - 2;
       let vel = new JSVector(dx, dy);
-      this.creatures.herb3.push(new Herb4LYT(loc, vel, 8, this));
+      this.creatures.herb3.push(new Herb4LYT(loc, vel, 12, this));
 
     }
   }
