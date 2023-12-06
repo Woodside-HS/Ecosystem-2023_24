@@ -110,29 +110,40 @@ class World {
     this.ctxMain.fillText(fps, 20, this.cnvMain.height - 105);
     for (let i = 0; i < this.creatures.length; i++) {//  All food and creatures
       this.creatures[i].run();
-      
-    }
-  }
-  
-  loadEntities(numEntities, ctx, w, h) {
-    //++++++++++++++++++++++++++++  load entities
-  }
-  
-  runCreatures() {
-    for ( let i = 0; i < 50; i ++){
-      let x = Math.random()*this.dims.width;
-      let y = Math.random()*this.dims.height;
-      let loc = new JSVector(x, y);
-      let dx = Math.random() * 4 - 2;
-      let dy = Math.random() * 4 - 2
-      let vel = new JSVector(dx, dy);
-      this.creatures.herb3.push(new Herb4LYT(loc, vel, 22, this));
 
     }
   }
+
+  loadEntities(numEntities, ctx, w, h) {
+    //++++++++++++++++++++++++++++  load entities
+    for (let i = 0; i < 50; i++) {
+      let x = Math.random() * this.dims.width;
+      let y = Math.random() * this.dims.height;
+      let loc = new JSVector(x, y);
+      let dx = Math.random() * 4 - 2;
+      let dy = Math.random() * 4 - 2;
+      let vel = new JSVector(dx, dy);
+      this.creatures.herb3.push(new Herb4LYT(loc, vel, 8, this));
+
+    }
+  }
+
+  runCreatures() {
+    let c = this.creatures;
+    for (let i = 0; i < c.herb3.length; i++) {
+      c.herb3[i].run();
+        if (this.creatures.herb3[i].isDead === true) {
+          this.creatures.herb3.splice(i, 1)
+        }
+    }
+
+    }
+  
  
+
+
   runFood() {
-    
+
   }
 } //++++++++++++++++++++++++++++++  end world constructor
 
