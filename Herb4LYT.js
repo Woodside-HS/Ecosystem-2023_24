@@ -14,6 +14,7 @@ class Herb4LYT extends Creature {
         this.ctx = wrld.ctxMain;
         this.clr = this.getRandomColor();
         this.count = 0;
+        this.gUP = true;
         this.lifeSpan = 12000;//This is directly corrolated to health
         //which is also connected to the size of the creature so making this like 3k will
         //make the creatures shrink very fast 
@@ -38,19 +39,19 @@ class Herb4LYT extends Creature {
 
 
     checkEdges() {
-       
+
         if (this.loc.x > world.dims.right) {
             this.loc.x = 0;
         }
         if (this.loc.x < world.dims.left) {
             this.loc.x = world.dims.right;
         }
-         if (this.loc.y < world.dims.top) {
-             this.loc.y = 0;
-         }
-         if (this.loc.y > world.dims.bottom) {
-             this.loc.y = world.dims.top;
-         }
+        if (this.loc.y < world.dims.top) {
+            this.loc.y = 0;
+        }
+        if (this.loc.y > world.dims.bottom) {
+            this.loc.y = world.dims.top;
+        }
     }
 
     render() {
@@ -62,22 +63,22 @@ class Herb4LYT extends Creature {
 
         ctx.fillStyle = this.clr;
         ctx.beginPath();
-        
-        
 
-      
-       // this.sz *= this.health;
+
+
+
+        // this.sz *= this.health;
         ctx.arc(-this.sz * 2, 0, this.sz, Math.PI * 2, 0, false);
         ctx.moveTo(this.sz * 2, 0, this.sz, Math.PI * 2, 0, false);
         ctx.arc(this.sz * 2, 0, this.sz, Math.PI * 2, 0, false);
-        ctx.moveTo(0, this.sz * 4/3);
-        ctx.arc(0, this.sz * 4/3, this.sz * 1.5, Math.PI * 2, 0, false);
-        ctx.moveTo(0, this.sz *4);
-        ctx.arc(0, this.sz *4, this.sz * 2, Math.PI * 2, 0, false);
-        ctx.moveTo(-this.sz * 2, this.sz * (20/3));
-        ctx.arc(-this.sz * 2, this.sz * (20/3), this.sz * 4/3, Math.PI * 2, 0, false);
-        ctx.moveTo(this.sz * 2, this.sz * (20/3));
-        ctx.arc(this.sz * 2, this.sz * (20/3), this.sz * 4/3, Math.PI * 2, 0, false);
+        ctx.moveTo(0, this.sz * 4 / 3);
+        ctx.arc(0, this.sz * 4 / 3, this.sz * 1.5, Math.PI * 2, 0, false);
+        ctx.moveTo(0, this.sz * 4);
+        ctx.arc(0, this.sz * 4, this.sz * 2, Math.PI * 2, 0, false);
+        ctx.moveTo(-this.sz * 2, this.sz * (20 / 3));
+        ctx.arc(-this.sz * 2, this.sz * (20 / 3), this.sz * 4 / 3, Math.PI * 2, 0, false);
+        ctx.moveTo(this.sz * 2, this.sz * (20 / 3));
+        ctx.arc(this.sz * 2, this.sz * (20 / 3), this.sz * 4 / 3, Math.PI * 2, 0, false);
 
         ctx.stroke();
         ctx.fill();
@@ -85,12 +86,12 @@ class Herb4LYT extends Creature {
         ctx.strokeStyle = "rgba(0,0,0,1)";//idk black outline looks better rn for me
 
         ctx.fillStyle = "rgba(0,0,0,1)";
-        ctx.moveTo(0, this.sz4)
-        ctx.arc(0, this.sz * 4, this.sz * 4/3, Math.PI *2, 0, false)
+        ctx.moveTo(0, this.sz * 4)//ya know this does not do anything why are you keeping this?
+        ctx.arc(0, this.sz * 4, this.sz * 4 / 3, Math.PI * 2, 0, false)
         ctx.stroke();
         ctx.fill();
-        
-        
+
+
         ctx.restore();
 
     }
@@ -99,24 +100,23 @@ class Herb4LYT extends Creature {
         this.vel.multiply(this.health);
         this.loc.add(this.vel);
         this.vel.divide(this.health);
-        this.count++;
-        if(this.count === 100){
-           this.sz += 2;
-        } else if(this.count === 200){
-            this.sz += 2;
-        } else if(this.count === 300){
-            this.sz -= 2
-        } else if(this.count === 400){
-            this.sz -= 2;
-            this.count = 0;
+        if (this.count < 200 && (this.gUP == true)) {
+            this.sz += 0.015;
+            this.count++;
+        } else if (this.count >= 200) {
+            this.gUP = false;
+            this.sz -= 0.015;
+            if (this.sz <= 12) {
+                this.gUP = true;
+                this.count = 0;
+            }
         }
-
-    
     }
+
     life() {//would just putting this in update be better? 
-        //yeah I agree proboly should do that 
+        //yeah I agre proboly should do that 
         if (this.lifeSpan >= 0) {
-            this.lifeSpan-=0.02;
+            this.lifeSpan -= 1;
 
         }
         if (this.lifeSpan <= 2000) {

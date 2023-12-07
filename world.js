@@ -42,7 +42,7 @@ class World {
       herb1: [],
       herb2: [],
       herb3: [],
-      
+
       flocks: [],
     };
 
@@ -121,8 +121,8 @@ class World {
       let x = (Math.random() * this.dims.width)-2000;
       let y = Math.random() * this.dims.height - 1500;
       let loc = new JSVector(x, y);
-      let dx = Math.random() * 4 - 2;
-      let dy = Math.random() * 4 - 2;
+      let dx = Math.random() * 2 - 1;
+      let dy = Math.random() * 2 - 1;
       let vel = new JSVector(dx, dy);
       this.creatures.herb3.push(new Herb4LYT(loc, vel, 12, this));
 
