@@ -22,7 +22,7 @@ class Herb4LYT extends Creature {
         this.isDead = false;
         //jumpSpeed goes faster the higher the number is 
         //its number of frames or something like that idk
-        this.jumpSpeed = 850;//I guess these both can be scaled with health
+        this.jumpSpeed = 200;//I guess these both can be scaled with health
         this.jumpDistance = 80;
 
         //but how would you do this while hoping over food 
@@ -62,58 +62,61 @@ class Herb4LYT extends Creature {
 
         ctx.fillStyle = this.clr;
         ctx.beginPath();
-        //I'm gonna keep this bc the other code is not perfect 
+        
+        
 
-        // ctx.arc(-15, 0, this.sz, Math.PI * 2, 0, false);
-        // ctx.moveTo(15, 0)//this is to remove some problem with lines going from shape to shape
-        // ctx.arc(15, 0, this.sz, Math.PI * 2, 0, false);
-        // ctx.moveTo(0, 10)
-        // ctx.arc(0, 10, this.sz * 1.5, Math.PI * 2, 0, false);
-        // ctx.moveTo(0, 30)
-        // ctx.arc(0, 30, this.sz * 2, Math.PI * 2, 0, false);
-        // ctx.moveTo(-15, 50);
-        // ctx.arc(-15, 50, this.sz * 1.3, Math.PI * 2, 0, false);
-        // ctx.moveTo(15, 50);
-        // ctx.arc(15, 50, this.sz * 1.3, Math.PI * 2, 0, false);
-        //make this in terms of this.sz at some point 
-
-        this.sz *= this.health;
+      
+       // this.sz *= this.health;
         ctx.arc(-this.sz * 2, 0, this.sz, Math.PI * 2, 0, false);
         ctx.moveTo(this.sz * 2, 0, this.sz, Math.PI * 2, 0, false);
         ctx.arc(this.sz * 2, 0, this.sz, Math.PI * 2, 0, false);
-        ctx.moveTo(0, this.sz * (4 / 3))
-        ctx.arc(0, this.sz * (4 / 3), this.sz * 1.5, Math.PI * 2, 0, false);
-        ctx.moveTo(0, this.sz * 4)
-        ctx.arc(0, this.sz * 4, this.sz * 2.3, Math.PI * 2, 0, false);
-        ctx.moveTo(-this.sz * 2, this.sz * (50 / 7.5));
-        ctx.arc(-this.sz * 2, this.sz * (50 / 7.5), this.sz * 1.3, Math.PI * 2, 0, false);
-        ctx.moveTo(this.sz * 2, this.sz * (50 / 7.5));
-        ctx.arc(this.sz * 2, this.sz * (50 / 7.5), this.sz * 1.3, Math.PI * 2, 0, false);
-        this.sz *= (1 / this.health)
+        ctx.moveTo(0, this.sz * 4/3);
+        ctx.arc(0, this.sz * 4/3, this.sz * 1.5, Math.PI * 2, 0, false);
+        ctx.moveTo(0, this.sz *4);
+        ctx.arc(0, this.sz *4, this.sz * 2, Math.PI * 2, 0, false);
+        ctx.moveTo(-this.sz * 2, this.sz * (20/3));
+        ctx.arc(-this.sz * 2, this.sz * (20/3), this.sz * 4/3, Math.PI * 2, 0, false);
+        ctx.moveTo(this.sz * 2, this.sz * (20/3));
+        ctx.arc(this.sz * 2, this.sz * (20/3), this.sz * 4/3, Math.PI * 2, 0, false);
+
         ctx.stroke();
         ctx.fill();
+        ctx.beginPath();
+        ctx.strokeStyle = "rgba(0,0,0,1)";//idk black outline looks better rn for me
+
+        ctx.fillStyle = "rgba(0,0,0,1)";
+        ctx.moveTo(0, this.sz4)
+        ctx.arc(0, this.sz * 4, this.sz * 4/3, Math.PI *2, 0, false)
+        ctx.stroke();
+        ctx.fill();
+        
+        
         ctx.restore();
 
     }
     update() {
         this.health = (this.lifeSpan / this.maxLifeSpan);
-
+        this.vel.multiply(this.health);
+        this.loc.add(this.vel);
+        this.vel.divide(this.health);
         this.count++;
-        if (this.count >= this.jumpSpeed) {
-              //  for(let i = 0; i < Math.floor(this.jumpDistance*this.health); i ++){
-            this.vel.multiply(this.jumpDistance * this.health);
-            this.loc.add(this.vel);
-            this.vel.divide(this.jumpDistance * this.health);
-            //Make this more stable/not just teleporting 
-            //could you somehow make this more leap like
-                }
+        if(this.count === 100){
+           this.sz += 2;
+        } else if(this.count === 200){
+            this.sz += 2;
+        } else if(this.count === 300){
+            this.sz -= 2
+        } else if(this.count === 400){
+            this.sz -= 2;
             this.count = 0;
-       // }
+        }
+
+    
     }
     life() {//would just putting this in update be better? 
         //yeah I agree proboly should do that 
         if (this.lifeSpan >= 0) {
-            this.lifeSpan--;
+            this.lifeSpan-=0.02;
 
         }
         if (this.lifeSpan <= 2000) {

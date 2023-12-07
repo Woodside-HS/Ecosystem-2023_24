@@ -42,6 +42,7 @@ class World {
       herb1: [],
       herb2: [],
       herb3: [],
+      
       flocks: [],
     };
 
