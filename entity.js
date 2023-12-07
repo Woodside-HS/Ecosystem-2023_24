@@ -77,7 +77,7 @@ class Entity {
   getRandomColor() {
     //  List of hex color values for movers
     let colors = [
-      "#FFFFFF",
+      "#FFFFFF","#fa9039","fa3939","#facf4d"
     ];
     let index = Math.floor(Math.random() * colors.length);
     return colors[index];
