@@ -1,4 +1,4 @@
-class SKHerb4 extends Creture {
+class SKHerb4 extends Creature {
 
   constructor(loc, vel, sz, wrld) {
     super(loc, vel, sz, wrld)
@@ -8,7 +8,11 @@ class SKHerb4 extends Creture {
     this.sz = 8;
     this.lifeSpan = 1500;
     this.maxLifeSpan = this.lifeSpan;
-    this.camoColor=
+    let colors = ["red","black", "orange", "yellow", "green", "blue", "violet", "indigo"];
+    this.color = colors[Math.floor(Math.random() * colors.length)];  
+    if (this.color=(black)){
+      
+    }
   }
 
   update() {
@@ -28,7 +32,7 @@ class SKHerb4 extends Creture {
     let ctx = this.ctx;
     ctx.strokestyle = "rgba(255,255,255,1)";
     //random color for camo
-    ctx.fillStyle = this.getRandomColor();
+    ctx.fillStyle = this.color;
     ctx.beginPath();
     ctx.arc(this.loc.x, this.loc.y, this.size, 0, 2 * Math.PI, false);
     ctx.fill();
