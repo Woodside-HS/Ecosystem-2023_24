@@ -10,7 +10,6 @@ class Food4 extends Food{ //THESE ARE THE PARTCLES THAT ARE SHOT OUT. NOT THE AC
         this.r = sz;
         this.ctx = wrld.ctxMain;
         this.ranNum = ranNum;
-        this.lifeSpan = food.statBlock.lifeSpan;
         this.cellType;
         this.colList = ['rgb(59, 163, 62)', 'rgb(141, 64, 161)', 'rgb(52, 117, 130)'];
     }
@@ -24,10 +23,12 @@ class Food4 extends Food{ //THESE ARE THE PARTCLES THAT ARE SHOT OUT. NOT THE AC
 
     checkEdges() {
         // bounce on walls
-        if (this.loc.x > this.wrld.width) this.vel.x = -this.vel.x;
-        if (this.loc.x < 0) this.vel.x = -this.vel.x;
-        if (this.loc.y > this.wrld.height) this.vel.y = -this.vel.y;
-        if (this.loc.y < 0) this.vel.y = -this.vel.y;
+        if (this.loc.x >= this.wrld.dims.width / 2 || this.loc.x <= -this.wrld.dims.width / 2) {
+            this.vel.x *= -1;
+          }
+          if (this.loc.y >= this.wrld.dims.height / 2 || this.loc.y < -this.wrld.dims.height  / 2) {
+            this.vel.y *= -1;
+          }
     }
 
     render() { // render movers
@@ -62,14 +63,19 @@ class Food4 extends Food{ //THESE ARE THE PARTCLES THAT ARE SHOT OUT. NOT THE AC
         this.vel.add(this.acc);
         this.statBlock.lifeSpan--;
 
-        if(this.ranNum <= 10){
+        // this to tell what type each cell is for creature that will eat the cells
+        if(this.ranNum <= 10){ 
             this.cellType = "Poison";
         } else if(this.ranNum <= 14){
             this.cellType = "Healthy";
         } else if(this.ranNum > 14){
             this.cellType = "Antibody";
         }
+        
 
+        // if(this.cellType === "Healthy"){
+        //     let dist = this.loc.distance()
+        // }
     }
 
     

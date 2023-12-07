@@ -11,7 +11,7 @@ class Food extends Entity {
         this.statBlock = {//  properties 
             health: 100,
             nourishment: 100,
-            lifeSpan:30000,
+            lifeSpan:300,
             opacity:1.0,
             foodPts:100
         };
@@ -23,8 +23,7 @@ class Food extends Entity {
     }
 
     update() {
-        
-
+    
         
     }
 
