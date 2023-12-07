@@ -1,13 +1,13 @@
 class Creature extends Entity {
-   constructor(locx, locy, vel, sz, wrld) {
-      super(locx, locy, vel, sz, wrld);
+   constructor(loc, vel, sz, wrld) {
+      super(loc, vel, sz, wrld)
       //mover properties
-      this.loc = new JSVector(locx, locy);
-      this.vel = new JSVector(100, 0);
-      this.acc = new JSVector(10, 0);
+      this.loc = loc;
+      this.vel = vel;
+      this.acc = new JSVector(0, 0);
       this.clr = this.getRandomColor();
       this.size = sz;
-      this.maxSpeed = 1;
+      this.maxSpeed = .1;
       this.ctx = wrld.ctxMain;
       this.wWidth = wrld.dims.width;
       this.wHeight = wrld.dims.height;
@@ -48,12 +48,9 @@ class Creature extends Entity {
       if (this.dataBlock.lifeSpan-- <= 0) {
          this.dataBlock.isDead = true;
       }
-      // this.acc = JSVector.subGetNew(new JSVector(300, 400), this.loc);
-      // this.acc.normalize();
       this.vel.add(this.acc);
       this.vel.limit(this.maxSpeed);
       this.loc.add(this.vel);
-
    }
    checkEdges() {
       if (this.loc.x >= world.dims.width / 2 || this.loc.x <= -world.dims.width / 2) {

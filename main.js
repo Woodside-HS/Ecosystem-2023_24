@@ -3,22 +3,14 @@
 //Global
 let world;
 window.onload = init;
-let creature;
 
 function init() {
   world = new World();
-  creature = new Creature(20, 20, 0, 10, world);
   animate();
 }
 
 function animate() {
   world.run();
-  creature.run();
-  let ctx = world.ctxMain;
-  ctx.beginPath();
-  ctx.fillStyle = "#78254e";
-  ctx.arc(300, 400, 20, 0, 2 * Math.PI, false);
-  ctx.fill();
   requestAnimationFrame(animate);
 }
 
