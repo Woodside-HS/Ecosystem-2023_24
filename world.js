@@ -42,6 +42,8 @@ class World {
       herb1: [],
       herb2: [],
       herb3: [],
+      herb4: [],
+
 
       flocks: [],
     };
@@ -124,17 +126,18 @@ class World {
       let dx = Math.random() * 2 - 1;
       let dy = Math.random() * 2 - 1;
       let vel = new JSVector(dx, dy);
-      this.creatures.herb3.push(new Herb4LYT(loc, vel, 12, this));
+      let sz = Math.floor(Math.random()*9 + 6);
+      this.creatures.herb4.push(new Herb4LYT(loc, vel, sz, this));
 
     }
   }
 
   runCreatures() {
     let c = this.creatures;
-    for (let i = 0; i < c.herb3.length; i++) {
-      c.herb3[i].run();
-        if (this.creatures.herb3[i].isDead === true) {
-          this.creatures.herb3.splice(i, 1)
+    for (let i = 0; i < c.herb4.length; i++) {
+      c.herb4[i].run();
+        if (c.herb4[i].isDead === true) {
+          cs.herb4.splice(i, 1)
         }
     }
 
