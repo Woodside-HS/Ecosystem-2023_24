@@ -3,14 +3,15 @@
 class Food4 extends Food{ //THESE ARE THE PARTCLES THAT ARE SHOT OUT. NOT THE ACTUAL SYSTEM
     constructor(loc, vel, sz, wrld, ranNum) {
         super(loc, vel, sz, wrld)
-        this.loc = loc;
+        this.loc = new JSVector(loc.x, loc.y);
         this.vel = vel;
         this.acc = new JSVector(0, 0);
         this.wrld = wrld;
         this.r = sz;
         this.ctx = wrld.ctxMain;
         this.ranNum = ranNum;
-        this.cellType = ["Poison", "Antibody", "Healthy"];
+        this.lifeSpan = food.statBlock.lifeSpan;
+        this.cellType;
         this.colList = ['rgb(59, 163, 62)', 'rgb(141, 64, 161)', 'rgb(52, 117, 130)'];
     }
 
@@ -59,7 +60,16 @@ class Food4 extends Food{ //THESE ARE THE PARTCLES THAT ARE SHOT OUT. NOT THE AC
         this.loc.add(this.vel);
         this.vel.limit(10)
         this.vel.add(this.acc);
-        this.lifespan--;
+        this.statBlock.lifeSpan--;
+
+        if(this.ranNum <= 10){
+            this.cellType = "Poison";
+        } else if(this.ranNum <= 14){
+            this.cellType = "Healthy";
+        } else if(this.ranNum > 14){
+            this.cellType = "Antibody";
+        }
+
     }
 
     

@@ -54,7 +54,7 @@ class World {
     };
 
     // load all foods (currently only Food4)
-    this.loadFood(4);
+    this.loadFood(5);
 
 
     // performance -- change the number of entities to see the effect on framerate

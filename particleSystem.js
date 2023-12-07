@@ -5,13 +5,18 @@ class PartSyst {
         this.loc = new JSVector(x, y);
         this.food4 = [];
         this.loadParticle(1);
+        this.count = 0;
     }
 
     run() {
         this.render();
+        this.update();
         this.runParticle();
-        this.loadParticle(1);
-        // console.log(this.food4.length)
+        if(this.count == 600){
+            this.loadParticle(1);
+            this.count = 0;
+        }
+       
     }
 
     render() {
@@ -23,6 +28,11 @@ class PartSyst {
         ctx.fill();
     }
 
+    update(){
+        this.count ++;
+        
+
+    }
 
     loadParticle(n) { // loads all the food4 particles into the array
         for (let i = 0; i < n; i++) {
