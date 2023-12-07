@@ -40,7 +40,7 @@ function animate(){
     }
   }, false);
 
-//  Utilities
+//  Utilities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
