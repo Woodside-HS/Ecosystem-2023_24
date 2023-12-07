@@ -22,9 +22,8 @@ class Herb4LYT extends Creature {
         this.isDead = false;
         //jumpSpeed goes faster the higher the number is 
         //its number of frames or something like that idk
-        //I hope me using a 240 HZ laptop does not change these interaction or that will be annoying
-        this.jumpSpeed = 80;//I guess these both can be scaled with health
-        this.jumpDistance = 20;
+        this.jumpSpeed = 850;//I guess these both can be scaled with health
+        this.jumpDistance = 80;
 
         //but how would you do this while hoping over food 
         //what if it gets softlocked indefinity 
@@ -34,7 +33,7 @@ class Herb4LYT extends Creature {
         this.update();
         this.render();
         this.life();
-        //this.checkEdges();
+        this.checkEdges();
     }
 
 
@@ -46,12 +45,12 @@ class Herb4LYT extends Creature {
         if (this.loc.x < world.dims.left) {
             this.loc.x = world.dims.right;
         }
-         if (this.loc.y < world.dims.bottom) {
+         if (this.loc.y < world.dims.top) {
              this.loc.y = 0;
          }
-        // if (this.loc.y  world.dims.top) {
-        //     this.loc.y = world.dims.bottom
-        // }
+         if (this.loc.y > world.dims.bottom) {
+             this.loc.y = world.dims.top;
+         }
     }
 
     render() {
@@ -101,14 +100,15 @@ class Herb4LYT extends Creature {
 
         this.count++;
         if (this.count >= this.jumpSpeed) {
-
+              //  for(let i = 0; i < Math.floor(this.jumpDistance*this.health); i ++){
             this.vel.multiply(this.jumpDistance * this.health);
             this.loc.add(this.vel);
             this.vel.divide(this.jumpDistance * this.health);
             //Make this more stable/not just teleporting 
             //could you somehow make this more leap like
+                }
             this.count = 0;
-        }
+       // }
     }
     life() {//would just putting this in update be better? 
         //yeah I agree proboly should do that 
@@ -116,7 +116,7 @@ class Herb4LYT extends Creature {
             this.lifeSpan--;
 
         }
-        if (this.lifeSpan <= 3000) {
+        if (this.lifeSpan <= 2000) {
             this.isDead = true;
 
         }
