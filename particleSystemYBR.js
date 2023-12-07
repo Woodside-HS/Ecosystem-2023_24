@@ -4,6 +4,7 @@ class PartSyst {
         this.ctx = this.wrld.ctxMain;
         this.loc = new JSVector(x, y);
         this.foods4 = [];
+        this.r = 40;
         this.loadParticle(1);
         this.shootCount = 0; // determines time when particle is shot out
         this.pollenCount = 0; // determines whether 
@@ -13,30 +14,57 @@ class PartSyst {
         this.render();
         this.update();
         this.runParticle();
-        for (let i = 0; i < this.foods4.length; i++) {
-            let temp = Math.floor(Math.random() *(2-1) +1 );
+        
             if (this.shootCount == 600) {
-                this.loadParticle(temp);
+                this.loadParticle(1);
                 this.shootCount = 0;
             }
-        }
+    
 
     }
 
     render() {
         //Renders in the system
         let ctx = this.ctx;
+        ctx.save();
+        ctx.translate(0, 0);
+        ctx.strokeStyle = 'rgba(43, 196, 84, 1)'
+        ctx.fillStyle = 'rgba(43, 196, 84, 1)'
         ctx.beginPath();
-        ctx.arc(this.loc.x, this.loc.y, this.r, Math.PI * 2, 0);
+        //creates base
+        ctx.moveTo(this.loc.x, this.loc.y);
+        ctx.roundRect(this.loc.x, this.loc.y, 6, 80, 60)
+        ctx.strokeStyle = 'rgba(102, 224, 54, 1)'
+        //left top branch
+        ctx.moveTo(this.loc.x , this.loc.y + 20)
+        ctx.lineTo(this.loc.x-40, this.loc.y - 30)
+
+        // right top branch
+        ctx.moveTo(this.loc.x, this.loc.y + 40)
+        ctx.lineTo(this.loc.x + 30, this.loc.y - 20)
+        
+        //left bottom branch
+        ctx.moveTo(this.loc.x , this.loc.y + 55)
+        ctx.lineTo(this.loc.x-40, this.loc.y + 15)
+
+        // right bottom branch
+        ctx.moveTo(this.loc.x, this.loc.y + 60)
+        ctx.lineTo(this.loc.x + 40, this.loc.y - 10)
+
         ctx.stroke();
         ctx.fill();
+        ctx.restore();
     }
 
     update() {
         this.shootCount++;
-        // this chonky piece of code checks whether any cells created are healthy, 
-        // and if it is, it checks if there is another one, and if there is one near it
-        // then it will create a new particle system. This is the reproduction system.
+
+        /* 
+        This chonky piece of code is the reproduction system, which checks whether any 
+        cells created are healthy, and if it is, it checks if there is another one, 
+        and if there is one near it then it will create a new particle system. 
+        */
+
         for (let i = 0; i < this.foods4.length; i++) {
             if (this.foods4[i].cellType === "Healthy") {
                 for (let k = 0; k < this.foods4.length; k++) {

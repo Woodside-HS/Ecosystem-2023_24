@@ -55,7 +55,7 @@ class World {
 
     // load all foods (currently only Food4)
     
-      this.loadFood(2);
+      this.loadFood(50);
     
 
 
@@ -130,9 +130,11 @@ class World {
 
   loadFood(n) { // loads the initial amounts of particle systems
     for (let i = 0; i < n; i++) {
-      let x = Math.random() * this.cnvMain.width;
-      let y = Math.random() * this.cnvMain.height;
+      let x = Math.random() * (this.dims.width - 100);
+      let y = Math.random() * (this.dims.height - 100);
+    
       this.foods.food4.push(new PartSyst(this, x, y))
+      
     }
   }
   
