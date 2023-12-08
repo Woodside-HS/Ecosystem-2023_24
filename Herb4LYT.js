@@ -8,7 +8,7 @@
 class Herb4LYT extends Creature {
     constructor(loc, vel, sz, wrld) {
         super(loc, vel, sz, wrld);
-        //   this.loc = loc;//I wonder if I have too many variables
+        //   this.loc = loc;
         this.vel = vel;
         this.sz = sz;
         this.eyeHeight = this.sz * 0.8;
@@ -110,7 +110,7 @@ class Herb4LYT extends Creature {
         ctx.moveTo(0, this.sz*(4/3))
         ctx.ellipse(0, this.sz * (4/3), this.eyeHeight, this.eyeHeight*0.7, 0, 0, Math.PI*2)
         if (this.eyeHeight > 0.05 && this.eUP == true) {
-            this.eyeHeight -= 0.03;
+            this.eyeHeight -= 0.06;
 
         } else {
             this.eUP = false;
@@ -174,12 +174,12 @@ class Herb4LYT extends Creature {
     life() {//would just putting this in update be better? 
         //yeah I agree proboly should do that 
         if (this.lifeSpan >= 0) {
-            this.lifeSpan -= 0.01;
+            this.lifeSpan -= 1;
 
         }
         if (this.lifeSpan <= 2000) {
             this.isDead = true;
-
+            
         }
     }
 
