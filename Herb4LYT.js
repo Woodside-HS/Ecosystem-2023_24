@@ -96,7 +96,9 @@ class Herb4LYT extends Creature {
         //I kinda wanna make it a eye animation might be a pain tho
         ctx.fillStyle = "rgba(0,0,0,1)";
         ctx.moveTo(0, this.sz * 4)
-        ctx.arc(0, this.sz * 4, this.sz * 4 / 3, Math.PI * 2, 0, false)
+        ctx.arc(0, this.sz * 4, this.sz * 4 / 3, Math.PI * 2, 0, false);
+        ctx.moveTo(0, this.sz* (4/3));
+        ctx.arc(0, this.sz * (4/3), this.sz, Math.PI *2, 0, false);
         ctx.stroke();
         ctx.fill();
 
@@ -105,7 +107,9 @@ class Herb4LYT extends Creature {
         ctx.fillStyle = "rgba(255,255,255,1)";
         ctx.moveTo(0, this.sz * 4);
         ctx.ellipse(0, this.sz * 4, this.eyeHeight * 1.5, this.eyeHeight, 0, 0, Math.PI * 2);
-        if (this.eyeHeight > 4 && this.eUP == true) {
+        ctx.moveTo(0, this.sz*(4/3))
+        ctx.ellipse(0, this.sz * (4/3), this.eyeHeight, this.eyeHeight*0.7, 0, 0, Math.PI*2)
+        if (this.eyeHeight > 0.05 && this.eUP == true) {
             this.eyeHeight -= 0.03;
 
         } else {
@@ -114,7 +118,7 @@ class Herb4LYT extends Creature {
             this.eyeHeight += 0.03;
 
             if (this.eyeHeight > this.seyeHeight) {
-                this.eUP = true;
+                this.eUP = true;//I did this again there must be a better way to do this 
             }
         }
 
@@ -126,11 +130,17 @@ class Herb4LYT extends Creature {
         ctx.strokeStyle = this.clr2;//pupil part 
         ctx.fillStyle = this.clr2;
         ctx.moveTo(0, this.sz * 4);
+        if(this.eyeHeight > this.sz * 0.5){
         ctx.arc(0, this.sz * 4, this.sz * 0.5, Math.PI * 2, 0, false);
+        ctx.moveTo(0, this.sz * (4/3));
+        ctx.arc(0, this.sz * (4/3), this.sz * 0.3, Math.PI * 2, 0, false);
+        }else{
+            ctx.ellipse(0, this.sz * 4, this.sz *0.5, this.eyeHeight, 0, 0, Math.PI*2)
+            ctx.moveTo(0, this.sz * (4/3));
+            ctx.ellipse(0, this.sz * (4/3), this.sz *0.3, this.eyeHeight*0.7, 0, 0, Math.PI*2)
+        }
         ctx.stroke();
         ctx.fill();
-
-
 
         ctx.restore();
 
