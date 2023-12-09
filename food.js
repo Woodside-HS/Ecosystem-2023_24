@@ -8,10 +8,10 @@ class Food extends Entity {
         this.size = sz;
        this.wWidth = wrld.dims.width;
         this.wHeight = wrld.dims.height;
-        this.statBlock = {//  properties 
+        this.statBlock = {//  properties
             health: 100,
             nourishment: 100,
-            lifeSpan:300,
+            lifeSpan:30000,
             opacity:1.0,
             foodPts:100
         };
@@ -23,8 +23,8 @@ class Food extends Entity {
     }
 
     update() {
-    
-        
+
+
     }
 
     render() {

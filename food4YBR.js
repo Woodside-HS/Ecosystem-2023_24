@@ -60,25 +60,22 @@ class Food4 extends Food{ //THESE ARE THE PARTCLES THAT ARE SHOT OUT. NOT THE AC
     update() {
         this.loc.add(this.vel);
         this.vel.limit(10)
-        this.vel.add(this.acc);
+        //this.vel.multiply(this.statBlock.lifeSpan/200)
         this.statBlock.lifeSpan--;
 
         // this to tell what type each cell is for creature that will eat the cells
-        if(this.ranNum <= 10){ 
+        if(this.ranNum <= 10){
             this.cellType = "Poison";
         } else if(this.ranNum <= 14){
             this.cellType = "Healthy";
         } else if(this.ranNum > 14){
             this.cellType = "Antibody";
         }
-        
 
-        // if(this.cellType === "Healthy"){
-        //     let dist = this.loc.distance()
-        // }
+
     }
 
-    
-        
-    
+
+
+
 }

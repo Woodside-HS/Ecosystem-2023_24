@@ -54,9 +54,9 @@ class World {
     };
 
     // load all foods (currently only Food4)
-    
+
       this.loadFood(50);
-    
+
 
 
     // performance -- change the number of entities to see the effect on framerate
@@ -130,14 +130,14 @@ class World {
 
   loadFood(n) { // loads the initial amounts of particle systems
     for (let i = 0; i < n; i++) {
-      let x = Math.random() * (this.dims.width - 100);
-      let y = Math.random() * (this.dims.height - 100);
-    
+      let x = Math.random() * (1920 - (-1920)) + (-1920);
+      let y = Math.random() * (1420 - (-1420)) + (-1420);
+
       this.foods.food4.push(new PartSyst(this, x, y))
-      
+
     }
   }
-  
+
 
   runFood() {
     for (let i = 0; i < this.foods.food4.length; i++) {
@@ -146,5 +146,3 @@ class World {
   }
 
 } //++++++++++++++++++++++++++++++  end world constructor
-
-

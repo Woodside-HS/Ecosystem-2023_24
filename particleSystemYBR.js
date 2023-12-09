@@ -7,19 +7,19 @@ class PartSyst {
         this.r = 40;
         this.loadParticle(1);
         this.shootCount = 0; // determines time when particle is shot out
-        this.pollenCount = 0; // determines whether 
+        this.pollenCount = 0; // determines whether
     }
 
     run() {
         this.render();
         this.update();
         this.runParticle();
-        
+
             if (this.shootCount == 600) {
                 this.loadParticle(1);
                 this.shootCount = 0;
             }
-    
+
 
     }
 
@@ -42,7 +42,7 @@ class PartSyst {
         // right top branch
         ctx.moveTo(this.loc.x, this.loc.y + 40)
         ctx.lineTo(this.loc.x + 30, this.loc.y - 20)
-        
+
         //left bottom branch
         ctx.moveTo(this.loc.x , this.loc.y + 55)
         ctx.lineTo(this.loc.x-40, this.loc.y + 15)
@@ -59,10 +59,10 @@ class PartSyst {
     update() {
         this.shootCount++;
 
-        /* 
-        This chonky piece of code is the reproduction system, which checks whether any 
-        cells created are healthy, and if it is, it checks if there is another one, 
-        and if there is one near it then it will create a new particle system. 
+        /*
+        This chonky piece of code is the reproduction system, which checks whether any
+        cells created are healthy, and if it is, it checks if there is another one,
+        and if there is one near it then it will create a new particle system.
         */
 
         for (let i = 0; i < this.foods4.length; i++) {
@@ -93,14 +93,14 @@ class PartSyst {
     }
 
     runParticle() {
-        for (let i = 0; i < this.foods4.length; i++) { // if the lifespan is 0 or less, remove that foods4   particle
-            if (this.lifespan <= 0) {
-                this.foods4[i].splice(i, 1);
-            }
-        }
-
         for (let i = 0; i < this.foods4.length; i++) { // runs all the particles
             this.foods4[i].run();
+        }
+
+        for (let i = 0; i < this.foods4.length; i++) { // if the lifespan is 0 or less, remove that foods4   particle
+            if (this.foods4[i].statBlock.lifeSpan <= 0) {
+                this.foods4.splice(i, 1);
+            }
         }
     }
 }
