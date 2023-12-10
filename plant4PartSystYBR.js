@@ -15,12 +15,10 @@ class Plant4 {
         this.update();
         this.runParticle();
 
-            if (this.shootCount == 1000) {
-                this.loadParticle(1);
-                this.shootCount = 0;
-            }
-
-
+        if (this.shootCount == 1000) {
+            this.loadParticle(1);
+            this.shootCount = 0;
+        }
     }
 
     render() {

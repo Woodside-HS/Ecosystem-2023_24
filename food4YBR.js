@@ -18,7 +18,6 @@ class Food4 extends Food{ //THESE ARE THE PARTCLES THAT ARE SHOT OUT. NOT THE AC
         this.render();
         this.update();
         this.checkEdges();
-
     }
 
     checkEdges() {
@@ -71,11 +70,5 @@ class Food4 extends Food{ //THESE ARE THE PARTCLES THAT ARE SHOT OUT. NOT THE AC
         } else if(this.ranNum > 14){
             this.cellType = "Antibody";
         }
-
-
     }
-
-
-
-
 }

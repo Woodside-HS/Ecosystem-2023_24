@@ -54,9 +54,7 @@ class World {
     };
 
     // load all foods (currently only Food4)
-
       this.loadFood4(30);
-
 
 
     // performance -- change the number of entities to see the effect on framerate
@@ -116,8 +114,6 @@ class World {
     let fps = this.framerate + " FPS"; // frames per second
     this.ctxMain.fillText(fps, 20, this.cnvMain.height - 105);
 
-
-
   } //+++++++++++++++++++++++++++ end run
 
   loadEntities(numEntities, ctx, w, h) {
@@ -134,7 +130,6 @@ class World {
       let y = Math.random() * (1420 - (-1420)) + (-1420);
 
       this.foods.food4.push(new Plant4(this, x, y))
-
     }
   }
 
