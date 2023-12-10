@@ -1,4 +1,4 @@
-class PartSyst {
+class Plant4 {
     constructor(world, x, y) {
         this.wrld = world;
         this.ctx = this.wrld.ctxMain;
@@ -15,7 +15,7 @@ class PartSyst {
         this.update();
         this.runParticle();
 
-            if (this.shootCount == 600) {
+            if (this.shootCount == 1000) {
                 this.loadParticle(1);
                 this.shootCount = 0;
             }
@@ -73,7 +73,7 @@ class PartSyst {
                         if (dist <= 100) {
                             this.pollenCount++;
                             if (this.pollenCount === 1) {
-                                this.wrld.foods.food4.push(new PartSyst(this.wrld, this.foods4[i].loc.x, this.foods4[k].loc.y));
+                                this.wrld.foods.food4.push(new Plant4(this.wrld, this.foods4[i].loc.x, this.foods4[k].loc.y));
                             }
                         }
 

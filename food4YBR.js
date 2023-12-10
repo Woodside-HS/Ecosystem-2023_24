@@ -7,7 +7,7 @@ class Food4 extends Food{ //THESE ARE THE PARTCLES THAT ARE SHOT OUT. NOT THE AC
         this.vel = vel;
         this.acc = new JSVector(0, 0);
         this.wrld = wrld;
-        this.r = sz;
+        this.r = 5;
         this.ctx = wrld.ctxMain;
         this.ranNum = ranNum;
         this.cellType;

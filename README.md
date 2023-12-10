@@ -1,2 +1,3 @@
 # EcoSystem_2022_23_StudentCode
 All students Combined EcoSystem
+Yo Branch Food4: Made a plant that shoots out 3 different particle types: Healthy, Poison, and Antibody. The Healthy particles (or cells as they are called in some parts of the code) are what the plants use to reproduce, and also are what gives health to herbivores. When two Healthy cells are near each other and came from the same plant, they will create a new plant at that position. Poison particles will remove lifeSpan/health from creatures, and the Antibody cells will provide antibodies to the creatures that eat them, but give less health than a Healthy cell would. I cannot implement giving/removing health as those have to be made by the creators of the herbivores/predators.
