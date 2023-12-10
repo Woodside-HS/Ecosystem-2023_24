@@ -7,7 +7,7 @@ window.onload = init;
 
 function init(){
     world = new World();
-    p = new predDosC(new JSVector(200, 200), new JSVector(0,1), 9, 80, world);
+    p = new predDosC(new JSVector(200, 200), new JSVector(0,1), 4, 80, world);
     animate();
 }
 

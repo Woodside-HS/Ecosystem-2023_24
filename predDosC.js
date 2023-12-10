@@ -3,19 +3,19 @@ class predDosC extends Creature {
       super(loc, vel, sz, wrld);
       //snake arms 
       this.Sacc = [];
-      for(let i = 0; i<segments; i++){
+      for(let i = 0; i<=segments-1; i++){
          this.Sacc[i] = new JSVector(0,0);
       }
       this.Svel = [];
-      for (let i = 0; i<segments; i++){
-         this.Svel[i] = new JSVector(Math.random()-0.5, Math.random()-0.5);
+      for (let i = 0; i<=segments-1; i++){
+         this.Svel[i] = new JSVector(-1, -1);
          this.Svel[i].normalize();
       }
-      this.Ssegments = [];//each segment has a vector 
-      for (let i = 0; i < segments; i++) {
-         this.segments[i] = new JSVector(this.loc.x + i * 50 + 10, this.loc.y + i * 50 + 10);
+      this.segments = [];//each segment has a vector 
+      for (let i = 0; i <= segments; i++) {
+         this.segments[i] = new JSVector(this.loc.x, this.loc.y);
       }
-      this.baseDis = this.segments[0].distance(this.segments[1]);
+      this.baseDis = 20;
       //colors
       this.addr = true;
       this.addg = false;
@@ -40,9 +40,9 @@ class predDosC extends Creature {
       this.vel.add(this.acc);
       this.vel.limit(this.maxSpeed);
       this.loc.add(this.vel);
-      //snake arms update 
+      //snake arms update for each other 
       this.segments[0].add(this.Svel[0]);
-      for(let i = 1; i<this.segments.length; i++){
+      for(let i = 1; i<this.segments.length-1; i++){
          if(this.segments[i].distance(this.segments[i-1])<this.baseDis){
                this.Svel[i].multiply(0.5);
          }
@@ -55,7 +55,10 @@ class predDosC extends Creature {
          }
          this.segments[i] = JSVector.addGetNew(this.segments[i], this.Svel[i]);
       }
+   //snake arms stay with creature 
+   this.segments[4] = new JSVector(this.loc.x+5, this.loc.y + 5);
    }
+
    //checkEdges() {
       
    //}
@@ -67,14 +70,14 @@ class predDosC extends Creature {
       this.ctx.fill();
       //snake arms 
       for (let i = 0; i < this.segments.length - 1; i++) {//draw sections of snake 
-         context.beginPath();
-         context.lineWidth = 20;
-         context.lineCap = "round";
-         context.strokeStyle = this.color;
-         context.moveTo(this.segments[i].x, this.segments[i].y);
-         context.lineTo(this.segments[i + 1].x + 5, this.segments[i + 1].y + 5);
-         context.stroke();
-         context.closePath();
+         this.ctx.beginPath();
+         this.ctx.lineWidth = 10;
+         this.ctx.lineCap = "round";
+         this.ctx.strokeStyle = "rgba(" + this.r + ", " + this.g + ", " + this.b + ", " + 0.5 + ")";
+         this.ctx.moveTo(this.segments[i].x, this.segments[i].y);
+         this.ctx.lineTo(this.segments[i + 1].x, this.segments[i + 1].y);
+         this.ctx.stroke();
+         this.ctx.closePath();
      }
       
    }
