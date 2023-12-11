@@ -6,7 +6,7 @@ window.onload = init;
 
 function init(){
     world = new World();
-    food3s = new Food3(new JSVector(100, 100), new JSVector(0, 1), 5, world)
+    food3s = new Food3(new JSVector(100, 100), new JSVector(2, -4), 5, world)
     animate();
 }
 
