@@ -5,7 +5,9 @@ let world;
 window.onload = init;
 
 function init() {
+  console.log("test");
   world = new World();
+  console.log("test");
   animate();
 }
 
