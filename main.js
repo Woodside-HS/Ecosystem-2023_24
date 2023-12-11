@@ -14,7 +14,7 @@ function animate() {
   let ctx = world.ctxMain;
   ctx.beginPath();
   ctx.fillStyle = "#7c576f";
-  ctx.arc(120, 120, 20, 0, 2 * Math.PI, false);
+  ctx.arc(120, 200, 20, 0, 2 * Math.PI, false);
   ctx.fill();
   requestAnimationFrame(animate);
 }
