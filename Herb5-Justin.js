@@ -1,8 +1,8 @@
 class Herb5 extends Creature{
     //remember to make this a flock
-    //lets do something with spores
-    constructor(loc,vel,sz,world){
-        super (loc,vel,sz,world);
+    //lets do something with this.spores
+    constructor(loc,vel,sz,wrld,n){
+        super (loc,vel,sz,wrld);
         this.loc = loc;
         this.vel = vel;
         this.acc = new JSVector(0, 0);
@@ -12,54 +12,21 @@ class Herb5 extends Creature{
         this.ctx = wrld.ctxMain;
         this.wWidth = wrld.dims.width;
         this.wHeight = wrld.dims.height;
+        this.spores=[];
+        this.loadSpores(n);
     }
-    Herb5.prototype.align = function (vehicles) {
-        let steer = new JSVector(0,0);
-        let sum=new JSVector(0,0);
-        let count=0;
-        for(let i=0;i<vehicles.length;i++){
-          if(this.loc.distance(vehicles[i].loc)<this.desiredAli&&vehicles[i]!==this){
-            sum.add(vehicles[i].vel);
-            count++;
-          }
-      
+    run(){
+        for(let i=0;i<this.spores.length;i++){
+            this.spores[i].run();
         }
-        if(count>0){
-          sum.divide(vehicles.length);
-          sum.setMagnitude(this.maxSpeed);
-          steer=JSVector.subGetNew(sum,this.vel);
-          steer.limit(this.maxForce);
+    }
+    loadSpores(n){
+        for(let i=0;i<n;i++){
+            let dl=new JSVector(Math.random()*(5)-2,Math.random()*(5)-2);
+            let dv=new JSVector(Math.random()*(3)-1,Math.random()*(3)-1);
+            let l=JSVector.addGetNew(this.loc,dl);
+            let v=JSVector.addGetNew(this.vel,dv);
+            this.spores.push(new Spore(l,v,this.size,this.wrld,this));
         }
-        return steer;
-      }
-      
-      Herb5.prototype.cohesion = function (vehicles) {
-        let coh = new JSVector(0,0);
-        let sum=new JSVector(0,0);
-        let count=0;
-        let d=this.loc.distance(vehicles[i].loc);
-        for(let i=0;i<vehicles.length;i++){
-          if(d<this.desiredCoh&&d>0){
-            sum.add(vehicles[i].loc);
-            count++;
-          }
-      
-        }
-        if(count>0){
-          sum.divide(count);
-          return this.seek(sum);
-        } else {
-          return coh;
-        }
-      }
-      
-      Herb5.prototype.seek = function(target) {
-        // A vector pointing from the location to the target
-        let desired = JSVector.subGetNew(target,this.loc);  
-        desired.normalize();
-        desired.multiply(this.maxSpeed);
-        let steer = JSVector.subGetNew(desired,this.vel);
-        steer.limit(this.maxForce);
-        return steer;
-      }
+    }
 }

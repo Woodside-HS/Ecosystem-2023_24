@@ -42,6 +42,8 @@ class World {
       herb1: [],
       herb2: [],
       herb3: [],
+      herb4:[],
+      herb5: [],
       flocks: [],
     };
 
@@ -112,10 +114,11 @@ class World {
   
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
+    this.creatures.herb5=new Herb5(new JSVector(50,50),new JSVector(1,1),5,this,100);
   }
   
   runCreatures() {
-
+    this.creatures.herb5.run();
   }
  
   runFood() {
