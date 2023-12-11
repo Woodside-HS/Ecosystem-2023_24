@@ -1,6 +1,6 @@
 class Creature extends Entity {
    constructor(loc, vel, sz, wrld) {
-      super(loc, vel, sz, wrld)
+      super(loc, vel, sz, wrld);
       //mover properties
       this.loc = loc;
       this.vel = vel;

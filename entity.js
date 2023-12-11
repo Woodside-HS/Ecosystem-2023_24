@@ -7,7 +7,7 @@ class Entity {
     this.clr = this.getRandomColor();
     this.size = sz;
     this.maxSpeed = 0.1;
-    this.ctx = wrld.ctxMain;
+    this.ctx = document.getElementById("cnv1").getContext("2d");
     this.wWidth = wrld.dims.width;
     this.wHeight = wrld.dims.height;
     this.wrld = wrld;
