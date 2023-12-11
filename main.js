@@ -6,11 +6,13 @@ window.onload = init;
 
 function init(){
     world = new World();
+    food3s = new Food3(new JSVector(100, 100), new JSVector(0, 1), 5, world)
     animate();
 }
 
 function animate(){
   world.run();
+  food3s.run();
   requestAnimationFrame(animate);
 }
 
