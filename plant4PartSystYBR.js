@@ -15,7 +15,7 @@ class Plant4 {
         this.update();
         this.runParticle();
 
-        if (this.shootCount == 1000) {
+        if (this.shootCount === 600) {
             this.loadParticle(1);
             this.shootCount = 0;
         }
@@ -63,25 +63,24 @@ class Plant4 {
         and if there is one near it then it will create a new particle system.
         */
 
-        for (let i = 0; i < this.foods4.length; i++) {
-            if (this.foods4[i].cellType === "Healthy") {
-                for (let k = 0; k < this.foods4.length; k++) {
-                    if (this.foods4[k].cellType === "Healthy" && this.foods4[k] != this.foods4[i]) {
+        for (let i = 0; i < this.foods4.length; i++) { // traverse particle array once
+            if (this.foods4[i].cellType === "Healthy") { //find healthy particle
+                for (let k = 0; k < this.foods4.length; k++) { //traverse particle array second time
+                    if (this.foods4[k].cellType === "Healthy" && this.foods4[k] != this.foods4[i]) { // find dif healthy particle
                         let dist = this.foods4[i].loc.distance(this.foods4[k].loc);
                         if (dist <= 100) {
                             this.pollenCount++;
-                            if (this.pollenCount === 1) {
+                            if (this.pollenCount === 10) {
                                 this.wrld.foods.food4.push(new Plant4(this.wrld, this.foods4[i].loc.x, this.foods4[k].loc.y));
                             }
                         }
-
                     }
                 }
             }
         }
     }
 
-    loadParticle(n) { // loads all the foods4    particles into the array
+    loadParticle(n) { // loads all the foods4 particles into the array
         for (let i = 0; i < n; i++) {
             let ranNum = Math.random() * (15 - 1) + 1
             let vel = new JSVector(Math.random() * 6 - 3, Math.random() * 6 - 3);
@@ -96,7 +95,7 @@ class Plant4 {
         }
 
         for (let i = 0; i < this.foods4.length; i++) { // if the lifespan is 0 or less, remove that foods4   particle
-            if (this.foods4[i].statBlock.lifeSpan <= 0) {
+            if (this.foods4[i].lifeSpan <= 0) {
                 this.foods4.splice(i, 1);
             }
         }

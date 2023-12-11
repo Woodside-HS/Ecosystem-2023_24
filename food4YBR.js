@@ -8,10 +8,11 @@ class Food4 extends Food{ //THESE ARE THE PARTCLES THAT ARE SHOT OUT. NOT THE AC
         this.acc = new JSVector(0, 0);
         this.wrld = wrld;
         this.r = 5;
+        this.lifeSpan = 4500;
         this.ctx = wrld.ctxMain;
         this.ranNum = ranNum;
         this.cellType;
-        this.colList = ['rgb(59, 163, 62)', 'rgb(141, 64, 161)', 'rgb(52, 117, 130)'];
+        this.colList = ['rgba(59, 163, 62, 1)', 'rgba(141, 64, 161, 1)', 'rgba(52, 117, 130, 1)'];
     }
 
     run() {
@@ -58,17 +59,20 @@ class Food4 extends Food{ //THESE ARE THE PARTCLES THAT ARE SHOT OUT. NOT THE AC
 
     update() {
         this.loc.add(this.vel);
-        this.vel.limit(10)
-        //this.vel.multiply(this.statBlock.lifeSpan/200)
-        this.statBlock.lifeSpan--;
+        
+        this.lifeSpan--;
+        
 
         // this to tell what type each cell is for creature that will eat the cells
         if(this.ranNum <= 10){
             this.cellType = "Poison";
+            this.vel.multiply(0.968);
         } else if(this.ranNum <= 14){
             this.cellType = "Healthy";
+            this.vel.multiply(0.999);
         } else if(this.ranNum > 14){
             this.cellType = "Antibody";
+            this.vel.multiply(0.993);
         }
     }
 }
