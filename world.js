@@ -137,7 +137,7 @@ class World {
     for (let i = 0; i < c.herb4.length; i++) {
       c.herb4[i].run();
         if (c.herb4[i].isDead === true) {
-          cs.herb4.splice(i, 1)
+          c.herb4.splice(i, 1)
         }
     }
 

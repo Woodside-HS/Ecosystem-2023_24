@@ -8,6 +8,7 @@ class Herb4LYT extends Creature {
         super(loc, vel, sz, wrld);
         //   this.loc = loc;
         this.vel = vel;
+        this.wrld = wrld;
         this.acc = new JSVector(0, 0);
         this.sz = sz;
         this.cc = false; //why is this named cc (connected couple) I have no idea
@@ -21,6 +22,7 @@ class Herb4LYT extends Creature {
         this.count = 0;
         this.gUP = true;//dumb way but only way I can think of 
         this.eUP = true;
+        this.cUP = [];
         this.lifeSpan = 12000;//This is directly corrolated to health
         //which is also connected to the size of the creature so making this like 3k will
         //make the creatures shrink very fast 
@@ -28,36 +30,41 @@ class Herb4LYT extends Creature {
         this.health = 1;//its a 0 to 1 system 
         //its going to be annoying but ig I can change this when going to 0-100 system
         this.isDead = false;
-    
+
         this.jumpDistance = 200;
 
-        //but how would you do this while hoping over food 
-        //what if it gets softlocked indefinity 
-        //I'll figure it out much later 
+
     }
     run() {
+        this.seekOthers();
         this.update();
         this.render();
         this.life();
         this.checkEdges();
-        this.seekOthers();
+
+        //this is very no no working
         this.seekFoods();
     }
     seekOthers() {
         let h4 = world.creatures.herb4;
-        if(this.health > 0.7){
-            for(let i = 0; i < h4.length; i ++){
-               
+        if (this.health > 0.7) {
+            for (let i = 0; i < h4.length; i++) {
+
                 let dist = this.loc.distance(h4[i].loc);
-                
-                if(dist != 0 && dist < 5000 && (this.clr === h4[i].clr) && this.cc == false && h4[i].cc == false){
+
+                //   if(dist != 0 && dist < 500 && (this.clr === h4[i].clr) && this.cc == false && h4[i].cc == false){
+                if (dist != 0 && dist < 5000 && this.cc === false && h4[i].cc === false) {
                     //if not itselfs, less than 500 away from same color creature;
-                this.acc = JSVector.subGetNew(h4[i].loc, this.loc);
-                this.acc.normalize();
-                this.acc.multiply(0.03);
-                this.cc = true;
-                h4[i].cc = true;
-                    
+                    // this.acc = JSVector.subGetNew(h4[i].loc, this.loc);
+                    // this.acc.normalize();
+                    // this.acc.multiply(0.08);
+                    this.cc = true;
+                    h4[i].cc = true;
+                    this.cUP.push(this);
+                    this.cUP.push(h4[i]);
+                    h4[i].cUP.push(h4[i]);
+                    h4[i].cUP.push(this);
+
                 }
             }
         }
@@ -67,17 +74,12 @@ class Herb4LYT extends Creature {
     }
     checkEdges() {//idk the creature checkEdges does not work very well
 
-        if (this.loc.x > world.dims.right) {
-            this.vel.x = -this.vel.x
+        if (this.loc.x >= this.wrld.dims.width / 2 || this.loc.x <= -this.wrld.dims.width / 2) {
+            this.vel.x *= -1;
         }
-        if (this.loc.x < world.dims.left) {
-            this.vel.x = -this.vel.x
-        }
-        if (this.loc.y < world.dims.top) {
-            this.vel.y = -this.vel.y;
-        }
-        if (this.loc.y > world.dims.bottom) {
-            this.vel.y = -this.vel.y;
+        if (this.loc.y >= this.wrld.dims.height / 2 || this.loc.y <= -this.wrld.dims.height / 2) {
+            this.vel.y *= -1;
+
         }
     }
     render() {
@@ -128,10 +130,10 @@ class Herb4LYT extends Creature {
         ctx.fillStyle = "rgba(255,255,255,1)";
         ctx.moveTo(0, this.sz * 4);
         ctx.ellipse(0, this.sz * 4, this.eyeHeight * 1.5, this.eyeHeight, 0, 0, Math.PI * 2);
-        ctx.moveTo(0, this.sz * (4 / 3))
+        ctx.moveTo(0, this.sz * (4 / 3));
         ctx.ellipse(0, this.sz * (4 / 3), this.eyeHeight, this.eyeHeight * 0.7, 0, 0, Math.PI * 2)
         if (this.eyeHeight > 0.05 && this.eUP == true) {
-            this.eyeHeight -= 0.06;
+            this.eyeHeight -= 0.04;
 
         } else {
             this.eUP = false;
@@ -169,11 +171,36 @@ class Herb4LYT extends Creature {
 
     }
     update() {
-        this.health = (this.lifeSpan / this.maxLifeSpan);
-        this.vel.add(this.acc);
-        this.vel.multiply(this.health);
-        this.loc.add(this.vel);
-        this.vel.divide(this.health);
+        if (this.cc === true) {
+            // let dist = this.cUP[0].loc.distance(this.cUP[1].loc)
+            this.acc = JSVector.subGetNew(this.cUP[1].loc, this.loc);
+            this.acc.normalize();
+            this.acc.multiply(0.06);
+            this.health = (this.lifeSpan / this.maxLifeSpan);
+            this.vel.add(this.acc);
+            this.vel.limit(0.5);
+            this.vel.multiply(this.health);
+            this.loc.add(this.vel);
+            this.vel.divide(this.health);
+            this.cUP[1].acc = JSVector.subGetNew(this.loc, this.cUP[1].loc);
+            //this.cUP[1].acc = JSVector.subGetNew(this.cUP[1].loc, this.loc);
+            this.cUP[1].acc.normalize();
+            this.cUP[1].acc.multiply(0.06);
+            this.cUP[1].health = (this.cUP[1].lifeSpan / this.cUP[1].maxLifeSpan)
+            this.cUP[1].vel.add(this.cUP[1].acc);
+            this.cUP[1].vel.limit(0.5);
+            this.cUP[1].vel.multiply(this.cUP[1].health);
+            this.cUP[1].loc.add(this.cUP[1].vel);
+            this.cUP[1].vel.divide(this.cUP[1].health);
+        } else {
+
+            this.health = (this.lifeSpan / this.maxLifeSpan);
+            this.vel.add(this.acc);
+            this.vel.limit(1.5);
+            this.vel.multiply(this.health);
+            this.loc.add(this.vel);
+            this.vel.divide(this.health);
+        }
         if (this.vel.getMagnitude() == 0) {//ig if the creature is completly stopped i.e eating then
             //this would go off.
             this.sz = this.ssz * this.health;
