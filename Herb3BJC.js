@@ -1,19 +1,19 @@
 class Herb3BJC extends Creature {
-    constructor(loc, vel, sz, wrld, lifeSpan){
+    constructor(loc, vel, sz, wrld){
         super(loc, vel, sz, wrld);
         this.loc = loc;
         this.vel = vel;
         this.size = sz;
+        this.acc = new JSVector(0, 0);
         this.context = wrld.ctxMain;
-        this.lifeSpan = lifeSpan;
-
+        this.poisonDarts = [];
+        this.col = "rgba(0, 255, 0, 0)";
     }
 
     run(){
         this.render();
         this.update();
-        this.defense(); //invisibility
-        this.attack(); //poison darts
+        this.runDarts();
     }
 
     render(){
@@ -35,15 +35,24 @@ class Herb3BJC extends Creature {
     }
 
     update(){
-        lifeSpan -= 1;
+     //if close to pred
+        this.loadDarts(direction);
 
     }
 
-    defense(){
+   loadDarts(direction){
+    let dartCol = "rgba(128, 0, 128, 0)";
+    let acc = new JSVector(0, 0);
+    let vel = new JSVector(); //shoots in direction of predators
+    let diam = 4;
+    this.poisonDarts.push(new PoisonDartsBJC(this, dartCol, acc, vel, diam));
 
+   }
+
+   runDarts(){
+    for (let i = 0; i < this.poisonDarts.length; i++) {
+        this.poisonDarts[i].run();
     }
+   }
 
-    attack(){
-
-    }
 }
