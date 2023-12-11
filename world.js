@@ -36,8 +36,8 @@ class World {
     this.foodItems = [];
 
     this.creatures = {
-      pred1: [new Pred1(new JSVector(30, 30), new JSVector(10, 10), 20, this)],
-      pred2: [],
+      pred1: [new Pred1(new JSVector(30, 30), new JSVector(20, 10), 20, this)],
+      pred2: [new Pred1(new JSVector(160, 160), new JSVector(-20, -10), 20, this)],
       pred3: [],
       herb1: [],
       herb2: [],
@@ -117,6 +117,9 @@ class World {
   runCreatures() {
     for (let i = 0; i < this.creatures.pred1.length; i++) {
       this.creatures.pred1[i].run();
+    }
+    for (let i = 0; i < this.creatures.pred2.length; i++) {
+      this.creatures.pred2[i].run();
     }
   }
 

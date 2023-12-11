@@ -1,7 +1,7 @@
 class Pred1 extends Creature {
     constructor(loc, vel, sz, wrld) {
         super(loc, vel, sz, wrld);
-        this.hierarchy = 1;
+        this.hierarchy = 1; //represents position in food chain
         this.loc = loc;
         this.vel = vel;
         this.size = sz;
@@ -16,16 +16,17 @@ class Pred1 extends Creature {
 
 
     update() {
-        let creatures = this.wrld.creatures;
-        let target;
-        let distance = 30;
-        if (target = false) {
+        let creatures = this.wrld.creatures; //passing in array of creatures in global world
+        let target = false;
+        let distance = 20; //radius of awareness
+        if (target === false) {
             for (let i = 2; i < 4; i++) {
-                let array = "pred" + i;
-                for (let j = 0; j < array.length; j++) {
-                    if (this.loc.distance(array[j].loc) < distance) {
-                        target = true;
-                        this.acc = JSVector.subGetNew(array[j].loc, this.loc);
+                let array = "pred" + i; //looping through the predators 2 and 3 within the creatures object literal in the world class
+                console.log(array);
+                for (let j = 0; j < creatures.pred2.length; j++) { //looping through the given predator array
+                    if (creatures.pred2[j] != this && this.loc.distance(creatures.pred2[j].loc) < distance) { //checking if that predator is within distance of awareness
+                        //target = true;
+                        this.acc = JSVector.subGetNew(creatures.array[j].loc, this.loc);//setting acceleration vector toward it
                         this.acc.normalize();
                         this.acc.multiply(0.2);
 
@@ -33,6 +34,9 @@ class Pred1 extends Creature {
                 }
             }
         }
+        // this.acc = JSVector.subGetNew(creatures.pred2[0].loc, this.loc);//setting acceleration vector toward it
+        this.acc.normalize();
+        this.acc.multiply(0.2);
         this.vel.limit(this.maxSpeed);
         this.vel.add(this.acc);
         this.loc.add(this.vel);
