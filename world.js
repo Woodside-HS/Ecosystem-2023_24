@@ -1,5 +1,5 @@
 class World {
-  //  Commit 1: 221109
+
   constructor() {
     this.cnvMain = document.getElementById("cnv1");
     this.ctxMain = this.cnvMain.getContext("2d");
@@ -36,7 +36,7 @@ class World {
     this.foodItems = [];
 
     this.creatures = {
-      pred1: [new Pred1(new JSVector(30, 30), new JSVector(10, 10), 20, world)],
+      pred1: [new Pred1(new JSVector(30, 30), new JSVector(10, 10), 20, this)],
       pred2: [],
       pred3: [],
       herb1: [],
