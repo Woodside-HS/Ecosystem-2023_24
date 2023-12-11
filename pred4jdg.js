@@ -8,9 +8,10 @@ class Pred4jdg extends Creature {
        this.acc = new JSVector(0, 0);
        this.clr = this.getRandomColor();
        this.size = sz;
-       this.maxSpeed = .1;
+       this.wrld = wrld;
+       this.maxSpeed = 1;
        this.ctx = wrld.ctxMain;
-       this.wWidth = wrld.dims.width;z
+       this.wWidth = wrld.dims.width;
        this.wHeight = wrld.dims.height;
  
        this.statusBlock = {
@@ -38,17 +39,19 @@ class Pred4jdg extends Creature {
           sightValue: 100,
           weight:10,
        };
-    }//++++++++++++++++++++++++++++++++ end creature constructor
- 
+    //++++++++++++++++++++++++++++++++ end creature constructor
+   
     //++++++++++++++++++++++++++++++++ creature methods
-    run() {
+    function run() {
        this.update();
        this.checkEdges();
        this.render();
-       this.flock();
-       if(this.closestTarget() )
+       this.flock(this.wrld.creatures.pred4);
+       //if(this.closestTarget() );
+      console.log("running");
     }
-    update() {
+
+    function update() {
        if(this.dataBlock.lifeSpan-- <= 0){
           this.dataBlock.isDead = true;
        }
@@ -59,14 +62,14 @@ class Pred4jdg extends Creature {
     }
 
   
-  flock(array) {
+    function flock(array){
       //  flock force is the accumulation of all forces
       this.flockForce = new JSVector(0, 0);
       // set up force vectors to be added to acc
       let sep = this.separate(array);
       let ali = this.align(array);
       let coh = this.cohesion(array);
-      //  set multiples via sliders 
+      // multipliersssss!!!!!!
       let sepMult = .5;
       let aliMult = .5;
       let cohMult = .5;
@@ -79,9 +82,10 @@ class Pred4jdg extends Creature {
       this.flockForce.add(ali);
       this.flockForce.add(coh);
       this.acc.add(this.flockForce);
+      console.log("flocking!");
   }
   //+++++++++++++++++++++++++++++++++  Flocking functions
-  separate(array){
+  function separate(array){
       let escapeVector = new JSVector(0, 0);
       let count = 0;
       let dir = new JSVector();
@@ -102,10 +106,12 @@ class Pred4jdg extends Creature {
           dir = JSVector.subGetNew(escapeVector, this.vel);
           dir.limit(this.maxForce);
       }
+      console.log("separating!");
       return dir;
+      
   }
   
-  align(array) {
+  function align(array) {
       let sum = new JSVector(0, 0);
       let count = 0;
       for (let i = 0; i < array.length; i++) {
@@ -119,10 +125,11 @@ class Pred4jdg extends Creature {
           sum.divide(count);
           sum.normalize();
       }
+      console.log("aligning!");
       return sum;
   }
   
-  cohesion(array) {
+  function cohesion(array) {
       let seekVector = new JSVector(0, 0);
       let count = 0;
       let dir = new JSVector();
@@ -143,20 +150,21 @@ class Pred4jdg extends Creature {
           dir = JSVector.subGetNew(seekVector, this.vel);
           dir.limit(this.maxForce);
       }
+      console.log("cohesioning!");
       return dir;
   }
   
-  hunt(target) {
+  function hunt(target) {
       // A vector pointing from the location to the target
       let desired = JSVector.subGetNew(target, this.loc);
       let dir = JSVector.subGetNew(desired, this.vel);
       return dir;
   }
-  closestTarget(){
+  function closestTarget(){
    let distance = 0;
-   let closestCreature = [];
-   for (let i = 1; i < creatures.length; i++) {
-      const currentDistance = this.loc.distance(creatures[i]);
+   let closestCreature;
+   for (let i = 1; i < wrld.creatures.herb1.length; i++) {
+      const currentDistance = this.loc.distance(wrld.creatures.herb1.length[i]);
       if (currentDistance < distance) {
          distance = creatures[i];
          distance = currentDistance;
@@ -164,11 +172,11 @@ class Pred4jdg extends Creature {
   }
   return(distance, closestCreature); 
   }
-  attack(target){
+  function attack(target){
 
   }
   //+++++++++++++++++++++++++++++++++  Flocking functions
-  
+ /* 
   Vehicle.prototype.render = function () {
       let ctx = game.ctx;
       ctx.save();
@@ -186,7 +194,8 @@ class Pred4jdg extends Creature {
       ctx.fill();
       ctx.restore();
   }
-    checkEdges() {
+  */
+  function checkEdges() {
        if (this.loc.x >= world.dims.width / 2 || this.loc.x <= -world.dims.width / 2) {
           this.vel.x *= -1;
        }
@@ -194,7 +203,7 @@ class Pred4jdg extends Creature {
           this.vel.y *= -1;
        }
     }
-    render() {
+    function render() {
        //  render balls in world
        let ctx = this.ctx;
        ctx.beginPath();
@@ -204,7 +213,7 @@ class Pred4jdg extends Creature {
        //  render balls in mini map
     }
  
-    getRandomColor() {
+    function getRandomColor() {
        //  List of hex color values for movers
        let colors = [
           // "#7102AB",
@@ -231,3 +240,4 @@ class Pred4jdg extends Creature {
        return colors[index];
     }
  }
+}

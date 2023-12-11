@@ -12,10 +12,10 @@ class World {
       width: 4000,
       height: 3000,
     };
-    this.backgroundMusic = new Audio("resources/sounds/mario.mp3");
     this.showGrid = true;
     this.numRows = 90;
     this.numCols = 120;
+
     this.rowHeight = this.dims.height / this.numRows;
     this.colWidth = this.dims.width / this.numCols;
     //  calculate the rows and cols of the grid that we want to render
@@ -39,6 +39,7 @@ class World {
       pred1: [],
       pred2: [],
       pred3: [],
+      pred4: [],
       herb1: [],
       herb2: [],
       herb3: [],
@@ -55,7 +56,7 @@ class World {
     };
 
     // performance -- change the number of entities to see the effect on framerate
-    this.numEntities = 50;
+    this.numEntities = 5000;
     this.loadEntities(
       this.numEntities,
       this.ctxMain,
@@ -111,12 +112,25 @@ class World {
   }
   
   loadEntities(numEntities, ctx, w, h) {
+    for(let i = 0; i < numEntities; i++){
+      let x = (Math.random() * this.dims.width) - 2000;
+      let y = (Math.random() * this.dims.height) - 1500;
+      let loc = new JSVector(x, y);
+      let dx =  (Math.random() * 20 - 1);
+      let dy =  (Math.random() * 20 - 1);
+      let vel = new JSVector(dx, dy);
+      let sz = Math.floor(Math.random() * 9 + 6);
+      this.creatures.pred4.push(new Pred4jdg(loc,vel,sz, this));
+
+    }    
     //++++++++++++++++++++++++++++  load entities
   }
   
   runCreatures() {
-
+    for (let i = 0; i < this.creatures.pred4.length; i++) {
+      this.creatures.pred4[i].run();
   }
+}
  
   runFood() {
     
