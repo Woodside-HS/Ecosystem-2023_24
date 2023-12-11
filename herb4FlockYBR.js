@@ -5,24 +5,43 @@ class Herb4 extends Creature {
         this.vel = vel;
         this.sz = sz;
         this.wrld = world;
-        this.isHunted = false;
+        this.hunted = false;
+        this.scl = 10;
+        this.clr = "rgba(180,0,220,.8)"
 
     }
 
-    run() {
-        this.update();
+    run(herbivore) {
         this.render();
+        this.update();
         this.isHunted(); // need to wait since I don't have pred code yet.
         this.foodSeek();
+        this.flock(herbivore);
         this.checkEdges();
     }
 
     update() {
-
+        this.vel.add(this.acc);
+        this.vel.limit(1);
+        this.loc.add(this.vel);
     }
 
     render() {
-
+        let ctx = this.wrld.ctxMain;
+        ctx.save();
+        ctx.translate(this.loc.x, this.loc.y);
+        ctx.rotate(this.vel.getDirection() + Math.PI / 2); //offset 90 degrees
+        ctx.beginPath();
+        ctx.strokeStyle = this.clr;
+        ctx.fillStyle = this.clr;
+        ctx.moveTo(0, -this.scl);
+        ctx.lineTo(-this.scl, this.scl);
+        ctx.lineTo(0, 0);
+        ctx.lineTo(this.scl, this.scl);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+        ctx.restore();
     }
 
     isHunted() {
@@ -33,20 +52,90 @@ class Herb4 extends Creature {
 
     }
 
-    flock() {
+    flock(herbivores) {
         //  flock force is the accumulation of all forces
         let flockForce = new JSVector(0, 0);
 
         // set up force vectors to be added to acc
-        let sep = this.separate(vehicles);
-        let ali = this.align(vehicles);
-        let coh = this.cohesion(vehicles);
+        let sep = this.separate(herbivores);
+        let ali = this.align(herbivores);
+       // let coh = this.cohesion(herbivores);
 
         //  add each of these to flockForce
         flockForce.add(sep);
         flockForce.add(ali);
-        flockForce.add(coh);
+        //flockForce.add(coh);
         this.acc.add(flockForce);
+    }
+
+    separate(h) {
+        let sum = new JSVector(0, 0);
+        let count = 0;
+        for (let i = 0; i < h.length; i++) {
+            let dist = this.loc.distance(h[i].loc);
+            if (dist > 0 && dist < this.desiredSep) {
+                let diff = JSVector.subGetNew(this.loc, h[i].loc)
+                diff.normalize();
+                diff.divide(dist); // might be cause of some issues
+                sum.add(diff);
+                count++;
+            }
+        }
+
+        if (count > 0) {
+            sum.divide(count);
+            sum.normalize();
+            // sum.multiply(20)
+            let steer = JSVector.subGetNew(sum, this.vel);
+            steer.limit(30);
+            return steer;
+        }
+        return new JSVector();
+    }
+
+    align(h) {
+        let steer = new JSVector(0, 0);
+        let neardist = 40;
+        let count = 0;
+        for (let i = 0; i < h.length; i++) {
+            let d = this.loc.distance(h[i].loc);
+            if (d > 0 && d <= neardist) {
+                steer.add(h[i].vel);
+                count++;
+            }
+        }
+
+        if (count > 0) {
+            steer.divide(count);
+        }
+        return steer;
+    }
+
+    cohesion(h) {
+        let coh = new JSVector(0, 0);
+        let neardist = 40;
+        let count = 0;
+        for (let i = 0; i < h.length; i++) {
+            let dist = this.loc.distance(h[i].loc);
+            if (dist > 0 && dist < neardist) {
+                coh.add(h[i].loc);
+                count++;
+            }
+        }
+
+        if (count > 0) {
+            coh.divide(count);
+            return this.seek(coh);
+        } else {
+            return new JSVector(0, 0);
+        }
+    }
+
+    seek(target) {
+        // A vector pointing from the location to the target
+        let desired = JSVector.subGetNew(target, this.loc);
+        let steer = JSVector.subGetNew(desired, this.vel);
+        return steer;
     }
 
     checkEdges() {
@@ -58,4 +147,8 @@ class Herb4 extends Creature {
             this.vel.y *= -1;
         }
     }
+
+
+
+
 }

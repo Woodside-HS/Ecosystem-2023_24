@@ -17,6 +17,7 @@ class World {
     this.numCols = 120;
     this.rowHeight = this.dims.height / this.numRows;
     this.colWidth = this.dims.width / this.numCols;
+
     //  calculate the rows and cols of the grid that we want to render
     this.cnvMainRow = (this.cnvMainLoc.y - this.dims.top) / this.rowHeight;
     this.cnvMainCol = (this.cnvMainLoc.x - this.dims.left) / this.colWidth;
@@ -41,7 +42,7 @@ class World {
       herb1: [],
       herb2: [],
       herb3: [],
-      flocks: [],
+      herb4: [],
     };
 
     this.foods = {
@@ -54,8 +55,10 @@ class World {
     };
 
     // load all foods (currently only Food4)
-      this.loadFood4(30);
+    // this.loadFood4(30);
 
+    // load all herbivores (Currently only herb4)
+    this.loadHerb4(50)
 
     // performance -- change the number of entities to see the effect on framerate
     this.numEntities = 50;
@@ -77,7 +80,6 @@ class World {
   }
 
   run() {
-    console.log(this.foods.food4.length);
     // performance
     this.framecount++;
     // run the world in animation
@@ -90,6 +92,7 @@ class World {
 
     this.runCreatures();
     this.runFood();
+    
     this.ctxMain.restore();
 
     // translate cnvMain according to the location of the canvas in the world
@@ -120,8 +123,24 @@ class World {
     //++++++++++++++++++++++++++++  load entities
   }
 
-  runCreatures() {
+  loadHerb4(n) { // load all herbivores type 4
+    
+    let vel = new JSVector(Math.random() * 6 - 3, Math.random() * 6 - 3);
+    let sz = 40;
+    for(let i = 0; i < n; i++){
+      let x = Math.random() * (1920 - (-1920)) + (-1920);
+      let y = Math.random() * (1420 - (-1420)) + (-1420);
+      let loc = new JSVector(x, y);
+      this.creatures.herb4.push(new Herb4(loc, vel, sz, this))
+    
+  }
+}
 
+
+  runCreatures() {
+    for(let i = 0; i < this.creatures.herb4.length; i++){
+      this.creatures.herb4[i].run(this.creatures.herb4);
+    }
   }
 
   loadFood4(n) { // loads the initial amounts of food 4 particle systems
@@ -133,7 +152,7 @@ class World {
     }
   }
 
-
+  
   runFood() {
     for (let i = 0; i < this.foods.food4.length; i++) {
       this.foods.food4[i].run();
