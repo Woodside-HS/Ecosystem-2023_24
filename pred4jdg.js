@@ -2,6 +2,7 @@ class Pred4jdg extends Creature {
     constructor(loc, vel, sz, wrld) {
        super(loc, vel, sz, wrld)
        //mover properties
+       this.desiredSep = 50;
        this.loc = loc;
        this.vel = vel;
        this.acc = new JSVector(0, 0);
@@ -15,6 +16,7 @@ class Pred4jdg extends Creature {
        this.statusBlock = {
           searchFood:true,
           searchMate:true,
+          hunting:true,
           eating:false,
           sprint:false,
           sleeping:false,
@@ -43,6 +45,8 @@ class Pred4jdg extends Creature {
        this.update();
        this.checkEdges();
        this.render();
+       this.flock();
+       if(this.closestTarget() )
     }
     update() {
        if(this.dataBlock.lifeSpan-- <= 0){
@@ -51,7 +55,137 @@ class Pred4jdg extends Creature {
        this.vel.add(this.acc);
        this.vel.limit(this.maxSpeed);
        this.loc.add(this.vel);
+       
     }
+
+  
+  flock(array) {
+      //  flock force is the accumulation of all forces
+      this.flockForce = new JSVector(0, 0);
+      // set up force vectors to be added to acc
+      let sep = this.separate(array);
+      let ali = this.align(array);
+      let coh = this.cohesion(array);
+      //  set multiples via sliders 
+      let sepMult = .5;
+      let aliMult = .5;
+      let cohMult = .5;
+      //  calculate three forces
+      sep.multiply(sepMult);
+      ali.multiply(aliMult);
+      coh.multiply(cohMult);
+      //  add each of these to flockForce
+      this.flockForce.add(sep);
+      this.flockForce.add(ali);
+      this.flockForce.add(coh);
+      this.acc.add(this.flockForce);
+  }
+  //+++++++++++++++++++++++++++++++++  Flocking functions
+  separate(array){
+      let escapeVector = new JSVector(0, 0);
+      let count = 0;
+      let dir = new JSVector();
+      for (let i = 0; i < array.length; i++) {
+          let distance = this.loc.distance(array[i].loc);
+          if (distance > 0 && distance < this.desiredSep) {
+              oppVector = JSVector.subGetNew(this.loc, array[i].loc);
+              oppVector.normalize();
+              oppVector.divide(distance);
+              escapeVector.add(oppVector);
+              count++;
+          }
+      }
+      if (count > 0) {
+          escapeVector.divide(count);
+          escapeVector.normalize();
+          escapeVector.multiply(this.maxSpeed);
+          dir = JSVector.subGetNew(escapeVector, this.vel);
+          dir.limit(this.maxForce);
+      }
+      return dir;
+  }
+  
+  align(array) {
+      let sum = new JSVector(0, 0);
+      let count = 0;
+      for (let i = 0; i < array.length; i++) {
+          let distance = this.loc.distance(v[i].loc);
+          if (distance > 0 && distance < 50) {
+              sum.add(array[i].vel);
+              count++;
+          }
+      }
+      if (count > 0) {
+          sum.divide(count);
+          sum.normalize();
+      }
+      return sum;
+  }
+  
+  cohesion(array) {
+      let seekVector = new JSVector(0, 0);
+      let count = 0;
+      let dir = new JSVector();
+      for (let i = 0; i < array.length; i++) {
+          let distance = this.loc.distance(array[i].loc);
+          if (distance > 0 && distance < 50) {
+              let oppVector = JSVector.subGetNew(array[i].loc, this.loc);
+              oppVector.normalize();
+              oppVector.divide(distance);
+              seekVector.add(oppVector);
+              count++;
+          }
+      }
+      if (count > 0) {
+          seekVector.divide(count);
+          seekVector.normalize();
+          seekVector.multiply(this.maxSpeed);
+          dir = JSVector.subGetNew(seekVector, this.vel);
+          dir.limit(this.maxForce);
+      }
+      return dir;
+  }
+  
+  hunt(target) {
+      // A vector pointing from the location to the target
+      let desired = JSVector.subGetNew(target, this.loc);
+      let dir = JSVector.subGetNew(desired, this.vel);
+      return dir;
+  }
+  closestTarget(){
+   let distance = 0;
+   let closestCreature = [];
+   for (let i = 1; i < creatures.length; i++) {
+      const currentDistance = this.loc.distance(creatures[i]);
+      if (currentDistance < distance) {
+         distance = creatures[i];
+         distance = currentDistance;
+      }
+  }
+  return(distance, closestCreature); 
+  }
+  attack(target){
+
+  }
+  //+++++++++++++++++++++++++++++++++  Flocking functions
+  
+  Vehicle.prototype.render = function () {
+      let ctx = game.ctx;
+      ctx.save();
+      ctx.translate(this.loc.x, this.loc.y);
+      ctx.rotate(this.vel.getDirection() + Math.PI / 2); //offset 90 degrees
+      ctx.beginPath();
+      ctx.strokeStyle = this.clr;
+      ctx.fillStyle = this.clr;
+      ctx.moveTo(0, -this.scl);
+      ctx.lineTo(-this.scl, this.scl);
+      ctx.lineTo(0, 0);
+      ctx.lineTo(this.scl, this.scl);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.fill();
+      ctx.restore();
+  }
     checkEdges() {
        if (this.loc.x >= world.dims.width / 2 || this.loc.x <= -world.dims.width / 2) {
           this.vel.x *= -1;
