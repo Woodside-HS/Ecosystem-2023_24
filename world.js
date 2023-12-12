@@ -126,7 +126,7 @@ class World {
       let dx = Math.random() * 2 - 1;
       let dy = Math.random() * 2 - 1;
       let vel = new JSVector(dx, dy);
-      let sz = Math.floor(Math.random()*9 + 6);
+      let sz = Math.floor(Math.random()*5 + 3);
       this.creatures.herb4.push(new Herb4LYT(loc, vel, sz, this));
 
     }

@@ -1,8 +1,4 @@
 //Logan Thomas 12523
-//I haven't used inheritance at lot at some point I should convert stuff to status blocks and
-// datablocks 
-//you should do that before you put in a bunch more effort 
-
 class Herb4LYT extends Creature {
     constructor(loc, vel, sz, wrld) {
         super(loc, vel, sz, wrld);
@@ -23,54 +19,83 @@ class Herb4LYT extends Creature {
         this.gUP = true;//dumb way but only way I can think of 
         this.eUP = true;
         this.cUP = [];
-        this.lifeSpan = 12000;//This is directly corrolated to health
-        //which is also connected to the size of the creature so making this like 3k will
-        //make the creatures shrink very fast 
-        this.maxLifeSpan = this.lifeSpan;
-        this.health = 1;//its a 0 to 1 system 
-        //its going to be annoying but ig I can change this when going to 0-100 system
-        this.isDead = false;
-
         this.jumpDistance = 200;
+        this.dataBlock.lifeSpan = 12000;
+        this.dataBlock.health;
+        this.dataBlock.isDead;
+        this.maxLifeSpan = this.dataBlock.lifeSpan;
 
 
     }
     run() {
-        this.seekOthers();
+
         this.update();
         this.render();
         this.life();
         this.checkEdges();
-
+        this.seekOthers();
         //this is very no no working
-        this.seekFoods();
+      //  this.seekFoods();
     }
     seekOthers() {
-        let h4 = world.creatures.herb4;
-        if (this.health > 0.7) {
-            for (let i = 0; i < h4.length; i++) {
+        if (this.dataBlock.health > 70) {
+            if (!this.cc) {
+                let dd = 40;
+                let h4 = world.creatures.herb4;
+                for (let i = 0; i < h4.length; i++) {
 
-                let dist = this.loc.distance(h4[i].loc);
+                    let oo = h4[i];
+                    if (this != oo) {
+                        let dist = this.loc.distance(oo.loc);
+                        if (dd > dist) {
+                            let ee = JSVector.subGetNew(oo.loc, this.loc);
+                            ee.normalize();
+                            ee.multiply(0.2)
+                            this.vel.add(ee);
+                            this.vel.limit(1.5);
+                            if (dist < 3) {
+                                this.vel = new JSVector(0, 0);
+                                let x = Math.random() * world.dims.width - world.dims.width / 2;
+                                let y = Math.random() * world.dims.height - world.dims.height / 2;
+                                let dx = Math.random() * 4 - 2;
+                                let dy = Math.random() * 4 - 2
 
-                //   if(dist != 0 && dist < 500 && (this.clr === h4[i].clr) && this.cc == false && h4[i].cc == false){
-                if (dist != 0 && dist < 5000 && this.cc === false && h4[i].cc === false) {
-                    //if not itselfs, less than 500 away from same color creature;
-                    // this.acc = JSVector.subGetNew(h4[i].loc, this.loc);
-                    // this.acc.normalize();
-                    // this.acc.multiply(0.08);
-                    this.cc = true;
-                    h4[i].cc = true;
-                    this.cUP.push(this);
-                    this.cUP.push(h4[i]);
-                    h4[i].cUP.push(h4[i]);
-                    h4[i].cUP.push(this);
+                                if (h4.length < 100) {
+                                    h4.push(new Herb4LYT(new JSVector(x, y), new JSVector(dx, dy), this.sz, this.wrld));//yeah I can figure a better system out it just infitinity stacks and I can't get a decent system to work 
+                                }
+                                this.cc = true;
+                                this.vel.x = Math.random() * 2 - 1;
+                                this.vel.y = Math.random() * 2 - 1;
 
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-    seekFoods() {
 
+    seekFoods() {
+        let dd = 120;
+        if(this.dataBlock.health < 70){
+            let f4 = world.creatures.food4;
+            for(let i = 0; i < f4.length; i ++){
+                let oo = f4[i]
+                let dist = this.loc.dist(oo.loc);
+                if(dd < dist){
+                    let ee = JSVector.subGetNew(oo.loc);
+                    ee.normalize();
+                    ee.multiply(0.2)
+                    this.vel.add(ee);
+                    this.vel.limit(1.5);
+                    if(dist < 10) {
+                        this.vel = new JSVector(0, 0);
+                        this.vel.x = Math.random() * 2 - 1;
+                        this.vel.y = Math.random() * 2 - 1;
+                    }
+                }
+            }
+        }
     }
     checkEdges() {//idk the creature checkEdges does not work very well
 
@@ -171,50 +196,29 @@ class Herb4LYT extends Creature {
 
     }
     update() {
-        if (this.cc === true) {
-            // let dist = this.cUP[0].loc.distance(this.cUP[1].loc)
-            this.acc = JSVector.subGetNew(this.cUP[1].loc, this.loc);
-            this.acc.normalize();
-            this.acc.multiply(0.06);
-            this.health = (this.lifeSpan / this.maxLifeSpan);
-            this.vel.add(this.acc);
-            this.vel.limit(0.5);
-            this.vel.multiply(this.health);
-            this.loc.add(this.vel);
-            this.vel.divide(this.health);
-            this.cUP[1].acc = JSVector.subGetNew(this.loc, this.cUP[1].loc);
-            //this.cUP[1].acc = JSVector.subGetNew(this.cUP[1].loc, this.loc);
-            this.cUP[1].acc.normalize();
-            this.cUP[1].acc.multiply(0.06);
-            this.cUP[1].health = (this.cUP[1].lifeSpan / this.cUP[1].maxLifeSpan)
-            this.cUP[1].vel.add(this.cUP[1].acc);
-            this.cUP[1].vel.limit(0.5);
-            this.cUP[1].vel.multiply(this.cUP[1].health);
-            this.cUP[1].loc.add(this.cUP[1].vel);
-            this.cUP[1].vel.divide(this.cUP[1].health);
-        } else {
 
-            this.health = (this.lifeSpan / this.maxLifeSpan);
-            this.vel.add(this.acc);
-            this.vel.limit(1.5);
-            this.vel.multiply(this.health);
-            this.loc.add(this.vel);
-            this.vel.divide(this.health);
-        }
+
+        this.dataBlock.health = (this.dataBlock.lifeSpan / this.maxLifeSpan)*100;
+        this.vel.add(this.acc);
+        this.vel.limit(1.5);
+        this.vel.multiply(this.dataBlock.health/100);
+        this.loc.add(this.vel);
+        this.vel.divide(this.dataBlock.health/100);
+        // }
         if (this.vel.getMagnitude() == 0) {//ig if the creature is completly stopped i.e eating then
             //this would go off.
-            this.sz = this.ssz * this.health;
+            this.sz = this.ssz * (this.dataBlock.health/100);
             //this would be very snappy if it ever happens 
         }
         if (this.vel.getMagnitude() != 0) {
 
             if (this.count < this.jumpDistance && (this.gUP === true)) {//mate there has to be a way easier way to code this
                 //nice not hard coding a bunch of variables tho
-                this.sz += 0.02 * this.health;
+                this.sz += 0.01 * (this.dataBlock.health/100);
                 this.count++;
             } else if (this.count >= this.jumpDistance) {
                 this.gUP = false;
-                this.sz -= 0.02 * this.health;
+                this.sz -= 0.01 * (this.dataBlock.health/100);
                 if (this.sz <= this.ssz) {
                     this.gUP = true;
                     this.count = 0;
@@ -223,12 +227,12 @@ class Herb4LYT extends Creature {
         }
     }
     life() {//would just putting this in update be better? 
-        if (this.lifeSpan >= 0) {
-            this.lifeSpan -= 1;//Prob would be better at -1.5 
+        if (this.dataBlock.lifeSpan >= 0) {
+            this.dataBlock.lifeSpan -= 1;//Prob would be better at -1.5 
 
         }
-        if (this.lifeSpan <= 2000) {
-            this.isDead = true;
+        if (this.dataBlock.lifeSpan <= 2000) {
+            this.dataBlock.isDead = true;
 
         }
     }
