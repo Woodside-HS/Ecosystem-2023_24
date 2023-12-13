@@ -6,15 +6,15 @@ class Herb3BJC extends Creature {
         this.size = sz;
         this.acc = new JSVector(0, 0);
         this.context = wrld.ctxMain;
-        this.poisonDarts = [];
-        this.col = "rgba(0, 255, 0, 1)";
-        this.colorState = false; //false = normal color, true = invisible for defense
+    //    this.poisonDarts = [];
+        this.col = "rgba(0, 200, 150, 0)";
+        this.colorState = false; //false = normal color, true = invisible for defense 
     }
 
     run(){
         this.render();
         this.update();
-        this.runDarts();
+      //  this.runDarts();
     }
 
     render(){
@@ -23,6 +23,7 @@ class Herb3BJC extends Creature {
         ctx.translate(this.loc.x, this.loc.y);
         ctx.rotate(this.vel.getDirection() + Math.PI /2);
         ctx.beginPath();
+
         if(this.colorState = false){ //normal color
         ctx.strokeStyle = this.col;
         ctx.fillStyle = this.col;
@@ -44,39 +45,43 @@ class Herb3BJC extends Creature {
     }
 
     update(){
-     //if close to pred
-        this.loadDarts(direction); //shoot out poison darts to pred
-        this.colorState = true; //turn invisible
+        this.vel.add(this.acc);
+        this.loc.add(this.vel);
+        this.acc.multiply(0);
 
-    //if need food
-        this.seekFood();
+  //   //if close to pred
+       // this.loadDarts(direction); //shoot out poison darts to pred
+        //this.colorState = true; //turn invisible
+
+    // //if need food
+       //this.seekFood(index);
 
     //if need to reproduce
-        this.seekOthers();
+      //  this.seekOthers(index);
 
     }
 
-    seekFood(){
+    // seekFood(i){
 
-    }
+    // }
 
-    seekOthers(){
+  //  seekOthers(i){
 
-    }
+  //  }
 
-   loadDarts(direction){
-    let dartCol = "rgba(128, 0, 128, 0)";
-    let acc = new JSVector(0, 0);
-    let vel = new JSVector(); //shoots in direction of predators
-    let diam = 4;
-    this.poisonDarts.push(new PoisonDartsBJC(this, dartCol, acc, vel, diam));
+//    loadDarts(direction){
+//     let dartCol = "rgba(128, 0, 128, 0)";
+//     let acc = new JSVector(0, 0);
+//     let vel = new JSVector(); //shoots in direction of predators
+//     let diam = 4;
+//     this.poisonDarts.push(new PoisonDartsBJC(this, dartCol, acc, vel, diam));
 
-   }
+//    }
 
-   runDarts(){
-    for (let i = 0; i < this.poisonDarts.length; i++) {
-        this.poisonDarts[i].run();
-    }
-   }
+//    runDarts(){
+//     for (let i = 0; i < this.poisonDarts.length; i++) {
+//         this.poisonDarts[i].run();
+//     }
+//    }
 
 }
