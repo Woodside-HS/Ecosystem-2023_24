@@ -1,5 +1,5 @@
 //Logan 121223
-class Herb6LYT extends Creature {
+class Herb6FlockLYT extends Creature {
     constructor(loc, vel, sz, wrld) {
         super(loc, vel, sz, wrld);
         this.loc = loc;
