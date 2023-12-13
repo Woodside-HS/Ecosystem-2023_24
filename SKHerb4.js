@@ -76,7 +76,22 @@ class SKHerb4 extends Creature {
   }
 
   align(h){
-
+    let steer = new JSVector(0, 0);
+    let perceptionRadius = 50;
+    let total = 0;
+    for (let i = 0; i < h.length; i++) {
+      let d = this.loc.distance(this.loc, h[i].loc);
+      if ((h[i] != this.loc) && (d < perceptionRadius)) {
+        steer.add(h[i].vel);
+        total++;
+      }
+    }
+    if (total > 0) {
+      steer.divide(total);
+      steer.sub(this.vel);
+      this.acc.limit(this.maxForce);
+    }
+    return steer;
   }
   cohesion(h){
 
