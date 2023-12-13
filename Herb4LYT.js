@@ -2,7 +2,7 @@
 class Herb4LYT extends Creature {
     constructor(loc, vel, sz, wrld) {
         super(loc, vel, sz, wrld);
-          this.loc = loc;
+        this.loc = loc;
         this.vel = vel;
         this.wrld = wrld;
         this.acc = new JSVector(0, 0);
@@ -35,10 +35,10 @@ class Herb4LYT extends Creature {
         this.checkEdges();
         this.seekOthers();
         //this is very no no working
-      //  this.seekFoods();
+        //  this.seekFoods();
     }
     seekOthers() {
-       
+
         if (this.dataBlock.health > 70) {
             if (!this.cc) {
                 let dd = 40;
@@ -55,52 +55,58 @@ class Herb4LYT extends Creature {
                             this.vel.add(ee);
                             this.vel.limit(1.5);
                             if (dist < 20) {//this number is giving me annoyance
-                                
-                                this.vel = new JSVector(0, 0);
-                                
-                                let h4 = world.creatures.herb4;
-                                // let x = Math.random() * world.dims.width - world.dims.width / 2;
-                                // let y = Math.random() * world.dims.height - world.dims.height / 2;
-                                let x = this.loc.x;
-                                let y = this.loc.y;
-                                 let dx = Math.random() * 4 - 2;
-                                 let dy = Math.random() * 4 - 2;
-                                
-                         
-                                 if (h4.length < 100) {
-                                     h4.push(new Herb4LYT(new JSVector(x, y), new JSVector(dx, dy), this.sz, this.wrld));//yeah I can figure a better system out it just infitinity stacks and I can't get a decent system to work
-                                     h4[h4.length].cc = true;
-                                 }
-                                 this.cc = true;
-                                 this.vel.x = Math.random() * 2 - 1;
-                                 this.vel.y = Math.random() * 2 - 1;
 
+                                this.vel = new JSVector(0, 0);
+
+                                let h4 = world.creatures.herb4;
+                                 let x = Math.random() * world.dims.width - world.dims.width / 2;
+                                 let y = Math.random() * world.dims.height - world.dims.height / 2;
+                               // let x = this.loc.x;
+                               // let y = this.loc.y;
+                                let dx = Math.random() * 4 - 2;
+                                let dy = Math.random() * 4 - 2;
+                             
+
+                                if (h4.length < 100) {
+                                    h4.push(new Herb4LYT(new JSVector(x, y), new JSVector(dx, dy), this.sz, this.wrld));
+                                    
+                                  
+                                }
+                                this.cc = true;
+                                setTimeout(() => {
+                                    this.vel.x = Math.random() * 2 - 1;
+                                    this.vel.y = Math.random() * 2 - 1;
+                                  }, "10000");
+                              
+                                }
                             }
                         }
                     }
                 }
             }
         }
-    }
     
+
 
     seekFoods() {
         let dd = 120;
-        if(this.dataBlock.health < 70){
+        if (this.dataBlock.health < 70) {
             let f4 = world.creatures.food4;
-            for(let i = 0; i < f4.length; i ++){
+            for (let i = 0; i < f4.length; i++) {
                 let oo = f4[i]
                 let dist = this.loc.dist(oo.loc);
-                if(dd < dist){
+                if (dd < dist) {
                     let ee = JSVector.subGetNew(oo.loc);
                     ee.normalize();
-                    ee.multiply(0.2)
+                    ee.multiply(0.08)
                     this.vel.add(ee);
                     this.vel.limit(1.5);
-                    if(dist < 20) {
+                    if (dist < 20) {
                         this.vel = new JSVector(0, 0);
-                        this.vel.x = Math.random() * 2 - 1;
-                        this.vel.y = Math.random() * 2 - 1;
+                            this.vel.x = Math.random() * 2 - 1;
+                            this.vel.y = Math.random() * 2 - 1;
+
+
                     }
                 }
             }
@@ -129,7 +135,7 @@ class Herb4LYT extends Creature {
 
 
 
-       //  this.sz *= (this.dataBlock.health/100);
+        //  this.sz *= (this.dataBlock.health/100);
         //ill attempt to get with to work but so far this is going to be very annoying 
         ctx.moveTo(-this.sz * 2, 0, this.sz, Math.PI * 2, 0, false);
         ctx.ellipse(-this.sz * 2, 0, this.sz * 1.2, this.sz / 1.5, -Math.PI * 0.75, 0, Math.PI * 2)
@@ -207,27 +213,27 @@ class Herb4LYT extends Creature {
     update() {
 
 
-        this.dataBlock.health = (this.dataBlock.lifeSpan / this.maxLifeSpan)*100;
+        this.dataBlock.health = (this.dataBlock.lifeSpan / this.maxLifeSpan) * 100;
         this.vel.add(this.acc);
         this.vel.limit(1.5);
-        this.vel.multiply(this.dataBlock.health/100);
+        this.vel.multiply(this.dataBlock.health / 100);
         this.loc.add(this.vel);
-        this.vel.divide(this.dataBlock.health/100);
+        this.vel.divide(this.dataBlock.health / 100);
         // }
         if (this.vel.getMagnitude() == 0) {//ig if the creature is completly stopped i.e eating then
             //this would go off.
-            this.sz = this.ssz * (this.dataBlock.health/100);
+            this.sz = this.ssz * (this.dataBlock.health / 100);
             //this would be very snappy if it ever happens 
         }
         if (this.vel.getMagnitude() != 0) {
 
             if (this.count < this.jumpDistance && (this.gUP === true)) {//mate there has to be a way easier way to code this
                 //nice not hard coding a bunch of variables tho
-                this.sz += 0.01 * (this.dataBlock.health/100);
+                this.sz += 0.01 * (this.dataBlock.health / 100);
                 this.count++;
             } else if (this.count >= this.jumpDistance) {
                 this.gUP = false;
-                this.sz -= 0.01 * (this.dataBlock.health/100);
+                this.sz -= 0.01 * (this.dataBlock.health / 100);
                 if (this.sz <= this.ssz) {
                     this.gUP = true;
                     this.count = 0;
