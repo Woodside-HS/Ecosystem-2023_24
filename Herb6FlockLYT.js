@@ -24,7 +24,7 @@ class Herb6FlockLYT extends Creature {
     run() {
         this.update();
         this.render();
-        this.flock();
+        this.flock(world.creatures.herb6);
         this.checkEdges();
     }
     checkEdges() {//idk the creature checkEdges does not work very well
@@ -38,13 +38,13 @@ class Herb6FlockLYT extends Creature {
         }
     }
 
-    flock() {
+    flock(l) {
 
         let flockForce = new JSVector(0, 0);
 
-        let sep = this.separate();
-        let ali = this.align();
-        let coh = this.cohesion();
+        let sep = this.separate(l);
+        let ali = this.align(l);
+        let coh = this.cohesion(l);
         sep.multiply(3);
         ali.multiply(5);
         coh.multiply(3);
@@ -94,18 +94,18 @@ class Herb6FlockLYT extends Creature {
 
     }
 
-    separate() {
+    separate(l) {
         let count = 0;
 
         let sum = new JSVector(0, 0);
-        for (let i = 0; i < world.creatures.herb6.length; i++) {
-            let d = this.loc.distance(world.creatures.herb6[i].loc);
+        for (let i = 0; i < l.length; i++) {
+            let d = this.loc.distance(l[i].loc);
             if (d < 2 && d > 0) {//really stupid way of fixxing a bug
                 this.loc.x = Math.random() * world.dims.width;
                 this.loc.y = Math.random() * world.dims.height;
             }
             if (d > 0 && d < this.desiredSep) {
-                let diff = JSVector.subGetNew(this.loc, world.creatures.herb6[i].loc);
+                let diff = JSVector.subGetNew(this.loc, l[i].loc);
 
                 diff.normalize();
                 sum.add(diff);
@@ -124,15 +124,15 @@ class Herb6FlockLYT extends Creature {
 
     }
 
-    align() {
+    align(l) {
         let count = 0;
         let neighbordist = 70;
         let sum = new JSVector(0, 0);
         let steer = new JSVector(0, 0);
-        for (let i = 0; i < world.creatures.herb6.length; i++) {
-            let d = this.loc.distance(world.creatures.herb6[i].loc)
+        for (let i = 0; i < l.length; i++) {
+            let d = this.loc.distance(l[i].loc)
             if ((d > 0) && (d < neighbordist)) {
-                sum.add(world.creatures.herb6[i].vel);
+                sum.add(l[i].vel);
                 count++;
             }
         }
@@ -149,15 +149,15 @@ class Herb6FlockLYT extends Creature {
     }
 
 
-    cohesion() {
+    cohesion(l) {
         let neighbordist = 50;
         let sum = new JSVector(0, 0);
         let count = 0;
-        for (let i = 0; i < world.creatures.herb6.length; i++) {
-            let d = this.loc.distance(world.creatures.herb6[i].loc)
+        for (let i = 0; i < l.length; i++) {
+            let d = this.loc.distance(l[i].loc)
 
             if ((d > 0) && (d < neighbordist)) {
-                sum.add(world.creatures.herb6[i].loc);
+                sum.add(l[i].loc);
                 count++;
             }
         }
