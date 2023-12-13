@@ -8,11 +8,9 @@ class SKHerb4 extends Creature {
     this.sz = 8;
     this.lifeSpan = 1500;
     this.maxLifeSpan = this.lifeSpan;
-    let colors = ["red","black", "orange", "yellow", "green", "blue", "violet", "indigo"];
-    this.color = colors[Math.floor(Math.random() * colors.length)];  
-    if (this.color=(black)){
-      
-    }
+    let colors = ["red", "black", "orange", "yellow", "green", "blue", "violet", "indigo"];
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+
   }
 
   update() {
@@ -36,6 +34,52 @@ class SKHerb4 extends Creature {
     ctx.beginPath();
     ctx.arc(this.loc.x, this.loc.y, this.size, 0, 2 * Math.PI, false);
     ctx.fill();
+  }
+
+  camouflage() {
+    if (this.color == black) {
+      //need to make attr=0 with other entities, will all entities have attraction/repulsion? 
+    }
+  }
+
+  bigfish(herbs){
+    this.flock(herbs);
+    this.update();
+    this.checkEdges()
+    this.render();
+  }
+
+  flock(herbs){
+     // flock force is the accumulation of all forces
+  let flockForce = new JSVector(0, 0);
+  // set up force vectors to be added to acc
+  let sep = this.separate(herbs);
+  let ali = this.align(herbs);
+ let coh = this.cohesion(herbs);
+  //  set multiples via sliders 
+  let sepMult = document.getElementById("slider3").value; // Get slider VAlue%%%%%%%%%%%%%%%%%%
+  let aliMult = document.getElementById("slider4").value;;  // Get slider VAlue%%%%%%%%%%%%%%%%%%
+  let cohMult = document.getElementById("slider5").value;;    // Get slider VAlue%%%%%%%%%%%%%%%%%%
+  //  calculate three forces
+ sep.multiply(sepMult);
+  ali.multiply(aliMult);
+  coh.multiply(cohMult);
+  //  add each of these to flockForce
+ flockForce.add(sep);
+  flockForce.add(ali);
+  flockForce.add(coh);
+  this.acc.add(flockForce);
+  }
+
+  seperate(h){
+
+  }
+
+  align(h){
+
+  }
+  cohesion(h){
+
   }
 
 
