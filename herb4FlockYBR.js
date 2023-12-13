@@ -3,11 +3,11 @@ class Herb4 extends Creature {
         super(loc, vel, sz, world);
         this.loc = loc;
         this.vel = vel;
-        this.sz = sz;
+        this.sz = 10;
         this.wrld = world;
         this.hunted = false;
         this.scl = 10;
-        this.clr = "rgba(180,0,220,.8)"
+        this.clr = "rgba(244, 255, 43,.8)"
 
     }
 
@@ -28,17 +28,14 @@ class Herb4 extends Creature {
 
     render() {
         let ctx = this.wrld.ctxMain;
-        ctx.save();
-       
-       
-        ctx.beginPath();
+        
         ctx.strokeStyle = this.clr;
         ctx.fillStyle = this.clr;
-       ctx.arc(this.loc.x, this.loc.y, this.r, Math.PI * 2, 0)
-        ctx.closePath();
+        ctx.beginPath();
+        ctx.arc(this.loc.x, this.loc.y, this.sz, Math.PI * 2, 0)
         ctx.stroke();
         ctx.fill();
-        ctx.restore();
+
     }
 
     isHunted() {
@@ -56,12 +53,12 @@ class Herb4 extends Creature {
         // set up force vectors to be added to acc
         let sep = this.separate(herbivores);
         let ali = this.align(herbivores);
-       // let coh = this.cohesion(herbivores);
+        let coh = this.cohesion(herbivores);
 
         //  add each of these to flockForce
         flockForce.add(sep);
         flockForce.add(ali);
-        //flockForce.add(coh);
+        flockForce.add(coh);
         this.acc.add(flockForce);
     }
 
@@ -73,7 +70,7 @@ class Herb4 extends Creature {
             if (dist > 0 && dist < this.desiredSep) {
                 let diff = JSVector.subGetNew(this.loc, h[i].loc)
                 diff.normalize();
-                diff.divide(dist); // might be cause of some issues
+                // diff.divide(dist); // might be cause of some issues
                 sum.add(diff);
                 count++;
             }
@@ -82,7 +79,7 @@ class Herb4 extends Creature {
         if (count > 0) {
             sum.divide(count);
             sum.normalize();
-            // sum.multiply(20)
+            sum.multiply(200) //speed
             let steer = JSVector.subGetNew(sum, this.vel);
             steer.limit(30);
             return steer;
