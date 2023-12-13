@@ -1,7 +1,9 @@
 class World {
   //  Commit 1: 221109
   constructor() {
+
     this.cnvMain = document.getElementById("cnv1");
+    
     this.ctxMain = this.cnvMain.getContext("2d");
     this.cnvMainLoc = new JSVector(0, 0);
     this.dims = {
@@ -56,7 +58,7 @@ class World {
     };
 
     // performance -- change the number of entities to see the effect on framerate
-    this.numEntities = 5000;
+    this.numEntities = 500;
     this.loadEntities(
       this.numEntities,
       this.ctxMain,
@@ -111,10 +113,10 @@ class World {
     this.ctxMain.fillText(fps, 20, this.cnvMain.height - 105);
   }
   
-  loadEntities(numEntities, ctx, w, h) {
+  loadEntities(numEntities) {
     for(let i = 0; i < numEntities; i++){
-      let x = (Math.random() * this.dims.width) - 2000;
-      let y = (Math.random() * this.dims.height) - 1500;
+      let x = (Math.random() * this.dims.width) //- 2000;
+      let y = (Math.random() * this.dims.height)// - 1500;
       let loc = new JSVector(x, y);
       let dx =  (Math.random() * 20 - 1);
       let dy =  (Math.random() * 20 - 1);
@@ -126,11 +128,17 @@ class World {
     //++++++++++++++++++++++++++++  load entities
   }
   
-  runCreatures() {
-    for (let i = 0; i < this.creatures.pred4.length; i++) {
-      this.creatures.pred4[i].run();
+runCreatures() {
+    for (let j = 0; j < this.creatures.pred4.length; j++) {
+      this.creatures.pred4[j].run();
+      // Uncomment the following lines if you want to log messages about running creatures
+      // if (j < 1000) {
+      //   console.log("running creature #" + j);
+      // }
+    }
   }
-}
+  
+
  
   runFood() {
     

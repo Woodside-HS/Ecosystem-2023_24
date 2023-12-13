@@ -39,11 +39,11 @@ class Creature extends Entity {
    }//++++++++++++++++++++++++++++++++ end creature constructor
 
    //++++++++++++++++++++++++++++++++ creature methods
-   run() {
-      this.update();
-      this.checkEdges();
-      this.render();
-   }
+   // run() {
+   //    this.update();
+   //    this.checkEdges();
+   //    this.render();
+   // }
    update() {
       if(this.dataBlock.lifeSpan-- <= 0){
          this.dataBlock.isDead = true;
