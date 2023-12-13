@@ -2,7 +2,7 @@
 class Herb4LYT extends Creature {
     constructor(loc, vel, sz, wrld) {
         super(loc, vel, sz, wrld);
-        //   this.loc = loc;
+          this.loc = loc;
         this.vel = vel;
         this.wrld = wrld;
         this.acc = new JSVector(0, 0);
@@ -38,6 +38,7 @@ class Herb4LYT extends Creature {
       //  this.seekFoods();
     }
     seekOthers() {
+       
         if (this.dataBlock.health > 70) {
             if (!this.cc) {
                 let dd = 40;
@@ -50,22 +51,29 @@ class Herb4LYT extends Creature {
                         if (dd > dist) {
                             let ee = JSVector.subGetNew(oo.loc, this.loc);
                             ee.normalize();
-                            ee.multiply(0.2)
+                            ee.multiply(0.06)
                             this.vel.add(ee);
                             this.vel.limit(1.5);
-                            if (dist < 3) {
+                            if (dist < 20) {//this number is giving me annoyance
+                                
                                 this.vel = new JSVector(0, 0);
-                                let x = Math.random() * world.dims.width - world.dims.width / 2;
-                                let y = Math.random() * world.dims.height - world.dims.height / 2;
-                                let dx = Math.random() * 4 - 2;
-                                let dy = Math.random() * 4 - 2
-
-                                if (h4.length < 100) {
-                                    h4.push(new Herb4LYT(new JSVector(x, y), new JSVector(dx, dy), this.sz, this.wrld));//yeah I can figure a better system out it just infitinity stacks and I can't get a decent system to work 
-                                }
-                                this.cc = true;
-                                this.vel.x = Math.random() * 2 - 1;
-                                this.vel.y = Math.random() * 2 - 1;
+                                
+                                let h4 = world.creatures.herb4;
+                                // let x = Math.random() * world.dims.width - world.dims.width / 2;
+                                // let y = Math.random() * world.dims.height - world.dims.height / 2;
+                                let x = this.loc.x;
+                                let y = this.loc.y;
+                                 let dx = Math.random() * 4 - 2;
+                                 let dy = Math.random() * 4 - 2;
+                                
+                         
+                                 if (h4.length < 100) {
+                                     h4.push(new Herb4LYT(new JSVector(x, y), new JSVector(dx, dy), this.sz, this.wrld));//yeah I can figure a better system out it just infitinity stacks and I can't get a decent system to work
+                                     h4[h4.length].cc = true;
+                                 }
+                                 this.cc = true;
+                                 this.vel.x = Math.random() * 2 - 1;
+                                 this.vel.y = Math.random() * 2 - 1;
 
                             }
                         }
@@ -74,6 +82,7 @@ class Herb4LYT extends Creature {
             }
         }
     }
+    
 
     seekFoods() {
         let dd = 120;
@@ -88,7 +97,7 @@ class Herb4LYT extends Creature {
                     ee.multiply(0.2)
                     this.vel.add(ee);
                     this.vel.limit(1.5);
-                    if(dist < 10) {
+                    if(dist < 20) {
                         this.vel = new JSVector(0, 0);
                         this.vel.x = Math.random() * 2 - 1;
                         this.vel.y = Math.random() * 2 - 1;
@@ -109,7 +118,7 @@ class Herb4LYT extends Creature {
     }
     render() {
         let ctx = this.ctx;
-        ctx.save()
+        ctx.save();
         ctx.translate(this.loc.x, this.loc.y)
         ctx.rotate(this.vel.getDirection() + Math.PI / 2)
         ctx.strokeStyle = "rgba(0,0,0,1)";//idk black outline looks better rn for me
@@ -120,7 +129,7 @@ class Herb4LYT extends Creature {
 
 
 
-        // this.sz *= this.health;
+       //  this.sz *= (this.dataBlock.health/100);
         //ill attempt to get with to work but so far this is going to be very annoying 
         ctx.moveTo(-this.sz * 2, 0, this.sz, Math.PI * 2, 0, false);
         ctx.ellipse(-this.sz * 2, 0, this.sz * 1.2, this.sz / 1.5, -Math.PI * 0.75, 0, Math.PI * 2)

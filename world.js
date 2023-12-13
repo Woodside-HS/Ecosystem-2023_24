@@ -43,6 +43,8 @@ class World {
       herb2: [],
       herb3: [],
       herb4: [],
+      herb5: [],
+      herb6: [],
 
 
       flocks: [],
@@ -120,14 +122,25 @@ class World {
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
     for (let i = 0; i < 50; i++) {
-      let x = (Math.random() * this.dims.width)-2000;
-      let y = Math.random() * this.dims.height - 1500;
+      let x = (Math.random() * this.dims.width)-this.dims.width/2;
+      let y = (Math.random() * this.dims.height) -this.dims.height/2;
       let loc = new JSVector(x, y);
       let dx = Math.random() * 2 - 1;
       let dy = Math.random() * 2 - 1;
       let vel = new JSVector(dx, dy);
       let sz = Math.floor(Math.random()*5 + 3);
       this.creatures.herb4.push(new Herb4LYT(loc, vel, sz, this));
+
+    }
+    for (let i = 0; i < 500; i++) {
+      let x = (Math.random() * this.dims.width)-this.dims.width/2;
+      let y = (Math.random() * this.dims.height) -this.dims.height/2;
+      let loc = new JSVector(x, y);
+      let dx = Math.random() * 2 - 1;
+      let dy = Math.random() * 2 - 1;
+      let vel = new JSVector(dx, dy);
+      let sz = Math.random()*0.5+0.5;
+      this.creatures.herb6.push(new Herb6LYT(loc, vel, sz, this));
 
     }
   }
@@ -140,7 +153,14 @@ class World {
           c.herb4.splice(i, 1)
         }
     }
+    for (let i = 0; i < c.herb6.length; i++) {
+      c.herb6[i].run(c.herb6);
+        if (c.herb6[i].isDead === true) {
+          c.herb6.splice(i, 1)
+        }
+    }
 
+    
     }
   
  
