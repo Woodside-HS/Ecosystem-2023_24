@@ -7,13 +7,13 @@ window.onload = init;
 
 function init(){
     world = new World();
-    p = new predDosC(new JSVector(200, 300), new JSVector(0,1), 10, 80, world);
     animate();
 }
 
 function animate(){
   world.run();
-  p.run();
+  world.creatures.pred2[0].run();
+  world.creatures.pred3[0].run();
   requestAnimationFrame(animate);
 }
 
