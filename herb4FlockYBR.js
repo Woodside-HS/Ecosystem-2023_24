@@ -29,15 +29,12 @@ class Herb4 extends Creature {
     render() {
         let ctx = this.wrld.ctxMain;
         ctx.save();
-        ctx.translate(this.loc.x, this.loc.y);
-        ctx.rotate(this.vel.getDirection() + Math.PI / 2); //offset 90 degrees
+       
+       
         ctx.beginPath();
         ctx.strokeStyle = this.clr;
         ctx.fillStyle = this.clr;
-        ctx.moveTo(0, -this.scl);
-        ctx.lineTo(-this.scl, this.scl);
-        ctx.lineTo(0, 0);
-        ctx.lineTo(this.scl, this.scl);
+       ctx.arc(this.loc.x, this.loc.y, this.r, Math.PI * 2, 0)
         ctx.closePath();
         ctx.stroke();
         ctx.fill();
