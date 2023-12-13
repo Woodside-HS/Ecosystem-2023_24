@@ -19,6 +19,8 @@ class Herb5 extends Creature{
         for(let i=0;i<this.spores.length;i++){
             this.spores[i].run();
         }
+        super.checkEdges();
+        this.render();
     }
     loadSpores(n){
         for(let i=0;i<n;i++){
@@ -28,5 +30,16 @@ class Herb5 extends Creature{
             let v=JSVector.addGetNew(this.vel,dv);
             this.spores.push(new Spore(l,v,this.size,this.wrld,this));
         }
+    }
+    render(){
+        let ctx=this.ctx;
+        ctx.beginPath();
+        ctx.moveTo(this.loc.x,this.loc.y);
+        for(let i=0;i<this.spores.length-1;i++){
+            ctx.lineTo(this.spores[i+1].loc.x,this.spores[i+1].loc.y);
+        }
+        ctx.closePath();
+        ctx.strokeStyle="red";
+        ctx.stroke();
     }
 }

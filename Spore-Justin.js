@@ -11,7 +11,7 @@ class Spore extends Creature{
         this.ctx = wrld.ctxMain;
         this.wWidth = wrld.dims.width;
         this.wHeight = wrld.dims.height;
-        this.desiredCoh=100;
+        this.desiredCoh=150;
         this.desiredSep=20;
         this.desiredAli=10;
     }
@@ -111,9 +111,7 @@ class Spore extends Creature{
         this.ctx.strokeStyle = this.clr;
         this.ctx.fillStyle = this.clr;
         this.ctx.ellipse(this.loc.x,this.loc.y,this.size,this.size,0,0,2*Math.PI);
-        // for(let i=0;i<this.herb.spores.length-1;i++){
-        //     this.ctx.lineTo(this.herb.spores[i+1].loc.x,this.herb.spores[i+1].loc.y);
-        // }
+        
         this.ctx.closePath();
         //this.ctx.strokeStyle="red";
         this.ctx.stroke();
