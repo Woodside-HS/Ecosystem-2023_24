@@ -56,7 +56,6 @@ class World {
       food3: [],
       food4: [],
       food5: [],
-
     };
 
     // performance -- change the number of entities to see the effect on framerate
