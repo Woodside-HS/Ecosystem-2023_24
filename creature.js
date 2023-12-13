@@ -50,7 +50,7 @@ class Creature extends Entity {
       }
       this.vel.add(this.acc);
       this.vel.limit(this.maxSpeed);
-      this.loc.add(this.vel);
+      this.locs.add(this.vel);
    }
    checkEdges() {
       if (this.loc.x >= world.dims.width / 2 || this.loc.x <= -world.dims.width / 2) {

@@ -7,13 +7,14 @@ class Herb3BJC extends Creature {
         this.acc = new JSVector(0, 0);
         this.context = wrld.ctxMain;
     //    this.poisonDarts = [];
-        this.col = "rgba(0, 200, 150, 0)";
+       // this.col = "rgba(0, 255,, 1)";
         this.colorState = false; //false = normal color, true = invisible for defense 
     }
 
     run(){
         this.render();
         this.update();
+        this.checkEdges();
       //  this.runDarts();
     }
 
@@ -24,12 +25,12 @@ class Herb3BJC extends Creature {
         ctx.rotate(this.vel.getDirection() + Math.PI /2);
         ctx.beginPath();
 
-        if(this.colorState = false){ //normal color
-        ctx.strokeStyle = this.col;
-        ctx.fillStyle = this.col;
+        if(this.colorState == false){ //normal color
+        ctx.strokeStyle = "rgba(0,0,0,1)";
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
         }
 
-        if(this.colorState = true){ //invisible for defense
+        if(this.colorState == true){ //invisible for defense
         ctx.strokeStyle = "rgba(0, 0, 0, 1)";
         ctx.fillStyle = "rgba(0, 0, 0, 0)";
         }
@@ -45,9 +46,12 @@ class Herb3BJC extends Creature {
     }
 
     update(){
-        this.vel.add(this.acc);
-        this.loc.add(this.vel);
-        this.acc.multiply(0);
+        if(this.dataBlock.lifeSpan-- <= 0){
+            this.dataBlock.isDead = true;
+         }
+         this.vel.add(this.acc);
+         this.vel.limit(this.maxSpeed);
+         this.loc.add(this.vel);
 
   //   //if close to pred
        // this.loadDarts(direction); //shoot out poison darts to pred
@@ -60,6 +64,15 @@ class Herb3BJC extends Creature {
       //  this.seekOthers(index);
 
     }
+
+    checkEdges() {
+        if (this.loc.x >= world.dims.width / 2 || this.loc.x <= -world.dims.width / 2) {
+           this.vel.x *= -1;
+        }
+        if (this.loc.y >= world.dims.height / 2 || this.loc.y < -world.dims.height / 2) {
+           this.vel.y *= -1;
+        }
+     }
 
     // seekFood(i){
 
