@@ -72,29 +72,71 @@ class SKHerb4 extends Creature {
   }
 
   seperate(h){
-
+    let count = 0;
+    let sep = new JSVector(0, 0);
+    for (let i = 0; i < h.length; i++) {
+      let d = this.loc.distance(h[i].loc)
+      if ((d > 0) && (d < this.desiredSep)) {
+        let diff = JSVector.subGetNew(this.loc, h[i].loc);
+        sep.add(diff);
+        count++;
+  
+      }
+    }
+    if (count > 0) {
+      sep.divide(count);
+      sep.normalize();
+      sep.multiply(this.maxForce);
+    }
+    return sep;
   }
 
   align(h){
     let steer = new JSVector(0, 0);
-    let perceptionRadius = 50;
-    let total = 0;
-    for (let i = 0; i < h.length; i++) {
-      let d = this.loc.distance(this.loc, h[i].loc);
-      if ((h[i] != this.loc) && (d < perceptionRadius)) {
-        steer.add(h[i].vel);
-        total++;
-      }
+  let perceptionRadius = 50;
+  let total = 0;
+  for (let i = 0; i < h.length; i++) {
+    let d = this.loc.distance( h[i].loc);
+    if ((h[i] != this.loc) && (d < perceptionRadius)) {
+      steer.add(h[i].vel);
+      total++;
     }
-    if (total > 0) {
-      steer.divide(total);
-      steer.sub(this.vel);
-      this.acc.limit(this.maxForce);
-    }
-    return steer;
+  }
+  if (total > 0) {
+    
+    steer.divide(total);
+    steer.normalize();
+    steer.multiply(this.maxForce)
+   
+  }
+  return steer;
   }
   cohesion(h){
+    let coh = new JSVector(0, 0);
+    let neighborDist = 100;
+    let count = 0;
+  
+    for (let i = 0; i < h.length; i++) {
+      let d = this.loc.distance( h[i].loc);
+      if ((d > 0) && (d < neighborDist)) {
+        coh.add(h[i].loc);
+        count++;
+      }
+    }
+   
+      if (count > 0) {
+        coh.divide(count);
+        return this.seek(coh);
+      }
+      return new JSVector(0, 0);
+  }
 
+  seek(target){
+    let desired = JSVector.subGetNew(target, this.loc);
+    desired.normalize();
+    desired.multiply(this.maxSpeed);
+    let steer = JSVector.subGetNew(desired, this.vel);
+    return steer;
   }
 
 
