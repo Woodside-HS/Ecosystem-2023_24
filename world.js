@@ -38,14 +38,14 @@ class World {
 	this.viruses = [];
 	for (let i = 0; i < 1; ++i) {
 	    this.viruses.push(new Virus(
-		new JSVector(0, 0),
-		new JSVector((Math.random() - 0.5) * 5, 5 * (Math.random() - 0.5)),
-		10,
-		this));
+		new JSVector(0, 0), // position/location
+		20,		// speed
+		5,		// radius
+		this));		// world
 	}
 	
 	this.creatures = {
-	    pred1: [],
+	    pred1: [new Creature(new JSVector(), new JSVector(), 500, this)],
 	    pred2: [],
 	    pred3: [],
 	    herb1: [],
@@ -124,6 +124,12 @@ class World {
     }
     
     runCreatures() {
+	for (const creatureType in this.creatures) {
+	    for (const creature of this.creatures[creatureType]) {
+		creature.run();
+	    }
+	}
+	let i = 0;
 	for (const virus of this.viruses) {
 	    virus.run();
 	}

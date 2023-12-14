@@ -6,21 +6,36 @@ class Virus extends Creature {
     /**
      * Virus constructor
      * @param {JSVector} location the initial location of the virus
-     * @param {JSVector} velocity the initial velocity of the virus
+     * @param {number} speed the initial speed of the virus
      * @param {number} radius the radius of the segments of the virus
      * @param {World} world the world this virus belongs to
      * @param {JSVector[]} [segments=] the segments of this virus
      */
-    constructor(location, velocity, radius, world, segments) {
-	super(location, velocity, radius, world);
+    constructor(location, speed, radius, world, segments) {
+	super(location, new JSVector(), radius, world);
+
+	let angle = Math.random() * 2 * Math.PI;
+	/** @type {JSVector} */
+	this.vel = new JSVector(
+	    this.radius / 2 * Math.cos(angle), this.radius / 2 * Math.sin(angle));
+
 	/** @type {string} */
 	this.clr = "#f255db";
+
+	/** @type {number} */
+	this.maximumSegments = 10;
+
 	/** @type {JSVector[]} */
 	this.segments = segments ?? [location.copy()];
+
 	/** @type {number} */
-	this.speed = 15;
+	this.speed = speed;
+
 	/** @type {number} */
-	this.maximumSegments = 20;
+	this.timeSinceGrown = 0; // measured in frames
+
+	/** @type {number} */
+	this.reproductionCoolDown = 30; // measured in frames
     }
 
     /**
@@ -83,6 +98,12 @@ class Virus extends Creature {
 	const dx = this.vel.copy();
 	dx.multiply(dt);
 	this.segments[0].add(dx);
+
+	for (const vec of this.segments) {
+	    if (isNaN(vec.x) || isNaN(vec.y)) {
+		throw new Error(`$vec has NaN components`);
+	    }
+	}
     }
 
     /**
@@ -91,17 +112,17 @@ class Virus extends Creature {
     checkEdges() {
 	if (this.segments[0].x + this.radius  >= this.wrld.dims.width / 2) {
 	    this.vel.x *= -1;
-	    this.segments[0].x = this.wrld.dims.width / 2;
+	    this.segments[0].x = this.wrld.dims.width / 2 - this.radius;
 	} else if (this.segments[0].x - this.radius <= -this.wrld.dims.width / 2) {
 	    this.vel.x *= -1;
-	    this.segments[0].x = -this.wrld.dims.width / 2;
+	    this.segments[0].x = -this.wrld.dims.width / 2 + this.radius;
 	}
 	if (this.segments[0].y + this.radius >= this.wrld.dims.height / 2) {
 	    this.vel.y *= -1;
-	    this.segments[0].y = this.wrld.dims.height / 2;
+	    this.segments[0].y = this.wrld.dims.height / 2 - this.radius;
 	} else if (this.segments[0].y - this.radius <= -this.wrld.dims.height / 2) {
 	    this.vel.y *= -1;
-	    this.segments[0].y = -this.wrld.dims.height / 2;
+	    this.segments[0].y = -this.wrld.dims.height / 2 + this.radius;
 	}
     }
 
@@ -129,27 +150,30 @@ class Virus extends Creature {
     reproduce() {
 	for (const creatureType in this.wrld.creatures) {
 	    for (const creature of this.wrld.creatures[creatureType]) {
-		// Grow the virus
-		let dist = this.loc.distance(creature.loc);
-		if (dist < creature.size) {
+		if (this.loc.distance(creature.loc) > creature.size ||
+		    this.timeSinceGrown < this.reproductionCoolDown) {
+		    ++this.timeSinceGrown;
+		    continue;
+		}
+		if (this.segments.length < this.maximumSegments) {
 		    this.segments.push(
 			this.segments[this.segments.length - 1].copy());
+		    this.timeSinceGrown = 0;
+		    continue;
 		}
-		// Split the virus
-		if (this.segments.length >= this.maximumSegments) {
-		    const newSegments = this.segments.slice(10);
-		    const newVel = this.vel.copy();
-		    const da = Math.PI / 2 * (Math.random() - 0.5);
-		    newVel.setDirection(
-			newVel.getDirection() + da);
-		    this.wrld.viruses.push(new Virus(
-			new JSVector(),
-			newVel,
-			this.radius,
-			this.wrld,
-			newSegments));
-		    this.segments.splice(10);
+		const newSegments = [];
+		while (this.segments.length > this.maximumSegments / 2) {
+		    newSegments.push(
+			this.segments.splice(this.maximumSegments / 2, 1)[0]);
 		}
+		// TODO: Mutations
+		this.wrld.viruses.push(new Virus(
+		    new JSVector(),
+		    this.speed,
+		    this.radius,
+		    this.wrld,
+		    newSegments));
+		this.timeSinceGrown = 0;
 	    }
 	}
     }
