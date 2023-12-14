@@ -14,9 +14,10 @@ class Herb6FlockLYT extends Creature {
         this.maxForce = 3.5;
         this.maxSpeed = 1.5;
         this.maxLifeSpan = this.dataBlock.lifeSpan;
-        this.desiredSep = 25;
+        this.desiredSep = 8;
         this.clr = this.getRandomColor();
         this.count;
+        this.numClose = 0;
     }
 
 
@@ -24,10 +25,39 @@ class Herb6FlockLYT extends Creature {
     run() {
         this.update();
         this.render();
-        this.flock(world.creatures.herb6);
+        this.flock(world.creatures.herb6LYT);
         this.checkEdges();
+        this.bigFish();
     }
-    checkEdges() {//idk the creature checkEdges does not work very well
+
+
+    bigFish() {
+        let h4 = world.creatures.herb6LYT;
+        this.numClose = 0;
+        for (let i = 0; i < h4.length; i++) {
+            let dist = this.loc.distance(h4[i].loc);
+
+            if (dist < 75) {
+                this.numClose++;
+
+                if (this.numClose > 4) {
+                    let ctx = this.ctx;
+                    ctx.save();
+                    ctx.translate(this.loc.x, this.loc.y)
+                    ctx.strokeStyle = "rgba(255,0,0,0.1)";//overlapping causes this to be a lot thicker
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 75, 0, Math.PI*2, false);
+
+                    ctx.closePath();
+                    ctx.stroke();
+
+                    ctx.restore();
+                }
+            }
+        }
+       
+    }
+    checkEdges() {//this does not work
 
         if (this.loc.x >= this.wrld.dims.width / 2 || this.loc.x <= -this.wrld.dims.width / 2) {
             this.vel.x *= -1;
@@ -45,9 +75,9 @@ class Herb6FlockLYT extends Creature {
         let sep = this.separate(l);
         let ali = this.align(l);
         let coh = this.cohesion(l);
-        sep.multiply(3);
-        ali.multiply(5);
-        coh.multiply(3);
+        sep.multiply(6);
+        ali.multiply(8);
+        coh.multiply(4);
         //  add each of these to flockForce
         flockForce.add(sep);
         flockForce.add(ali);
@@ -71,6 +101,7 @@ class Herb6FlockLYT extends Creature {
 
         ctx.fillStyle = this.clr;
         ctx.beginPath();
+        
 
 
 
@@ -100,10 +131,10 @@ class Herb6FlockLYT extends Creature {
         let sum = new JSVector(0, 0);
         for (let i = 0; i < l.length; i++) {
             let d = this.loc.distance(l[i].loc);
-            if (d < 2 && d > 0) {//really stupid way of fixxing a bug
-                this.loc.x = Math.random() * world.dims.width;
-                this.loc.y = Math.random() * world.dims.height;
-            }
+            // if (d < 2 && d > 0) {//really stupid way of fixxing a bug
+            //     this.loc.x = Math.random() * world.dims.width;
+            //     this.loc.y = Math.random() * world.dims.height;
+            // }
             if (d > 0 && d < this.desiredSep) {
                 let diff = JSVector.subGetNew(this.loc, l[i].loc);
 
@@ -126,7 +157,7 @@ class Herb6FlockLYT extends Creature {
 
     align(l) {
         let count = 0;
-        let neighbordist = 70;
+        let neighbordist = 50;
         let sum = new JSVector(0, 0);
         let steer = new JSVector(0, 0);
         for (let i = 0; i < l.length; i++) {
