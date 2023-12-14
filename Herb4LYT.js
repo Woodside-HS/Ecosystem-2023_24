@@ -7,7 +7,7 @@ class Herb4LYT extends Creature {
         this.wrld = wrld;
         this.acc = new JSVector(0, 0);
         this.sz = sz;
-        this.cc = false; //why is this named cc (connected couple) I have no idea
+        this.cc = false; //why is this named cc
         this.eyeHeight = this.sz * 0.8;
         this.seyeHeight = this.eyeHeight;
         this.ssz = this.sz;
@@ -18,11 +18,10 @@ class Herb4LYT extends Creature {
         this.count = 0;
         this.gUP = true;//dumb way but only way I can think of 
         this.eUP = true;
-        this.cUP = [];
-        this.jumpDistance = 200;
-        this.dataBlock.lifeSpan = 12000;
+        this.jumpDistance = 200;//this just states how long it takes to get from bottom-top-bottom
+        this.dataBlock.lifeSpan = 8000;
         this.dataBlock.health;
-        this.dataBlock.isDead;
+        this.dataBlock.isDead = false;//do you even need to declare this as false?
         this.maxLifeSpan = this.dataBlock.lifeSpan;
 
 
@@ -40,44 +39,60 @@ class Herb4LYT extends Creature {
     seekOthers() {
 
         if (this.dataBlock.health > 70) {
-            if (!this.cc) {
-                let dd = 40;
-                let h4 = world.creatures.herb4;
-                for (let i = 0; i < h4.length; i++) {
 
+            let dd = 120;
+            let h4 = world.creatures.herb4;
+            for (let i = 0; i < h4.length; i++) {
+                if (!this.cc && !h4[i].cc) {
                     let oo = h4[i];
                     if (this != oo) {
                         let dist = this.loc.distance(oo.loc);
                         if (dd > dist) {
                             let ee = JSVector.subGetNew(oo.loc, this.loc);
                             ee.normalize();
-                            ee.multiply(0.06)
+                            ee.multiply(0.20)
                             this.vel.add(ee);
                             this.vel.limit(1.5);
-                            if (dist < 20) {//this number is giving me annoyance
+                            if (dist < 25) {//this number is giving me annoyance
 
-                                this.vel = new JSVector(0, 0);
+
 
                                 let h4 = world.creatures.herb4;
-                                 let x = Math.random() * world.dims.width - world.dims.width / 2;
-                                 let y = Math.random() * world.dims.height - world.dims.height / 2;
-                               // let x = this.loc.x;
-                               // let y = this.loc.y;
+
+                                //  let x = Math.random() * world.dims.width - world.dims.width / 2;
+                                //  let y = Math.random() * world.dims.height - world.dims.height / 2;
+                                let x = this.loc.x;
+                                let y = this.loc.y;
                                 let dx = Math.random() * 4 - 2;
                                 let dy = Math.random() * 4 - 2;
-                             
 
-                                if (h4.length < 100) {
-                                    h4.push(new Herb4LYT(new JSVector(x, y), new JSVector(dx, dy), this.sz, this.wrld));
-                                    
-                                  
-                                }
                                 this.cc = true;
-                                setTimeout(() => {
-                                    this.vel.x = Math.random() * 2 - 1;
-                                    this.vel.y = Math.random() * 2 - 1;
-                                  }, "10000");
-                              
+                                h4[i].cc = true;
+                                if (h4.length < 1000) {
+                                    this.vel = new JSVector(0, 0);
+                                    h4[i].vel = new JSVector(0, 0);
+
+                                    setTimeout(() => {//idk I found this
+                                        //bascially just waits x/1000 seconds thens runs the code
+                                        h4.push(new Herb4LYT(new JSVector(x, y), new JSVector(dx, dy), this.sz, this.wrld));
+                                        let mature = h4[h4.length - 1];
+                                        this.vel.x = Math.random() * 2 - 1;
+                                        this.vel.y = Math.random() * 2 - 1;
+                                      
+                                        h4[i].vel.x = Math.random() * 2 - 1;//ditto with the bottom comment this will not work if 
+                                        //this parent dies in in this 2500 milisecond window
+                                        h4[i].vel.y = Math.random() * 2 - 1;
+                                        h4[h4.length - 1].cc = true;
+
+                                        setTimeout(() => {//my brains hurting rn the logic this uses is incorrect
+
+                                            mature.cc = false;
+                                        }, "2000");
+                                    }, "2500");//time in miliseconds
+
+
+
+
                                 }
                             }
                         }
@@ -85,7 +100,8 @@ class Herb4LYT extends Creature {
                 }
             }
         }
-    
+    }
+
 
 
     seekFoods() {
@@ -93,7 +109,7 @@ class Herb4LYT extends Creature {
         if (this.dataBlock.health < 70) {
             let f4 = world.creatures.food4;
             for (let i = 0; i < f4.length; i++) {
-                let oo = f4[i]
+                let oo = f4[i];
                 let dist = this.loc.dist(oo.loc);
                 if (dd < dist) {
                     let ee = JSVector.subGetNew(oo.loc);
@@ -103,8 +119,8 @@ class Herb4LYT extends Creature {
                     this.vel.limit(1.5);
                     if (dist < 20) {
                         this.vel = new JSVector(0, 0);
-                            this.vel.x = Math.random() * 2 - 1;
-                            this.vel.y = Math.random() * 2 - 1;
+                        this.vel.x = Math.random() * 2 - 1;
+                        this.vel.y = Math.random() * 2 - 1;
 
 
                     }
@@ -135,7 +151,7 @@ class Herb4LYT extends Creature {
 
 
 
-        //  this.sz *= (this.dataBlock.health/100);
+        this.sz *= (this.dataBlock.health / 100);
         //ill attempt to get with to work but so far this is going to be very annoying 
         ctx.moveTo(-this.sz * 2, 0, this.sz, Math.PI * 2, 0, false);
         ctx.ellipse(-this.sz * 2, 0, this.sz * 1.2, this.sz / 1.5, -Math.PI * 0.75, 0, Math.PI * 2)
@@ -208,7 +224,7 @@ class Herb4LYT extends Creature {
         ctx.fill();
 
         ctx.restore();
-
+        this.sz *= (100 / this.dataBlock.health)
     }
     update() {
 

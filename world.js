@@ -120,14 +120,14 @@ class World {
 
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 80; i++) {
       let x = (Math.random() * this.dims.width)-this.dims.width/2;
       let y = (Math.random() * this.dims.height) -this.dims.height/2;
       let loc = new JSVector(x, y);
       let dx = Math.random() * 2 - 1;
       let dy = Math.random() * 2 - 1;
       let vel = new JSVector(dx, dy);
-      let sz = Math.floor(Math.random()*5 + 3);
+      let sz = Math.floor(Math.random()*4 + 4);
       this.creatures.herb4.push(new Herb4LYT(loc, vel, sz, this));
 
     }
@@ -138,8 +138,8 @@ class World {
     let c = this.creatures;
     for (let i = 0; i < c.herb4.length; i++) {
       c.herb4[i].run();
-        if (c.herb4[i].isDead === true) {
-          c.herb4.splice(i, 1)
+        if (c.herb4[i].dataBlock.isDead === true) {
+          c.herb4.splice(i, 1);
         }
     }
    
