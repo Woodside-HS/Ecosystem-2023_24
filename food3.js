@@ -13,6 +13,8 @@ class Food3 extends Food {
         this.acc = new JSVector(0, 0.2)
         this.vel = vel
         this.lifeSpan = 200
+
+        this.healthValue = 200  
     }
 
     run(){

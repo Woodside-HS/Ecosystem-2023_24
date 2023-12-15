@@ -2,7 +2,7 @@ function PartSysF3(x, y, world){
     this.world = world
     this.loc = new JSVector(x, y)
     this.locPart = new JSVector(x+1, y+1)
-    this.locPartVel = new JSVector(3, 0)
+    this.locPartVel = new JSVector(3, 3)
     this.foods = []
     this.lifespan = 300
     this.i = 0
@@ -57,7 +57,7 @@ PartSysF3.prototype.update = function(){
 
     // console.log(this.foods)
 
-    console.log(this.locPart.x )
+    console.log(this.locPart.y )
 
     this.locPart.add(this.locPartVel)
 
@@ -65,7 +65,7 @@ PartSysF3.prototype.update = function(){
     ctx.strokeStyle = "rgba(255, 0, 0, 55)"
     ctx.fillStyle = "rgba(255, 0, 0, 55)"
     ctx.beginPath();
-    ctx.arc(this.locPart.x, this.locPart.y, 20, Math.PI * 2, 0, false);
+    ctx.arc(this.locPart.x, this.locPart.y, 0.2, Math.PI * 2, 0, false);
     ctx.stroke();
     ctx.fill() 
 
@@ -85,12 +85,20 @@ PartSysF3.prototype.update = function(){
 
 PartSysF3.prototype.checkEdges = function(){
 
-    if(this.locPart.x > 800 && this.locPartVel.x > 0){
-        console.log("BREACHED")
-        this.locPartVel.x *= -1
-    } else if(this.locPart.x < 0 && this.locPartVel.x < 0){
-        this.locPartVel.x = 1
+    let newxVel = Math.abs(Math.random() * 2.5 -1)
+    let newyVel = Math.abs(Math.random() * 2.5 -1)
 
+    if(this.locPart.x > 800 && this.locPartVel.x > 0){
+        // console.log("BREACHED")
+        this.locPartVel.x *= -1 * newxVel
+    } else if(this.locPart.x < 0 && this.locPartVel.x < 0){
+        this.locPartVel.x *= -1 * newxVel
+    } else if(this.locPart.y > 600 && this.locPart.y > 0){
+        this.locPart.y = 599
+        this.locPartVel.y *= -1 * newyVel
+        // console.log("BREACHED")
+    } else if(this.locPart.y < 0 && this.locPartVel.y < 0){
+        this.locPartVel.y *= -1 * newyVel
     }
 
     
