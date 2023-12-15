@@ -32,6 +32,7 @@ class World {
       }
     }
 
+
     this.entities = [];
     this.foodItems = [];
 
@@ -57,7 +58,7 @@ class World {
       food4: [],
       food5: [],
     };
-
+    this.loadherb4LYT(80);
     // performance -- change the number of entities to see the effect on framerate
     this.numEntities = 50;
     this.loadEntities(
@@ -88,6 +89,7 @@ class World {
     //  move the main canvas inside of the world
     this.ctxMain.translate(-this.cnvMainLoc.x, -this.cnvMainLoc.y);
     this.runCreatures();
+    this.runherb4LYT();
     this.runFood();
     this.ctxMain.restore();
 
@@ -120,7 +122,12 @@ class World {
 
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
-    for (let i = 0; i < 80; i++) {
+   
+    
+  }
+
+  loadherb4LYT(n){
+    for (let i = 0; i < n; i++) {
       let x = (Math.random() * this.dims.width)-this.dims.width/2;
       let y = (Math.random() * this.dims.height) -this.dims.height/2;
       let loc = new JSVector(x, y);
@@ -131,10 +138,8 @@ class World {
       this.creatures.herb4LYT.push(new Herb4LYT(loc, vel, sz, this));
 
     }
-    
   }
-
-  runCreatures() {
+  runherb4LYT(){
     let c = this.creatures;
     for (let i = 0; i < c.herb4LYT.length; i++) {
       c.herb4LYT[i].run();
@@ -142,6 +147,10 @@ class World {
           c.herb4LYT.splice(i, 1);
         }
     }
+  }
+
+  runCreatures() {
+    
    
 
     

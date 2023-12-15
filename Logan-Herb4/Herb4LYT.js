@@ -64,8 +64,8 @@ class Herb4LYT extends Creature {
                                 //  let y = Math.random() * world.dims.height - world.dims.height / 2;
                                 let x = this.loc.x;
                                 let y = this.loc.y;
-                                let dx = Math.random() * 4 - 2;
-                                let dy = Math.random() * 4 - 2;
+                                let dx = Math.random() * 2 - 1;
+                                let dy = Math.random() * 2 - 1;
 
                                 this.cc = true;
                                 h4[i].cc = true;
@@ -260,7 +260,7 @@ class Herb4LYT extends Creature {
     }
     life() {//would just putting this in update be better? 
         if (this.dataBlock.lifeSpan >= 0) {
-            this.dataBlock.lifeSpan -= 1;//Prob would be better at -1.5 
+            this.dataBlock.lifeSpan -= 0.5;//Prob would be better at -1.5 
 
         }
         if (this.dataBlock.lifeSpan <= 2000) {
