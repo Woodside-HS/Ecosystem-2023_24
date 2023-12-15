@@ -1,4 +1,4 @@
-class Plant4 {
+class Plant4YBR {
     constructor(world, x, y) {
         this.wrld = world;
         this.ctx = this.wrld.ctxMain;
@@ -71,7 +71,7 @@ class Plant4 {
                         if (dist <= 100) {
                             this.pollenCount++;
                             if (this.pollenCount === 10) {
-                                this.wrld.foods.food4.push(new Plant4(this.wrld, this.foods4[i].loc.x, this.foods4[k].loc.y));
+                                this.wrld.foods.food4.push(new Plant4YBR(this.wrld, this.foods4[i].loc.x, this.foods4[k].loc.y));
                             }
                         }
                     }
@@ -85,7 +85,7 @@ class Plant4 {
             let ranNum = Math.random() * (15 - 1) + 1
             let vel = new JSVector(Math.random() * 6 - 3, Math.random() * 6 - 3);
             let r = 10;
-            this.foods4.push(new Food4(this.loc, vel, r, this.wrld, ranNum));
+            this.foods4.push(new Food4YBR(this.loc, vel, r, this.wrld, ranNum));
         }
     }
 

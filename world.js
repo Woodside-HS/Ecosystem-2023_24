@@ -147,7 +147,7 @@ class World {
       let x = Math.random() * (1920 - (-1920)) + (-1920);
       let y = Math.random() * (1420 - (-1420)) + (-1420);
 
-      this.foods.food4.push(new Plant4(this, x, y))
+      this.foods.food4.push(new Plant4YBR(this, x, y))
     }
   }
 

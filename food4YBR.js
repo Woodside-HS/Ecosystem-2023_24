@@ -1,6 +1,6 @@
 //Yoyo food
 
-class Food4 extends Food { //THESE ARE THE PARTCLES THAT ARE SHOT OUT. NOT THE ACTUAL SYSTEM
+class Food4YBR extends Food { //THESE ARE THE PARTCLES THAT ARE SHOT OUT. NOT THE ACTUAL SYSTEM
     constructor(loc, vel, sz, wrld, ranNum) {
         super(loc, vel, sz, wrld)
         this.loc = new JSVector(loc.x, loc.y);
