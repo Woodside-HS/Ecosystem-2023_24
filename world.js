@@ -51,7 +51,6 @@ class World {
       food3: [],
       food4: [],
       food5: [],
-
     };
 
     // load all foods (currently only Food4)
