@@ -1,7 +1,7 @@
 class Pred5KGF extends Creature{
     constructor(loc, vel, sz, wrld){
         super(loc, vel, sz, wrld);
-        this.target = new JSVector(Math.random()*600, Math.random()*600) // change to world dimensions
+        this.target = new JSVector(Math.random()*wrld.dims.width, Math.random()*wrld.dims.height) // change to world dimensions
         this.arr=[];
         this.a=Math.random();
         this.dis = true;
@@ -28,11 +28,12 @@ class Pred5KGF extends Creature{
         ctx.beginPath();
         ctx.fillStyle = this.clr;
         ctx.translate(this.loc.x, this.loc.y);
-        ctx.rotate(this.vel.getDirection);
+        ctx.rotate(this.vel.getDirection());
         ctx.moveTo(0, 0);
         ctx.lineTo(0, 10);
         ctx.closePath();
         ctx.stroke();
+        ctx.restore();
         //ctx.fill();
         //  render balls in mini map
      }
@@ -62,6 +63,7 @@ class Pred5KGF extends Creature{
             this.arr[i].loc.add(this.arr[i].vel);
                 
         }
+        //expand and collapse length
           if(this.a>.99){
             this.dis = true;
           }
@@ -69,10 +71,10 @@ class Pred5KGF extends Creature{
             this.dis = false;
           }
           if(this.dis == true){
-            this.a-=0.0006;
+            this.a-=0.0003;
           }
           if(this.dis == false){
-            this.a+=0.0003;
+            this.a+=0.0006;
           }
               
      }
