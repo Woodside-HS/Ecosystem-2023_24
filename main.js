@@ -13,7 +13,9 @@ function init(){
 function animate(){
   world.run();
   world.creatures.pred2[0].run();
-  world.creatures.pred3[0].run();
+  if(world.creatures.pred3[0] != null){
+    world.creatures.pred3[0].run();
+  }
   requestAnimationFrame(animate);
 }
 

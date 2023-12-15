@@ -2,13 +2,13 @@ class predDosC extends Creature {
    constructor(loc, vel, segments, sz, wrld) {
       super(loc, vel, sz, wrld);
       //snake arms 
-      this.Sacc = [[], [], [], []];
+      this.Sacc = [[], [], [], []];//start with zero acceleration 
       for(let ii = 0; ii<4; ii++){
          for (let i = 0; i <= segments - 1; i++) {
             this.Sacc[ii][i] = new JSVector(0, 0);
          }
       }
-      this.Svel = [[], [], [], []];
+      this.Svel = [[], [], [], []];//start with velocities pointing outward 
       for(let ii = 0; ii<4; ii++){
          for (let i = 0; i <= segments - 1; i++) {
             if(ii === 0){//top left
@@ -27,12 +27,22 @@ class predDosC extends Creature {
          }
       }
       this.segments = [[], [], [], []];//each segment has a vector 
-      for(let l = 0; l<4; l++){
+      for(let ii = 0; ii<4; ii++){
          for (let i = 0; i <= segments; i++) {
-            this.segments[l][i] = this.loc.copy();
+            if(ii === 0){
+               this.segments[ii][i] = this.loc.copy();
+            }
+            if(ii === 1){
+               this.segments[ii][i] = new JSVector(this.loc.x, this.loc.y+this.predLength);
+            }
+            if(ii === 2){
+               this.segments[ii][i] = new JSVector(this.loc.x+this.predWidth, this.loc.y+this.predLength);
+            }
+            if(ii === 3){
+               this.segments[ii][i] = new JSVector(this.loc.x+this.predWidth, this.loc.y);
+            }
          }
       }
-      console.log(this.segments);
       this.baseDis = 15;
       //colors
       this.addr = true;
@@ -47,7 +57,10 @@ class predDosC extends Creature {
       this.searchFood = false;
       this.lifeSpan = 0;
       this.preyIndex;
+      this.eat = false;
       this.antibodies = false;
+      this.predWidth = 100;
+      this.predLength = 100;
    }
 
    run() {
@@ -74,10 +87,14 @@ class predDosC extends Creature {
          this.Svel[0][0].limit(1);
          this.segments[0][0] = JSVector.addGetNew(this.segments[0][0], this.Svel[0][0]);
          //move prey with head 
-         world.creatures.pred3[this.preyIndex].loc = this.segments[0][0];
+         if(!this.eat){
+            world.creatures.pred3[this.preyIndex].loc = this.segments[0][0];
+         }
          //check if prey is at creature 
-         if()
-         world.creatures.pred3.splice(this.preyIndex, this.preyIndex+1);
+         if(!this.eat && world.creatures.pred3[this.preyIndex].loc.distance(this.loc)<15){
+            world.creatures.pred3.splice(this.preyIndex, this.preyIndex+1);
+            this.eat = true;
+         }  
          //if the head segment is back at the creature, it removes it from the array 
          if (this.segments[0][0].distance(this.segments[0][this.segments[0].length - 1]) < 10 && this.segments[0][0] !== null) {
             this.Svel[0].splice(0, 1);
@@ -191,10 +208,9 @@ class predDosC extends Creature {
       //body round rectangle 
       this.ctx.fillStyle = "rgba(" + this.r + ", " + this.g + ", " + this.b + ", " + this.a + ")";
       this.ctx.beginPath();
-      this.ctx.roundRect(this.loc.x, this.loc.y, 100, 100, 10);//x loc, y loc, width, height, radius for roundness 
+      this.ctx.roundRect(this.loc.x, this.loc.y, this.predWidth, this.predLength, 10);//x loc, y loc, width, height, radius for roundness 
       this.ctx.fill();
       //snake arms 
-     // console.log(this.segments);
       if (this.segments[0][0] !== null) {
          for (let i = 0; i < this.segments[0].length - 2; i++) {//draw sections of snake 
             this.ctx.beginPath();
