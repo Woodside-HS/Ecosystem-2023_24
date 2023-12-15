@@ -54,10 +54,10 @@ class World {
     };
 
     // load all foods (currently only Food4)
-    this.loadFood4(30);
+    // this.loadFood4YBR(30);
 
     // load all herbivores (Currently only herb4)
-    this.loadHerb4(50)
+    this.loadHerb4YBR(500)
 
     // performance -- change the number of entities to see the effect on framerate
     this.numEntities = 50;
@@ -122,7 +122,7 @@ class World {
     //++++++++++++++++++++++++++++  load entities
   }
 
-  loadHerb4(n) { // load all herbivores type 4 
+  loadHerb4YBR(n) { // load all herbivores type 4 
     let vel = new JSVector(Math.random() * 6 - 3, Math.random() * 6 - 3);
     let sz = 40;
     for(let i = 0; i < n; i++){
@@ -141,7 +141,7 @@ class World {
     }
   }
 
-  loadFood4(n) { // loads the initial amounts of food 4 particle systems
+  loadFood4YBR(n) { // loads the initial amounts of food 4 particle systems
     for (let i = 0; i < n; i++) {
       let x = Math.random() * (1920 - (-1920)) + (-1920);
       let y = Math.random() * (1420 - (-1420)) + (-1420);

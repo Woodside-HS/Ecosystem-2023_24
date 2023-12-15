@@ -6,6 +6,7 @@ class Herb4 extends Creature {
         this.sz = 10;
         this.wrld = world;
         this.hunted = false;
+        this.desiredSep = 30;
         this.scl = 10;
         this.clr = "rgba(244, 255, 43,.8)"
 
@@ -54,6 +55,10 @@ class Herb4 extends Creature {
         let sep = this.separate(herbivores);
         let ali = this.align(herbivores);
         let coh = this.cohesion(herbivores);
+
+        sep.multiply(5);
+        ali.multiply(6);
+        coh.multiply(5);
 
         //  add each of these to flockForce
         flockForce.add(sep);
