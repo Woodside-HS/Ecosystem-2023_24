@@ -150,17 +150,24 @@ class Virus extends Creature {
     reproduce() {
 	for (const creatureType in this.wrld.creatures) {
 	    for (const creature of this.wrld.creatures[creatureType]) {
+		// Wait to reproduce (after timeout or because it's not touching
+		// a creature
 		if (this.loc.distance(creature.loc) > creature.size ||
-		    this.timeSinceGrown < this.reproductionCoolDown) {
+		    this.timeSinceGrown < this.reproductionCoolDown ||
+		    creature.antibodies) {
 		    ++this.timeSinceGrown;
 		    continue;
 		}
+		// Grow the virus
 		if (this.segments.length < this.maximumSegments) {
 		    this.segments.push(
 			this.segments[this.segments.length - 1].copy());
 		    this.timeSinceGrown = 0;
+		    creature.dataBlock.lifeSpan -= 5;
+		    creature.dataBlock.health -= 0.1;
 		    continue;
 		}
+		// Split it
 		const newSegments = [];
 		while (this.segments.length > this.maximumSegments / 2) {
 		    newSegments.push(
