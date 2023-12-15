@@ -79,9 +79,9 @@ class Herb4LYT extends Creature {
                                         this.vel.x = Math.random() * 2 - 1;
                                         this.vel.y = Math.random() * 2 - 1;
                                       
-                                        h4[i].vel.x = Math.random() * 2 - 1;//ditto with the bottom comment this will not work if 
+                                      //  h4[i].vel.x = Math.random() * 2 - 1;//ditto with the bottom comment this will not work if 
                                         //this parent dies in in this 2500 milisecond window
-                                        h4[i].vel.y = Math.random() * 2 - 1;
+                                       // h4[i].vel.y = Math.random() * 2 - 1;
                                         h4[h4.length - 1].cc = true;
 
                                         setTimeout(() => {//my brains hurting rn the logic this uses is incorrect
