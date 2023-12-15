@@ -1,3 +1,4 @@
+// Bryan Calder
 class Herb3BJC extends Creature {
     constructor(loc, vel, sz, wrld){
         super(loc, vel, sz, wrld);
@@ -9,6 +10,7 @@ class Herb3BJC extends Creature {
     //    this.poisonDarts = [];
        this.col = this.getRandomColor();
         this.colorState = false; //false = normal color, true = invisible for defense 
+        this.antibodies = false;
     }
 
     run(){
@@ -46,6 +48,7 @@ class Herb3BJC extends Creature {
     }
 
     update(){
+
         if(this.dataBlock.lifeSpan-- <= 0){
             this.dataBlock.isDead = true;
          }
@@ -54,22 +57,37 @@ class Herb3BJC extends Creature {
          this.loc.add(this.vel);
 
     //if close to pred
-        //this.loadDarts(direction); //shoot out poison darts to pred
-        //this.colorState = true; //turn invisible
-
-    //if need food
-       //this.seekFood(index);
-
-    //if need to reproduce
-      //this.seekOthers(index);
-
+    for(let i = 0; i < world.creatures.pred1.length; i++){
+        let dist = this.loc.dist(world.creatures.pred1[i].loc);
+        let direction = world.creatures.pred1[i].getDirection();
+        if(dist <= 200){
+        this.loadDarts(direction); //shoot out poison darts to pred
+        this.colorState = true; //turn invisible
+        }
     }
 
-    seekFood(i){
+    for(let i = 0; i < world.creatures.pred2.length; i++){
+        let dist = this.loc.dist(world.creatures.pred2[i].loc);
+        let direction = world.creatures.pred2[i].getDirection();
+        if(dist <= 200){
+            this.loadDarts(direction); 
+            this.colorState = true; 
+            }
+    }
 
-     }
+    for(let i = 0; i < world.creatures.pred3.length; i++){
+        let dist = this.loc.dist(world.creatures.pred3[i].loc);
+        let direction = world.creatures.pred3[i].getDirection();
+        if(dist <= 200){
+            this.loadDarts(direction);
+            this.colorState = true;
+            }
+    }
 
-    seekOthers(i){
+    //if need food
+        //if eat yoyo's food, antibodies = true
+
+    //if need to reproduce
 
     }
 

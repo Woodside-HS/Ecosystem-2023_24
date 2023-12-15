@@ -1,3 +1,4 @@
+// Bryan Calder
 class PoisonDartsBJC {
     constructor(parent, dartCol, acc, vel, diam){
         this.loc = parent.loc.copy();
