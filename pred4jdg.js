@@ -81,7 +81,7 @@ class Pred4jdg extends Creature {
     
         steer.limit(this.maxForce);
     
-        this.applyForce(steer);
+       return(steer);
     }
     
 
