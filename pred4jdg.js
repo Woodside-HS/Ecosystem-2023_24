@@ -52,10 +52,12 @@ class Pred4jdg extends Creature {
         this.render();
 
         let d = this.loc.distance(this.closestTarget());
-              if ((d > 0) && (d < 50000)) {
+              if ((d > 10) && (d < 50000)) {
                 this.flock(this.wrld.creatures.pred4);
-              //  console.log("Flocking");
+                //console.log("Flocking");
          
+              }else{
+               // console.log("Here");
               }
         
         //if(this.closestTarget() );
@@ -69,38 +71,41 @@ class Pred4jdg extends Creature {
         this.vel.add(this.acc);
         this.vel.limit(this.maxSpeed);
         this.loc.add(this.vel);
-
     }
+    
     seek(target) {
         let desired = JSVector.subGetNew(target, this.loc);
         desired.normalize();
         desired.multiply(this.maxSpeed);
-        let steer = new JSVector.subGetNew(desired, this.vel);
-
-        steer.limit(this.maxSpeed);
-
+        let steer = JSVector.subGetNew(desired, this.vel);
+    
+        steer.limit(this.maxForce);
+    
         this.applyForce(steer);
     }
+    
 
     applyForce(force) {
         this.acc.add(force);
     }
     arrive(target) {
-        let desired = JSVector.subGetNew(target,this.loc);
-     
+        let desired = JSVector.subGetNew(target, this.loc);
         let d = desired.getMagnitude();
         desired.normalize();
+    
         if (d < 100) {
-          let m = map(d,0,100,0,maxspeed);
-          desired.mult(m);
+            let m = map(d, 0, 100, 0, this.maxSpeed);
+            desired.mult(m);
         } else {
-          desired.mult(maxspeed);
+            desired.mult(this.maxSpeed);
         }
-     
-        let steer = JSVector.subGetNew(desired,this.vel);
+    
+        let steer = JSVector.subGetNew(desired, this.vel);
         steer.limit(this.maxForce);
-        this.Force(steer);
-      }
+    
+        this.applyForce(steer);
+    }
+    
 
 
     flock(array) {
@@ -152,50 +157,47 @@ class Pred4jdg extends Creature {
             }
          
           }
+    align (array) {
+                let neighbordist = 50;
+                let sum = new JSVector(0,0);
+                let count = 0;
+                for (let i = 0; i < array.length; i++) {
+                  let d = this.loc.distance(array[i].loc);
+                  if ((d > 0) && (d < neighbordist)) {
+                    sum.add(array[i].vel);
+                    count++;
+                  }
+                }
+                if (count > 0) {
+                  sum.divide(count);
+                  sum.normalize();
+                  sum.multiply(this.maxspeed);
+                  let steer = JSVector.subGetNew(sum, this.vel);
+                  steer.limit(this.maxforce);
+                  return steer;
+                } else {
+                  return new JSVector(0,0);
+                }
+              }
 
-    align(array) {
-        let sum = new JSVector(0, 0);
-        let count = 0;
-        for (let i = 0; i < array.length; i++) {
-            let distance = this.loc.distance(array[i].loc);
-            if (distance > 0 && distance < 50) {
-                sum.add(array[i].vel);
-                count++;
-            }
-        }
-        if (count > 0) {
-            sum.divide(count);
-            sum.normalize();
-        }
-        //console.log("aligning!");
-        return sum;
-    }
-
-    cohesion(array) {
-        let seekVector = new JSVector(0, 0);
-        let count = 0;
-        let dir = new JSVector();
-        for (let i = 0; i < array.length; i++) {
-            let distance = this.loc.distance(array[i].loc);
-            if (distance > 0 && distance < 50) {
-                let oppVector = JSVector.subGetNew(array[i].loc, this.loc);
-                oppVector.normalize();
-                oppVector.divide(distance);
-
-                seekVector.add(oppVector);
-                count++;
-            }
-        }  
-        if (count > 0) {
-            seekVector.divide(count);
-            seekVector.normalize();
-            seekVector.multiply(this.maxSpeed);
-            dir = JSVector.subGetNew(seekVector, this.vel);
-            dir.limit(this.maxForce);
-        }
-        //console.log("cohesioning!");
-        return dir;
-    }
+            cohesion (array) {
+                let neighbordist = 50;
+                let sum = new JSVector(0,0);
+                let count = 0;
+                for (let i = 0; i < array.length; i++) {
+                  let d = this.loc.distance(array[i].loc);
+                  if ((d > 0) && (d < neighbordist)) {
+                    sum.add(array[i].loc);
+                    count++;
+                  }
+                }
+                if (count > 0) {
+                  sum.divide(count);
+                  return this.seek(sum);
+                } else {
+                  return new JSVector(0,0);
+                }
+              }
 
     hunt(target) {
         // A vector pointing from the location to the target
