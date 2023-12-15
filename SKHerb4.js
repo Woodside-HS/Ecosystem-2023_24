@@ -3,6 +3,7 @@ class SKHerb4 extends Creature {
   constructor(loc, vel, sz, wrld) {
     super(loc, vel, sz, wrld)
     this.loc = loc;
+    this.antibodies = false;
     this.vel = vel;
     this.acc = new JSVector(0, 0);
     this.sz = 8;
@@ -51,37 +52,37 @@ class SKHerb4 extends Creature {
     }
   }
 
-  bigfish(herbs){
+  bigfish(herbs) {
     this.flock(herbs);
     this.update();
     this.checkEdges()
     this.render();
   }
 
-  flock(herbs){
-     // flock force is the accumulation of all forces
-  let flockForce = new JSVector(0, 0);
-  // set up force vectors to be added to acc
-  let sep = this.separate(herbs);
-  let ali = this.align(herbs);
- let coh = this.cohesion(herbs);
-  //  set multiples via sliders 
-  this.maxForce = 5; 
-  let sepMult = .9; 
-  let aliMult = 1;  
-  let cohMult = 1;  
-  //  calculate three forces
- sep.multiply(sepMult);
-  ali.multiply(aliMult);
-  coh.multiply(cohMult);
-  //  add each of these to flockForce
- flockForce.add(sep);
-  flockForce.add(ali);
-  flockForce.add(coh);
-  this.acc.add(flockForce);
+  flock(herbs) {
+    // flock force is the accumulation of all forces
+    let flockForce = new JSVector(0, 0);
+    // set up force vectors to be added to acc
+    let sep = this.separate(herbs);
+    let ali = this.align(herbs);
+    let coh = this.cohesion(herbs);
+    //  set multiples via sliders 
+    this.maxForce = 5;
+    let sepMult = .9;
+    let aliMult = 1;
+    let cohMult = 1;
+    //  calculate three forces
+    sep.multiply(sepMult);
+    ali.multiply(aliMult);
+    coh.multiply(cohMult);
+    //  add each of these to flockForce
+    flockForce.add(sep);
+    flockForce.add(ali);
+    flockForce.add(coh);
+    this.acc.add(flockForce);
   }
 
-  seperate(h){
+  seperate(h) {
     let count = 0;
     let sep = new JSVector(0, 0);
     for (let i = 0; i < h.length; i++) {
@@ -90,7 +91,7 @@ class SKHerb4 extends Creature {
         let diff = JSVector.subGetNew(this.loc, h[i].loc);
         sep.add(diff);
         count++;
-  
+
       }
     }
     if (count > 0) {
@@ -101,47 +102,47 @@ class SKHerb4 extends Creature {
     return sep;
   }
 
-  align(h){
+  align(h) {
     let steer = new JSVector(0, 0);
-  let perceptionRadius = 50;
-  let total = 0;
-  for (let i = 0; i < h.length; i++) {
-    let d = this.loc.distance( h[i].loc);
-    if ((h[i] != this.loc) && (d < perceptionRadius)) {
-      steer.add(h[i].vel);
-      total++;
+    let perceptionRadius = 50;
+    let total = 0;
+    for (let i = 0; i < h.length; i++) {
+      let d = this.loc.distance(h[i].loc);
+      if ((h[i] != this.loc) && (d < perceptionRadius)) {
+        steer.add(h[i].vel);
+        total++;
+      }
     }
+    if (total > 0) {
+
+      steer.divide(total);
+      steer.normalize();
+      steer.multiply(this.maxForce)
+
+    }
+    return steer;
   }
-  if (total > 0) {
-    
-    steer.divide(total);
-    steer.normalize();
-    steer.multiply(this.maxForce)
-   
-  }
-  return steer;
-  }
-  cohesion(h){
+  cohesion(h) {
     let coh = new JSVector(0, 0);
     let neighborDist = 100;
     let count = 0;
-  
+
     for (let i = 0; i < h.length; i++) {
-      let d = this.loc.distance( h[i].loc);
+      let d = this.loc.distance(h[i].loc);
       if ((d > 0) && (d < neighborDist)) {
         coh.add(h[i].loc);
         count++;
       }
     }
-   
-      if (count > 0) {
-        coh.divide(count);
-        return this.seek(coh);
-      }
-      return new JSVector(0, 0);
+
+    if (count > 0) {
+      coh.divide(count);
+      return this.seek(coh);
+    }
+    return new JSVector(0, 0);
   }
 
-  seek(target){
+  seek(target) {
     let desired = JSVector.subGetNew(target, this.loc);
     desired.normalize();
     desired.multiply(this.maxSpeed);
