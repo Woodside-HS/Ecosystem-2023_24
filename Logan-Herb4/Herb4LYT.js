@@ -23,6 +23,7 @@ class Herb4LYT extends Creature {
         this.dataBlock.health;
         this.dataBlock.isDead = false;//do you even need to declare this as false?
         this.maxLifeSpan = this.dataBlock.lifeSpan;
+        this.antibodies = false;
 
 
     }
