@@ -115,10 +115,12 @@ class World {
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
     this.creatures.herb5=new Herb5(new JSVector(50,50),new JSVector(1,1),5,this,15);
+    this.foods.food1=new Food(new JSVector(200,200), new JSVector(0,0),20,this);
   }
   
   runCreatures() {
     this.creatures.herb5.run();
+    this.foods.food1.run();
   }
  
   runFood() {

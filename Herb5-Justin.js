@@ -1,6 +1,4 @@
 class Herb5 extends Creature{
-    //remember to make this a flock
-    //lets do something with this.spores
     constructor(loc,vel,sz,wrld,n){
         super (loc,vel,sz,wrld);
         this.loc = loc;
@@ -14,15 +12,20 @@ class Herb5 extends Creature{
         this.wHeight = wrld.dims.height;
         this.spores=[];
         this.loadSpores(n);
+        this.dataBlock.health=10000;
     }
-    run(){
-        for(let i=0;i<this.spores.length;i++){
-            this.spores[i].run();
+    run(){//runs array of spores and subtracts health
+        if(!this.isDead){
+            for(let i=0;i<this.spores.length;i++){
+                this.spores[i].run();
+            }
+            super.checkEdges();
+            this.render();
+            this.update();
         }
-        super.checkEdges();
-        this.render();
+
     }
-    loadSpores(n){
+    loadSpores(n){//load array of circles
         for(let i=0;i<n;i++){
             let dl=new JSVector(Math.random()*(5)-2,Math.random()*(5)-2);
             let dv=new JSVector(Math.random()*(3)-1,Math.random()*(3)-1);
@@ -31,7 +34,14 @@ class Herb5 extends Creature{
             this.spores.push(new Spore(l,v,this.size,this.wrld,this));
         }
     }
-    render(){
+    update(){//subtracts health
+        super.update();
+        this.dataBlock.health-=0.1;
+        if(this.dataBlock.health<0){
+            this.isDead=true;
+        }
+    }
+    render(){//trying to draw lines between each ball
         let ctx=this.ctx;
         ctx.beginPath();
         ctx.moveTo(this.loc.x,this.loc.y);

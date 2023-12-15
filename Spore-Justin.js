@@ -8,6 +8,7 @@ class Spore extends Creature{
         this.size = sz;
         this.herb=herb;
         this.maxSpeed = .1;
+        this.maxForce=2;
         this.ctx = wrld.ctxMain;
         this.wWidth = wrld.dims.width;
         this.wHeight = wrld.dims.height;
@@ -18,6 +19,8 @@ class Spore extends Creature{
     run(){
         this.flock(this.herb.spores);
         super.update();
+        this.acc.add(this.seek(world.foods.food1));
+        this.vel.limit(2);
         super.checkEdges();
         this.render();
     }
@@ -34,7 +37,7 @@ class Spore extends Creature{
         this.flockForce.add(coh);
         this.acc.add(this.flockForce);
     }
-    separate(spores) {
+    separate(spores) {//separate
         let sep = new JSVector(0,0);
         let count=0;
         for(let i=0;i<spores.length;i++){
@@ -53,7 +56,7 @@ class Spore extends Creature{
         
         return sep;
       }
-    align(spores) {
+    align(spores) {//alignment
         let steer = new JSVector(0,0);
         let sum=new JSVector(0,0);
         let count=0;
@@ -73,7 +76,7 @@ class Spore extends Creature{
         return steer;
       }
       
-      cohesion(spores) {
+      cohesion(spores) {//cohesion
         let coh = new JSVector(0,0);
         let sum=new JSVector(0,0);
         let count=0;
@@ -102,7 +105,7 @@ class Spore extends Creature{
         steer.limit(this.maxForce);
         return steer;
       }
-      render(){
+      render(){//draws each spore as a circle
         this.ctx.save();
         this.ctx.translate(this.loc.x, this.loc.y);
         this.ctx.rotate(this.vel.getDirection() + Math.PI / 2); //offset 90 degrees
