@@ -42,7 +42,7 @@ class Herb4LYT extends Creature {
         if (this.dataBlock.health > 70) {
 
             let dd = 120;
-            let h4 = world.creatures.herb4;
+            let h4 = world.creatures.herb4LYT;
             for (let i = 0; i < h4.length; i++) {
                 if (!this.cc && !h4[i].cc) {
                     let oo = h4[i];
@@ -58,7 +58,7 @@ class Herb4LYT extends Creature {
 
 
 
-                                let h4 = world.creatures.herb4;
+                                let h4 = world.creatures.herb4LYT;
 
                                 //  let x = Math.random() * world.dims.width - world.dims.width / 2;
                                 //  let y = Math.random() * world.dims.height - world.dims.height / 2;
@@ -71,7 +71,7 @@ class Herb4LYT extends Creature {
                                 h4[i].cc = true;
                                 if (h4.length < 1000) {
                                     this.vel = new JSVector(0, 0);
-                                    h4[i].vel = new JSVector(0, 0);
+                                 //   h4[i].vel = new JSVector(0, 0);
 
                                     setTimeout(() => {//idk I found this
                                         //bascially just waits x/1000 seconds thens runs the code
