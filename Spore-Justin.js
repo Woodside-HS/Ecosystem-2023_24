@@ -19,7 +19,7 @@ class Spore extends Creature{
     run(){
         this.flock(this.herb.spores);
         super.update();
-        this.acc.add(this.seek(world.foods.food1));
+        this.acc.add(this.seek(world.foods.food1.loc));
         this.vel.limit(2);
         super.checkEdges();
         this.render();

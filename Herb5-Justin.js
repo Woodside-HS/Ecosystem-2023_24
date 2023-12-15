@@ -13,6 +13,7 @@ class Herb5 extends Creature{
         this.spores=[];
         this.loadSpores(n);
         this.dataBlock.health=10000;
+        this.antibodies=false;
     }
     run(){//runs array of spores and subtracts health
         if(!this.isDead){

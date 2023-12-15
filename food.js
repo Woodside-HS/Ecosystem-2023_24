@@ -23,6 +23,7 @@ class Food extends Entity {
     }
 
     update() {
+//make it so food can only be eaten from one side
 
 
         
