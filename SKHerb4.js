@@ -28,12 +28,21 @@ class SKHerb4 extends Creature {
   }
   render() {
     let ctx = this.ctx;
-    ctx.strokestyle = "rgba(255,255,255,1)";
     //random color for camo
-    ctx.fillStyle = this.color;
+    ctx.save();
+    ctx.translate(this.loc.x, this.loc.y);
+    ctx.rotate(this.vel.getDirection() + Math.PI / 2); //offset 90 degrees
     ctx.beginPath();
-    ctx.arc(this.loc.x, this.loc.y, this.size, 0, 2 * Math.PI, false);
+    ctx.strokestyle = "rgba(255,255,255,1)";
+    ctx.fillStyle = this.color;
+    ctx.moveTo(0, -this.scl);
+    ctx.lineTo(-this.scl, this.scl);
+    ctx.lineTo(0, 0);
+    ctx.lineTo(this.scl, this.scl);
+    ctx.closePath();
+    ctx.stroke();
     ctx.fill();
+    ctx.restore();
   }
 
   camouflage() {
@@ -57,9 +66,10 @@ class SKHerb4 extends Creature {
   let ali = this.align(herbs);
  let coh = this.cohesion(herbs);
   //  set multiples via sliders 
-  let sepMult = document.getElementById("slider3").value; // Get slider VAlue%%%%%%%%%%%%%%%%%%
-  let aliMult = document.getElementById("slider4").value;;  // Get slider VAlue%%%%%%%%%%%%%%%%%%
-  let cohMult = document.getElementById("slider5").value;;    // Get slider VAlue%%%%%%%%%%%%%%%%%%
+  this.maxForce = 5; 
+  let sepMult = .9; 
+  let aliMult = 1;  
+  let cohMult = 1;  
   //  calculate three forces
  sep.multiply(sepMult);
   ali.multiply(aliMult);
