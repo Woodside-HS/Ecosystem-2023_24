@@ -42,7 +42,7 @@ class World {
       herb1: [],
       herb2: [],
       herb3: [],
-      herb4: [],
+      herb4LYT: [],
       herb5: [],
       herb6: [],
 
@@ -128,7 +128,7 @@ class World {
       let dy = Math.random() * 2 - 1;
       let vel = new JSVector(dx, dy);
       let sz = Math.floor(Math.random()*4 + 4);
-      this.creatures.herb4.push(new Herb4LYT(loc, vel, sz, this));
+      this.creatures.herb4LYT.push(new herb4LYT(loc, vel, sz, this));
 
     }
     
@@ -136,10 +136,10 @@ class World {
 
   runCreatures() {
     let c = this.creatures;
-    for (let i = 0; i < c.herb4.length; i++) {
-      c.herb4[i].run();
-        if (c.herb4[i].dataBlock.isDead === true) {
-          c.herb4.splice(i, 1);
+    for (let i = 0; i < c.herb4LYT.length; i++) {
+      c.herb4LYT[i].run();
+        if (c.herb4LYT[i].dataBlock.isDead === true) {
+          c.herb4LYT.splice(i, 1);
         }
     }
    
