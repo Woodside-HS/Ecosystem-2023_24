@@ -32,6 +32,7 @@ class predDosC extends Creature {
             this.segments[l][i] = this.loc.copy();
          }
       }
+      console.log(this.segments);
       this.baseDis = 15;
       //colors
       this.addr = true;
@@ -45,7 +46,8 @@ class predDosC extends Creature {
       this.backwards = false;
       this.searchFood = false;
       this.lifeSpan = 0;
-      this.prey;
+      this.preyIndex;
+      this.antibodies = false;
    }
 
    run() {
@@ -71,14 +73,20 @@ class predDosC extends Creature {
          this.Svel[0][0] = JSVector.addGetNew(this.Svel[0][0], this.Sacc[0][0]);
          this.Svel[0][0].limit(1);
          this.segments[0][0] = JSVector.addGetNew(this.segments[0][0], this.Svel[0][0]);
+         //move prey with head 
+         world.creatures.pred3[this.preyIndex].loc = this.segments[0][0];
+         //check if prey is at creature 
+         if()
+         world.creatures.pred3.splice(this.preyIndex, this.preyIndex+1);
          //if the head segment is back at the creature, it removes it from the array 
-         if (this.segments[0][0].distance(this.segments[0][this.segments.length - 1]) < 10 && this.segments[0][0] !== null) {
+         if (this.segments[0][0].distance(this.segments[0][this.segments[0].length - 1]) < 10 && this.segments[0][0] !== null) {
             this.Svel[0].splice(0, 1);
             this.segments[0].splice(0, 1);
             this.Sacc[0].splice(0, 1);
+            
          }
          //regular segment update for snake arm 
-         for (let i = 1; i < this.segments.length - 1; i++) {
+         for (let i = 1; i < this.segments[0].length - 1; i++) {
             this.Sacc[0][i] = JSVector.subGetNew(this.segments[0][i - 1], this.segments[0][i]);
             this.Sacc[0][i].normalize();
             this.Sacc[0][i].multiply(0.05);
@@ -87,8 +95,6 @@ class predDosC extends Creature {
 
             this.segments[0][i] = JSVector.addGetNew(this.segments[0][i], this.Svel[0][i]);
          }
-         //move prey with head 
-         this.prey = this.segments[0][0];
          //stop backwards once the array is down to one loc, because there is one more segment than vel and acc 
          if (this.segments[0].length === 1) {
             this.backwards = false;
@@ -148,13 +154,14 @@ class predDosC extends Creature {
 
 
       //end of snake arm stays with creature 
-      this.segments[0][this.segments.length - 1] = new JSVector(this.loc.x + 5, this.loc.y + 5);
+      this.segments[0][this.segments[0].length - 1] = new JSVector(this.loc.x + 5, this.loc.y + 5);
 
       //if head reaches prey, come back 
       for(let i = 0; i<world.creatures.pred3.length; i++){
          if(this.segments[0][0].distance(world.creatures.pred3[i].loc)<15){
             this.backwards = true;
-            this.prey = world.creatures.pred3[i];
+            this.preyIndex = i;
+            i = world.creatures.pred3.length;
          }
       }
 
@@ -187,7 +194,7 @@ class predDosC extends Creature {
       this.ctx.roundRect(this.loc.x, this.loc.y, 100, 100, 10);//x loc, y loc, width, height, radius for roundness 
       this.ctx.fill();
       //snake arms 
-      console.log(this.segments);
+     // console.log(this.segments);
       if (this.segments[0][0] !== null) {
          for (let i = 0; i < this.segments[0].length - 2; i++) {//draw sections of snake 
             this.ctx.beginPath();
