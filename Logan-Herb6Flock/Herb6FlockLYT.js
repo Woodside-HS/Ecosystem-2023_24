@@ -14,7 +14,7 @@ class Herb6FlockLYT extends Creature {
         this.maxForce = 3.5;
         this.maxSpeed = 1.5;
         this.maxLifeSpan = this.dataBlock.lifeSpan;
-        this.desiredSep = 8;
+        this.desiredSep = 16;
         this.clr = this.getRandomColor();
         this.count;
         this.numClose = 0;
