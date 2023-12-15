@@ -11,7 +11,7 @@ class Creature extends Entity {
       this.ctx = wrld.ctxMain;
       this.wWidth = wrld.dims.width;
       this.wHeight = wrld.dims.height;
-
+      this.antibodies = false;
       this.statusBlock = {
          searchFood:true,
          searchMate:true,
@@ -68,6 +68,12 @@ class Creature extends Entity {
       ctx.arc(this.loc.x, this.loc.y, this.size, 0, 2 * Math.PI, false);
       ctx.fill();
       //  render balls in mini map
+   }
+   antibodyCheck(){ 
+
+      if(this.loc <= dist){
+         
+      }
    }
 
    getRandomColor() {

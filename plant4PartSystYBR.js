@@ -4,7 +4,7 @@ class Plant4YBR {
         this.ctx = this.wrld.ctxMain;
         this.loc = new JSVector(x, y);
         this.foods4 = [];
-        this.r = 40;
+        this.r = 15;
         this.loadParticle(1);
         this.shootCount = 0; // determines time when particle is shot out
         this.pollenCount = 0; // determines whether
@@ -24,8 +24,7 @@ class Plant4YBR {
     render() {
         //Renders in the system
         let ctx = this.ctx;
-        ctx.save();
-        ctx.translate(0, 0);
+        
         ctx.strokeStyle = 'rgba(43, 196, 84, 1)'
         ctx.fillStyle = 'rgba(43, 196, 84, 1)'
         ctx.beginPath();
@@ -48,10 +47,20 @@ class Plant4YBR {
         // right bottom branch
         ctx.moveTo(this.loc.x, this.loc.y + 60)
         ctx.lineTo(this.loc.x + 40, this.loc.y - 10)
-
         ctx.stroke();
         ctx.fill();
-        ctx.restore();
+        ctx.closePath();
+
+        // Flower
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(94, 69, 0, 1)'
+        ctx.fillStyle = 'rgba(94, 69, 0, 1)'
+        ctx.moveTo(this.loc.x, this.loc.y);
+        ctx.arc(this.loc.x, this.loc.y, this.r, Math.PI * 2, 0);
+        
+
+        
+  
     }
 
     update() {
