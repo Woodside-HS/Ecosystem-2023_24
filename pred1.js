@@ -6,6 +6,12 @@ class Pred1 extends Creature {
         this.vel = vel;
         this.size = sz;
         //this.wrld = wlrd;
+
+
+        this.orbitalRadius = 100;
+        this.angularVelocity = 0.1;
+        this.orbiting = false;
+        this.angle;
     }
 
     run() {
@@ -20,20 +26,30 @@ class Pred1 extends Creature {
         let target = false;
         let pt = new JSVector(120, 200);
         let radiusOfAwareness = 200; //radius of awareness
-        let orbitalRadius = 100;
+        let orbitalRadius = this.orbitalRadius;
         let d = pt.distance(this.loc);
         console.log(d);
-        if (d < radiusOfAwareness && d > orbitalRadius) {
+        if (d < 200 && d > orbitalRadius + 5) {
             this.acc = JSVector.subGetNew(pt, this.loc);//setting acceleration vector toward it
             this.acc.normalize();
-            this.acc.multiply(0.02);
+            this.acc.multiply(0.2);
             this.vel.limit(this.maxSpeed);
+            this.vel.add(this.acc);
+            this.loc.add(this.vel);
+        } else if (d < orbitalRadius + 5) {
+            if (!this.orbiting) {
+                this.angle = this.loc.angleBetween(pt);
+                this.orbiting = true;
+            }
+            this.angle += this.angularVelocity;
+            this.loc.x = Math.cos(this.angle) * this.orbitalRadius + pt.x;
+            this.loc.y = Math.sin(this.angle) * this.orbitalRadius + pt.y;
         } else {
             this.acc = new JSVector(0, 0);
             this.vel.limit(this.maxSpeed * 2);
+            this.vel.add(this.acc);
+            this.loc.add(this.vel);
         }
-        this.vel.add(this.acc);
-        this.loc.add(this.vel);
     }
 
 
