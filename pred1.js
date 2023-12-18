@@ -9,7 +9,7 @@ class Pred1 extends Creature {
 
 
         this.orbitalRadius = 100;
-        this.angularVelocity = 0.1;
+        this.angularVelocity = 0.07;
         this.orbiting = false;
         this.angle;
     }
@@ -42,6 +42,7 @@ class Pred1 extends Creature {
                 this.orbiting = true;
             }
             this.angle += this.angularVelocity;
+            this.orbitalRadius -= 0.2;
             this.loc.x = Math.cos(this.angle) * this.orbitalRadius + pt.x;
             this.loc.y = Math.sin(this.angle) * this.orbitalRadius + pt.y;
         } else {
