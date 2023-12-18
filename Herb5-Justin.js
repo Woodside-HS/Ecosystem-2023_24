@@ -21,6 +21,7 @@ class Herb5 extends Creature{
                 this.spores[i].run();
             }
             super.checkEdges();
+            this.eat();
             this.render();
             this.update();
         }
@@ -52,5 +53,12 @@ class Herb5 extends Creature{
         ctx.closePath();
         ctx.strokeStyle="red";
         ctx.stroke();
+    }
+    eat(){
+        if(this.loc.distance(world.foods.food1.loc)<this.wrld.foods.food1.sz){
+            this.dataBlock.health++;
+            this.wrld.food.food1.nourishment--;
+            console.log("ate");
+        }
     }
 }

@@ -22,7 +22,6 @@ class Food7 extends Food{
         ctx.lineTo(this.loc.x+sz,this.loc.y-sz);
         ctx.lineTo(this.loc.x+sz,this.loc.y+sz);
         ctx.lineTo(this.loc.x-sz,this.loc.y+sz);
-        //ctx.closePath();
         ctx.strokeStyle="purple";
         ctx.stroke();
     }
