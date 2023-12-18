@@ -54,6 +54,9 @@ class Pred1 extends Creature {
                 this.vel.add(this.acc);
                 this.loc.add(this.vel);
             }
+            this.vel.limit(this.maxSpeed * 2);
+            this.vel.add(this.acc);
+            this.loc.add(this.vel);
         }
 
 
