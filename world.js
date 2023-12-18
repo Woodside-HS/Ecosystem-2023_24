@@ -53,6 +53,7 @@ class World {
       food3: [],
       food4: [],
       food5: [],
+      food7: [],
     };
 
     // performance -- change the number of entities to see the effect on framerate
@@ -115,15 +116,16 @@ class World {
     //++++++++++++++++++++++++++++  load entities
     this.creatures.herb5[0]=new Herb5(new JSVector(50,50),new JSVector(1,1),5,this,15);
     this.foods.food1=new Food(new JSVector(200,200), new JSVector(0,0),20,this);
+    this.foods.food7=new Food7(new JSVector(400,400), new JSVector(0,0),50, this);
   }
   
   runCreatures() {
     this.creatures.herb5[0].run();
-    this.foods.food1.run();
   }
  
   runFood() {
-    
+    this.foods.food1.run();
+    this.foods.food7.run();
   }
 } //++++++++++++++++++++++++++++++  end world constructor
 

@@ -113,8 +113,7 @@ class Spore extends Creature{
         this.ctx.beginPath();
         this.ctx.strokeStyle = this.clr;
         this.ctx.fillStyle = this.clr;
-        this.ctx.ellipse(this.loc.x,this.loc.y,this.size,this.size,0,0,2*Math.PI);
-        
+        this.ctx.ellipse(this.loc.x,this.loc.y,this.size,this.size,0,0,2*Math.PI);   
         this.ctx.closePath();
         //this.ctx.strokeStyle="red";
         this.ctx.stroke();
