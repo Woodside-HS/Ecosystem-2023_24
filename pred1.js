@@ -28,29 +28,35 @@ class Pred1 extends Creature {
         let radiusOfAwareness = 200; //radius of awareness
         let orbitalRadius = this.orbitalRadius;
         let d = pt.distance(this.loc);
-        console.log(d);
-        if (d < 200 && d > orbitalRadius + 5) {
-            this.acc = JSVector.subGetNew(pt, this.loc);//setting acceleration vector toward it
-            this.acc.normalize();
-            this.acc.multiply(0.2);
-            this.vel.limit(this.maxSpeed);
-            this.vel.add(this.acc);
-            this.loc.add(this.vel);
-        } else if (d < orbitalRadius + 5) {
-            if (!this.orbiting) {
-                this.angle = this.loc.angleBetween(pt);
-                this.orbiting = true;
+
+        for (let i = 0; i < creatures.pred2.length; i++) {
+            let target = creatures.pred2[i];
+            let d = target.loc.distance(this.loc);
+            if (d < 200 && d > orbitalRadius + 5) {
+                this.acc = JSVector.subGetNew(target.loc, this.loc);//setting acceleration vector toward it
+                this.acc.normalize();
+                this.acc.multiply(0.2);
+                this.vel.limit(this.maxSpeed);
+                this.vel.add(this.acc);
+                this.loc.add(this.vel);
+            } else if (d < orbitalRadius + 5) {
+                if (!this.orbiting) {
+                    this.angle = this.loc.angleBetween(target.loc);
+                    this.orbiting = true;
+                }
+                this.angle += this.angularVelocity;
+                this.orbitalRadius -= 0.2;
+                this.loc.x = Math.cos(this.angle) * this.orbitalRadius + target.loc.x;
+                this.loc.y = Math.sin(this.angle) * this.orbitalRadius + target.loc.y;
+            } else {
+                this.acc = new JSVector(0, 0);
+                this.vel.limit(this.maxSpeed * 2);
+                this.vel.add(this.acc);
+                this.loc.add(this.vel);
             }
-            this.angle += this.angularVelocity;
-            this.orbitalRadius -= 0.2;
-            this.loc.x = Math.cos(this.angle) * this.orbitalRadius + pt.x;
-            this.loc.y = Math.sin(this.angle) * this.orbitalRadius + pt.y;
-        } else {
-            this.acc = new JSVector(0, 0);
-            this.vel.limit(this.maxSpeed * 2);
-            this.vel.add(this.acc);
-            this.loc.add(this.vel);
         }
+
+
     }
 
 
