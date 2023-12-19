@@ -45,7 +45,7 @@ class World {
 	}
 	
 	this.creatures = {
-	    pred1: [new Creature(new JSVector(), new JSVector(), 500, this)],
+	    pred1: [],
 	    pred2: [],
 	    pred3: [],
 	    herb1: [],
