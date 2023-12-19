@@ -52,7 +52,6 @@ class World {
       food4: [],
       food5: [],
       food6: [new PartSysF3(100, 100, this) ]
-
     };
 
     // performance -- change the number of entities to see the effect on framerate
