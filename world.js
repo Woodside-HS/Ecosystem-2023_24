@@ -36,8 +36,8 @@ class World {
     this.foodItems = [];
 
     this.creatures = {
-      pred1: [],
-      pred2: [],
+      pred1: [new Pred1(new JSVector(400, 600), new JSVector(0, -30), 20, this)],
+      pred2: [new Creature(new JSVector(100, 120), new JSVector(20, 0), 20, this)],
       pred3: [],
       herb1: [],
       herb2: [new Herb2(new JSVector(300, 300), new JSVector(0.1, 0), 10, this)],
@@ -119,6 +119,7 @@ class World {
     let fps = this.framerate + " FPS"; // frames per second
     this.ctxMain.fillText(fps, 20, this.cnvMain.height - 105);
 
+
   } //+++++++++++++++++++++++++++ end run
 
 
@@ -135,7 +136,27 @@ class World {
       this.creatures.herb3.push(new Herb3BJC(loc, vel, sz, this));
     }
   }
-  
+
+
+  runCreatures() {
+    for (let i = 0; i < this.creatures.pred1.length; i++) {
+      this.creatures.pred1[i].run();
+    }
+    for (let i = 0; i < this.creatures.pred2.length; i++) {
+      this.creatures.pred2[i].run();
+    }
+    
+           this.creatures.herb2[0].run()
+let c = this.creatures;
+for(let i = 0; i < c.herb3.length; i++){
+  c.herb3[i].run();
+  if(c.herb3[i].isDead === true){
+    c.herb3.splice(i, 1);
+
+  }
+}
+  }
+
 
 
 
@@ -172,25 +193,13 @@ class World {
     }
   }
 
-  runCreatures() {
-    
-       this.creatures.herb2[0].run()
-let c = this.creatures;
-for(let i = 0; i < c.herb3.length; i++){
-  c.herb3[i].run();
-  if(c.herb3[i].isDead === true){
-    c.herb3.splice(i, 1);
-  }
-}
-  }
-   
+
     
   
 
     
     
   
-
 
 
   runFood() {
@@ -199,5 +208,6 @@ for(let i = 0; i < c.herb3.length; i++){
     }
   }
 
- //++++++++++++++++++++++++++++++  end world constructor
-}
+
+} //++++++++++++++++++++++++++++++  end world constructor
+

@@ -11,9 +11,9 @@ class Food extends Entity {
         this.statBlock = {//  properties
             health: 100,
             nourishment: 100,
-            lifeSpan:30000,
-            opacity:1.0,
-            foodPts:100
+            lifeSpan: 30000,
+            opacity: 1.0,
+            foodPts: 100
         };
     }
     //  methods
@@ -37,9 +37,9 @@ class Food extends Entity {
         ctx.fillStyle = this.clr;
         ctx.moveTo(0, -this.size);
         ctx.lineTo(-this.size, this.size);
-        ctx.lineTo(-this.size/2, this.size/3);
-        ctx.lineTo(0, this.size*2);
-        ctx.lineTo(this.size/2, this.size/3);
+        ctx.lineTo(-this.size / 2, this.size / 3);
+        ctx.lineTo(0, this.size * 2);
+        ctx.lineTo(this.size / 2, this.size / 3);
         ctx.lineTo(this.size, this.size);
         ctx.closePath();
         ctx.stroke();
