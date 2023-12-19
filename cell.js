@@ -3,7 +3,7 @@ class Cell {
         this.wrld = wrld;
         this.ctx = ctx;
         this.row = r;
-        this.col = c;
+        this.col = c; 
         let x = (wrld.rowHeight * this.col) + wrld.dims.left;
         let y = (wrld.colWidth * this.row) + wrld.dims.top;
         this.loc = new JSVector(x, y);

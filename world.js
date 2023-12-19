@@ -31,6 +31,7 @@ class World {
       }
     }
 
+
     this.entities = [];
     this.foodItems = [];
 
@@ -41,6 +42,11 @@ class World {
       herb1: [],
       herb2: [new Herb2(new JSVector(300, 300), new JSVector(0.1, 0), 10, this)],
       herb3: [],
+      herb4LYT: [],
+      herb5: [],
+      herb6: [],
+
+
       flocks: [],
     };
 
@@ -51,11 +57,10 @@ class World {
       food4: [],
       food5: [],
     };
-
     // load all foods (currently only Food4)
       this.loadFood4YBR(30);
 
-
+    this.loadherb4LYT(80);
     // performance -- change the number of entities to see the effect on framerate
     this.numEntities = 50;
     this.loadEntities(
@@ -88,6 +93,7 @@ class World {
     this.ctxMain.translate(-this.cnvMainLoc.x, -this.cnvMainLoc.y);
 
     this.runCreatures();
+    this.runherb4LYT();
     this.runFood();
     this.ctxMain.restore();
 
@@ -114,15 +120,34 @@ class World {
     this.ctxMain.fillText(fps, 20, this.cnvMain.height - 105);
 
   } //+++++++++++++++++++++++++++ end run
+=======
+    for (let i = 0; i < this.creatures.length; i++) {//  All food and creatures
+      this.creatures[i].run();
+
+    }
+  }
 
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
+   
+    
   }
 
-  runCreatures() {
-    this.creatures.herb2[0].run()
 
+  loadherb4LYT(n){
+    for (let i = 0; i < n; i++) {
+      let x = (Math.random() * this.dims.width)-this.dims.width/2;
+      let y = (Math.random() * this.dims.height) -this.dims.height/2;
+      let loc = new JSVector(x, y);
+      let dx = Math.random() * 2 - 1;
+      let dy = Math.random() * 2 - 1;
+      let vel = new JSVector(dx, dy);
+      let sz = Math.floor(Math.random()*4 + 4);
+      this.creatures.herb4LYT.push(new Herb4LYT(loc, vel, sz, this));
+
+    }
   }
+
 
   loadFood4YBR(n) { // loads the initial amounts of food 4 particle systems
     for (let i = 0; i < n; i++) {
@@ -131,7 +156,26 @@ class World {
 
       this.foods.food4.push(new Plant4YBR(this, x, y))
     }
+
+  runherb4LYT(){
+    let c = this.creatures;
+    for (let i = 0; i < c.herb4LYT.length; i++) {
+      c.herb4LYT[i].run();
+        if (c.herb4LYT[i].dataBlock.isDead === true) {
+          c.herb4LYT.splice(i, 1);
+        }
+    }
   }
+
+  runCreatures() {
+    
+       this.creatures.herb2[0].run()
+
+
+    
+    }
+  
+
 
 
   runFood() {
