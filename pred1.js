@@ -70,6 +70,15 @@ class Pred1 extends Creature {
         console.log(this.acc.x + ", " + this.acc.y);
     }
 
+    render() {
+        //  render balls in world
+        let ctx = this.ctx;
+        ctx.beginPath();
+        ctx.fillStyle = "#800000";
+        ctx.arc(this.loc.x, this.loc.y, this.size, 0, 2 * Math.PI, false);
+        ctx.fill();
+        //  render balls in mini map
+    }
 
 
 }
