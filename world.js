@@ -114,9 +114,10 @@ class World {
   
   loadEntities(numEntities) {
     for(let i = 0; i < numEntities; i++){
-      let x = (Math.random() * this.dims.width) //- 2000;
-      let y = (Math.random() * this.dims.height)// - 1500;
+      let x = (Math.random() * this.dims.width) - 2000;
+      let y = (Math.random() * this.dims.height) - 1500;
       let loc = new JSVector(x, y);
+      //let loc = new JSVector(500,500);
       let dx =  (Math.random() * 20 - 1);
       let dy =  (Math.random() * 20 - 1);
       let vel = new JSVector(dx, dy);

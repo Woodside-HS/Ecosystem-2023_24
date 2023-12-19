@@ -51,14 +51,14 @@ class Pred4jdg extends Creature {
         this.checkEdges();
         this.render();
 
-       // let d = this.loc.distance(this.closestTarget());
-            //  if ((d > 10) && (d < 50000)) {
+       let d = this.loc.distance(this.closestTarget());
+              if ((d > 10) && (d < 50000)) {
                this.flock(this.wrld.creatures.pred4);
-                //console.log("Flocking");
+                console.log("Flocking");
          
-           //   }else{
+             }else{
                // console.log("Here");
-           //   }
+              }
         
         //if(this.closestTarget() );
         //console.log("running");
