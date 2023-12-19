@@ -62,7 +62,7 @@ class World {
 
     this.loadherb4LYT(80);
     // performance -- change the number of entities to see the effect on framerate
-    this.numEntities = 50;
+    this.numEntities = 100;
     this.loadEntities(
       this.numEntities,
       this.ctxMain,
@@ -124,9 +124,19 @@ class World {
 
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
-   
-    
+    for(let i = 0; i < numEntities; i++){
+      let x = (Math.random() * w) - w/2;
+      let y = (Math.random() * h) - h/2;
+      let loc = new JSVector(x, y);
+      let dx = Math.random() * 2 - 1;
+      let dy = Math.random() * 2 - 1;
+      let vel = new JSVector(dx, dy);
+      let sz = Math.floor(Math.random()*0.5+0.5);
+      this.creatures.herb3.push(new Herb3BJC(loc, vel, sz, this));
+    }
   }
+  
+
 
 
   loadherb4LYT(n){
@@ -165,7 +175,17 @@ class World {
   runCreatures() {
     
        this.creatures.herb2[0].run()
-
+let c = this.creatures;
+for(let i = 0; i < c.herb3.length; i++){
+  c.herb3[i].run();
+  if(c.herb3[i].isDead === true){
+    c.herb3.splice(i, 1);
+  }
+}
+  }
+   
+    
+  
 
     
     }
