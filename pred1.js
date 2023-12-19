@@ -28,7 +28,7 @@ class Pred1 extends Creature {
 
         if (this.mode == "searching") { //runs block iff predator is in searching mode
             //this is just regular straight-line movement
-            this.vel.limit(this.maxSpeed * 10);
+            this.vel.limit(this.maxSpeed);
             this.vel.add(this.acc);
             this.loc.add(this.vel);
         }
@@ -67,7 +67,6 @@ class Pred1 extends Creature {
                 }
             }
         }
-        console.log(this.acc.x + ", " + this.acc.y);
     }
 
     render() {
