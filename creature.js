@@ -7,7 +7,7 @@ class Creature extends Entity {
       this.acc = new JSVector(0, 0);
       this.clr = this.getRandomColor();
       this.size = sz;
-      this.maxSpeed = 1;
+      this.maxSpeed = .1;
       this.ctx = wrld.ctxMain;
       this.wWidth = wrld.dims.width;
       this.wHeight = wrld.dims.height;
