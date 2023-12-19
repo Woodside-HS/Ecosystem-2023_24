@@ -6,12 +6,17 @@ class SKHerb4 extends Creature {
     this.antibodies = false;
     this.vel = vel;
     this.acc = new JSVector(0, 0);
-    this.sz = 8;
+    this.sz = sz;
     this.lifeSpan = 1500;
     this.maxLifeSpan = this.lifeSpan;
     let colors = ["red", "black", "orange", "yellow", "green", "blue", "violet", "indigo"];
     this.color = colors[Math.floor(Math.random() * colors.length)];
 
+  }
+
+  run(){
+    this.update();
+    this.render();
   }
 
   update() {
@@ -24,7 +29,7 @@ class SKHerb4 extends Creature {
     this.closest = 1000000;
     this.clsIndex = -1;
     if (this.lifeSpan >= 0) {
-      lifeSpan--;
+      this.lifeSpan--;
     }
   }
   render() {
@@ -36,10 +41,10 @@ class SKHerb4 extends Creature {
     ctx.beginPath();
     ctx.strokestyle = "rgba(255,255,255,1)";
     ctx.fillStyle = this.color;
-    ctx.moveTo(0, -this.scl);
-    ctx.lineTo(-this.scl, this.scl);
+    ctx.moveTo(0, -this.sz);
+    ctx.lineTo(-this.sz, this.sz);
     ctx.lineTo(0, 0);
-    ctx.lineTo(this.scl, this.scl);
+    ctx.lineTo(this.sz, this.sz);
     ctx.closePath();
     ctx.stroke();
     ctx.fill();

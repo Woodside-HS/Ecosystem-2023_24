@@ -42,7 +42,7 @@ class World {
       herb2: [],
       herb3: [],
       flocks: [],
-      SKHerb4: [], 
+      SKHerb4: [],
     };
 
     this.foods = {
@@ -108,19 +108,25 @@ class World {
     let fps = this.framerate + " FPS"; // frames per second
     this.ctxMain.fillText(fps, 20, this.cnvMain.height - 105);
   }
-  
+
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
+    for (let i = 0; i < 5; i++) {
+      let location  = new JSVector(Math.random()*100+50, 100)
+      let velocity = new JSVector(0,0);
+      this.creatures.SKHerb4.push(new SKHerb4(location, velocity, 10, this ))
+    }
   }
-  
+
   runCreatures() {
-for(let i=0; i<SKHerb4.length; i++){
-    SKHerb4[i].run();
-}
+    for (let i = 0; i < this.creatures.SKHerb4.length; i++) {
+      
+      this.creatures.SKHerb4[i].run();
+    }
   }
- 
+
   runFood() {
-    
+
   }
 } //++++++++++++++++++++++++++++++  end world constructor
 
