@@ -9,15 +9,16 @@ class Herb6FlockLYT extends Creature {
         this.acc = new JSVector(0, 0);
         this.sz = sz;
         this.dataBlock.lifeSpan = 12000;
-        this.dataBlock.health;
+        this.dataBlock.health = 100;
         this.dataBlock.isDead;
         this.maxForce = 3.5;
         this.maxSpeed = 1.5;
         this.maxLifeSpan = this.dataBlock.lifeSpan;
         this.desiredSep = 16;
         this.clr = this.getRandomColor();
-        this.count;
+        //this.count;
         this.numClose = 0;
+        this.cc = false;
     }
 
 
@@ -28,9 +29,72 @@ class Herb6FlockLYT extends Creature {
         this.flock(world.creatures.herb6LYT);
         this.checkEdges();
         this.bigFish();
+        this.seekOthers();
     }
 
+    seekOthers() {
 
+        if (this.dataBlock.health > 70) {
+            let dd = 120;
+            let h4 = world.creatures.herb6LYT;
+            for (let i = 0; i < h4.length; i++) {
+                if (!this.cc && !h4[i].cc) {
+                   
+                    let oo = h4[i];
+                    if (this != oo) {
+                        let dist = this.loc.distance(oo.loc);
+                        if (dd > dist) {
+                            let ee = JSVector.subGetNew(oo.loc, this.loc);
+                            ee.normalize();
+                            ee.multiply(0.20)
+                            this.vel.add(ee);
+                            this.vel.limit(1.5);
+                            if (dist < 5) {//this number is giving me annoyance
+
+
+
+                                let h4 = world.creatures.herb6LYT;
+                                //  let x = Math.random() * world.dims.width - world.dims.width / 2;
+                                //  let y = Math.random() * world.dims.height - world.dims.height / 2;
+                                let x = this.loc.x;
+                                let y = this.loc.y;
+                                let dx = Math.random() * 2 - 1;
+                                let dy = Math.random() * 2 - 1;
+
+                                this.cc = true;
+                                h4[i].cc = true;
+                                if (h4.length < 1000) {
+                                    this.vel = new JSVector(0, 0);
+                                 //   h4[i].vel = new JSVector(0, 0);
+                                    setTimeout(() => {//idk I found this
+                                        //bascially just waits x/1000 seconds thens runs the code
+                                        h4.push(new Herb6FlockLYT(new JSVector(x, y), new JSVector(dx, dy), this.sz, this.wrld));
+                                        let mature = h4[h4.length - 1];
+                                        this.vel.x = Math.random() * 2 - 1;
+                                        this.vel.y = Math.random() * 2 - 1;
+                                      
+                                      //  h4[i].vel.x = Math.random() * 2 - 1;//ditto with the bottom comment this will not work if 
+                                        //this parent dies in in this 2500 milisecond window
+                                       // h4[i].vel.y = Math.random() * 2 - 1;
+                                        h4[h4.length - 1].cc = true;
+
+                                        setTimeout(() => {//my brains hurting rn the logic this uses is incorrect
+
+                                            mature.cc = false;
+                                        }, "2000");
+                                    }, "2500");//time in miliseconds
+
+
+
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     bigFish() {
         let h4 = world.creatures.herb6LYT;
         this.numClose = 0;
