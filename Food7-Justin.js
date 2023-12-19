@@ -11,7 +11,14 @@ class Food7 extends Food{
         this.render();
     }
     update(){
-
+        //teleport when health drops too much
+        if(this.statBlock.health<=50||this.statBlock.health<=25||this.statBlock.health<=10){
+            let x=Math.random()*this.wWidth;
+            let y=Math.random()*this.wHeight;
+            this.loc.x=x;
+            this.loc.y=y;
+        }
+        
     }
     render(){
         super.render();
@@ -22,6 +29,7 @@ class Food7 extends Food{
         ctx.lineTo(this.loc.x+sz,this.loc.y-sz);
         ctx.lineTo(this.loc.x+sz,this.loc.y+sz);
         ctx.lineTo(this.loc.x-sz,this.loc.y+sz);
+        ctx.closePath();
         ctx.strokeStyle="purple";
         ctx.stroke();
     }

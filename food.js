@@ -6,6 +6,7 @@ class Food extends Entity {
         this.clr = this.getRandomColor();
         this.ctx = wrld.ctxMain;
         this.size = sz;
+        this.wrld=wrld;
         this.wWidth = wrld.dims.width;
         this.wHeight = wrld.dims.height;
         this.statBlock = {//  properties 
@@ -23,9 +24,6 @@ class Food extends Entity {
     }
 
     update() {
-//make it so food can only be eaten from one side
-
-
         
     }
 
