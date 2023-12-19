@@ -39,6 +39,7 @@ class World {
       pred1: [],
       pred2: [],
       pred3: [],
+      pred5KGF:[],
       herb1: [],
       herb2: [],
       herb3: [],
@@ -112,15 +113,23 @@ class World {
   
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
+    for(let  i = 0; i < 5; i++){
+      let location  = new JSVector(100, 100);
+      let velocity = new JSVector(Math.random()*3-1.5, 0)
+      this.creatures.pred5KGF.push(new Pred5KGF(location,velocity, 10, this ))
+    }
   }
   
   runCreatures() {
+    for(let  i = 0; i < this.creatures.pred5KGF.length; i++){
     
+      this.creatures.pred5KGF[i].run();
+    }
 
   }
  
   runFood() {
-    
+   
   }
 } //++++++++++++++++++++++++++++++  end world constructor
 
