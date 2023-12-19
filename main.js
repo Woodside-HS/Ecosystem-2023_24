@@ -12,10 +12,17 @@ function init(){
 
 function animate(){
   world.run();
-  world.creatures.pred2[0].run();
-  if(world.creatures.pred3[0] != null){
-    world.creatures.pred3[0].run();
+  for(let i = 0; i<world.creatures.pred2.length; i++){
+    if(world.creatures.pred2[i] != null){
+      world.creatures.pred2[i].run();
+    }
   }
+  for(let i = 0; i<world.creatures.pred3.length; i++){
+    if(world.creatures.pred3[i] != null){
+      world.creatures.pred3[i].run();
+    }
+  }
+  
   requestAnimationFrame(animate);
 }
 

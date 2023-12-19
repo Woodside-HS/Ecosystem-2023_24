@@ -37,8 +37,14 @@ class World {
 
     this.creatures = {
       pred1: [],
-      pred2: [new predDosC(new JSVector(200, 300), new JSVector(0,1), 1, 80, this)],
-      pred3: [new Creature(new JSVector(130, 250), new JSVector(0,-1), 15, this)],
+      pred2: [new predDosC(new JSVector(200, 300), new JSVector(0,1), 1, 80, this, 0)],
+      pred3: [
+        // new Creature(new JSVector(130, 250), new JSVector(0,-1), 15, this),
+        // new Creature(new JSVector(330, 250), new JSVector(0,-1), 15, this), 
+        // new Creature(new JSVector(130, 400), new JSVector(0,-1), 15, this), 
+        new Creature(new JSVector(350, 400), new JSVector(0,-1), 15, this), 
+        new Creature(new JSVector(350, 550), new JSVector(0,-1), 15, this)  
+      ],
       herb1: [],
       herb2: [],
       herb3: [],
