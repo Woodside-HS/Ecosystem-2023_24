@@ -111,10 +111,10 @@ class World {
 
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 20; i++) {
       let location  = new JSVector(Math.random()*100+50, 100)
-      let velocity = new JSVector(0,0);
-      this.creatures.SKHerb4.push(new SKHerb4(location, velocity, 10, this ))
+      let velocity = new JSVector(Math.random() * 3 +1 , Math.random() * 3 +1 );
+      this.creatures.SKHerb4.push(new SKHerb4(location, velocity, 3, this ))
     }
   }
 

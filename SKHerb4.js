@@ -9,12 +9,14 @@ class SKHerb4 extends Creature {
     this.sz = sz;
     this.lifeSpan = 1500;
     this.maxLifeSpan = this.lifeSpan;
-    let colors = ["red", "black", "orange", "yellow", "green", "blue", "violet", "indigo"];
+    this.maxSpeed = 5;
+    this.maxForce = 30;
+    let colors = ["red", "black", "orange", "yellow", "green", "blue", "violet", "indigo", "black"];
     this.color = colors[Math.floor(Math.random() * colors.length)];
 
   }
 
-  run(){
+  run() {
     this.update();
     this.render();
   }
@@ -26,7 +28,7 @@ class SKHerb4 extends Creature {
     this.row = Math.floor((this.loc.y - this.wrld.dims.top) / this.wrld.rowHeight);
     this.col = Math.floor((this.loc.x - this.wrld.dims.left) / this.wrld.colWidth);
     //  draw a line to the closest entity in my cell
-    this.closest = 1000000;
+    this.closest = 1000;
     this.clsIndex = -1;
     if (this.lifeSpan >= 0) {
       this.lifeSpan--;
@@ -73,7 +75,7 @@ class SKHerb4 extends Creature {
     let coh = this.cohesion(herbs);
     //  set multiples via sliders 
     this.maxForce = 5;
-    let sepMult = .9;
+    let sepMult = .1;
     let aliMult = 1;
     let cohMult = 1;
     //  calculate three forces
