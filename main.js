@@ -6,6 +6,7 @@ window.onload = init;
 
 function init(){
     world = new World();
+
     animate();
 }
 
