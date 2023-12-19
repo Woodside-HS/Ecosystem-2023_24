@@ -42,6 +42,7 @@ class World {
       herb2: [],
       herb3: [],
       flocks: [],
+      SKHerb4: [], 
     };
 
     this.foods = {
@@ -113,7 +114,9 @@ class World {
   }
   
   runCreatures() {
-
+for(let i=0; i<SKHerb4.length; i++){
+    SKHerb4[i].run();
+}
   }
  
   runFood() {
