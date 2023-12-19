@@ -8,14 +8,14 @@ function init(){
     world = new World();
     // food3s = new Food3(new JSVector(100, 100), new JSVector(2, -4), 5, world)
 
-    partsys = new PartSysF3(100, 100, world)
+    // partsys = new PartSysF3(100, 100, world)
     animate();
 }
 
 function animate(){
   world.run();
   // food3s.run();
-  partsys.run()
+  // partsys.run()
   requestAnimationFrame(animate);
 }
 

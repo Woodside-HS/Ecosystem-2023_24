@@ -51,6 +51,7 @@ class World {
       food3: [],
       food4: [],
       food5: [],
+      food6: [new PartSysF3(100, 100, this) ]
 
     };
 
@@ -112,6 +113,8 @@ class World {
   
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
+
+
   }
   
   runCreatures() {
@@ -119,7 +122,7 @@ class World {
   }
  
   runFood() {
-    
+    this.foods.food6[0].run()
   }
 } //++++++++++++++++++++++++++++++  end world constructor
 
