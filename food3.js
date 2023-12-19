@@ -12,7 +12,7 @@ class Food3 extends Food {
         this.loc = loc
         this.acc = new JSVector(0, 0.2)
         this.vel = vel
-        this.lifeSpan = 200
+        this.lifeSpan = 300
 
         this.healthValue = 200  
     }
