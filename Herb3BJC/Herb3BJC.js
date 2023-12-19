@@ -51,10 +51,10 @@ class Herb3BJC extends Creature {
     update(){
 
         if (this.dataBlock.lifeSpan >= 0) {
-            this.dataBlock.lifeSpan -= 1.5;
+            this.dataBlock.lifeSpan -= 0.5;
 
         }
-        if (this.dataBlock.lifeSpan <= 2000) {
+        if (this.dataBlock.lifeSpan <= 0) {
             this.dataBlock.isDead = true;
 
         }
@@ -99,7 +99,7 @@ class Herb3BJC extends Creature {
 
 
     //if need food
-    if(this.dataBlock.health < 100){
+    if(this.dataBlock.health <= 35){
 for(let i = 0; i < world.foods.food1; i++){
 let dist = this.loc.distance(food1[i].loc);
 if(dist<200){
@@ -109,7 +109,7 @@ if(dist<200){
 }
     }
 
-    if(this.dataBlock.health < 100){
+    if(this.dataBlock.health <= 35){
         for(let i = 0; i < world.foods.food2; i++){
         let dist = this.loc.distance(food1[i].loc);
         if(dist<200){
