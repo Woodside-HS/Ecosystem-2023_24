@@ -7,6 +7,9 @@ class Herb2 extends Creature{
         this.targetLoc = new JSVector(100, 100)
         this.vec = new JSVector(200, 200)
         this.time = 0;
+        this.timeDiff = 0;
+        this.dontDoAnything = false
+        this.foodRadii = 10
     }
 
     run(){
@@ -21,20 +24,16 @@ class Herb2 extends Creature{
         let runAway = false
 
 
+
         // let targetLoc = new JSVector(100, 100)
 
-        if(this.loc.distance(this.targetLoc) < 100){
-            let randX = Math.floor(Math.random() * (800 - 0 + 1) + 0);
-            let randY = Math.floor(Math.random() * (600 - 0 + 1) + 0);
-
-            this.targetLoc = new JSVector(randX, randY)
-        }
+        
 
         let ctx = this.ctx;
         ctx.strokeStyle = "rgba(255, 0, 0, 55)"
         ctx.fillStyle = "rgba(255, 0, 0, 55)"
         ctx.beginPath();
-        ctx.arc(this.targetLoc.x, this.targetLoc.y, 10, Math.PI * 2, 0, false);
+        ctx.arc(this.targetLoc.x, this.targetLoc.y, this.foodRadii, Math.PI * 2, 0, false);
         ctx.stroke();
         ctx.fill() 
 
@@ -78,17 +77,42 @@ class Herb2 extends Creature{
             runAway = true
         }
 
-        if(!runAway){
-            this.vel.add(acceleration)
-            this.vel.setMagnitude(3)
-    
-            this.loc.add(this.vel)
-        } else {
-            this.vel.add(dirNew)
-            this.vel.setMagnitude(5)
-    
-            this.loc.add(this.vel)
+        if(this.loc.distance(this.targetLoc) < 10){
+            if(this.timeDiff == 0){
+                this.timeDiff = this.time
+                this.dontDoAnything = true
+            }
+
+            this.foodRadii-= 0.1
+
+            if(this.time - this.timeDiff == 50){
+                this.dontDoAnything = false
+                this.timeDiff = 0
+                this.foodRadii = 10
+                let randX = Math.floor(Math.random() * (800 - 0 + 1) + 0);
+                let randY = Math.floor(Math.random() * (600 - 0 + 1) + 0);
+                this.targetLoc = new JSVector(randX, randY)
+            }
+           
         }
+
+        if(!this.dontDoAnything){
+            if(!runAway){
+                this.vel.add(acceleration)
+                this.vel.setMagnitude(3)
+        
+                this.loc.add(this.vel)
+            } else {
+                this.vel.add(dirNew)
+                this.vel.setMagnitude(5)
+        
+                this.loc.add(this.vel)
+            }
+        } else {
+
+        }
+
+       
         
 
     }
