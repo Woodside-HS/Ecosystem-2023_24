@@ -129,9 +129,12 @@ class World {
 		creature.run();
 	    }
 	}
-	let i = 0;
 	for (const virus of this.viruses) {
 	    virus.run();
+	    if (virus.dataBlock.lifeSpan <= 0 ||
+		virus.dataBlock.isDead) {
+		this.viruses.splice(this.viruses.indexOf(virus), 1);
+	    }
 	}
     }
     
