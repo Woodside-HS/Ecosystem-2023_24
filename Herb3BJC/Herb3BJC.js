@@ -7,8 +7,8 @@ class Herb3BJC extends Creature {
         this.size = sz;
         this.acc = new JSVector(0, 0);
         this.context = wrld.ctxMain;
-    //    this.poisonDarts = [];
-       this.col = this.getRandomColor();
+        this.poisonDarts = [];
+        this.col = this.getRandomColor();
         this.colorState = false; //false = normal color, true = invisible for defense 
         this.antibodies = false;
         this.maxLifeSpan = this.dataBlock.lifeSpan;
@@ -18,7 +18,7 @@ class Herb3BJC extends Creature {
         this.render();
         this.update();
         this.checkEdges();
-      //  this.runDarts();
+        this.runDarts();
     }
 
     render(){
@@ -70,27 +70,27 @@ class Herb3BJC extends Creature {
     if(this.colorState = false){
     for(let i = 0; i < world.creatures.pred1.length; i++){
         let dist1 = this.loc.dist(world.creatures.pred1[i].loc);
-        //let direction = world.creatures.pred1[i].getDirection();
-        if(dist <= 200){
-        //this.loadDarts(direction); //shoot out poison darts to pred
+        let direction1 = world.creatures.pred1[i].getDirection();
+        if(dist1 <= 200){
+        this.loadDarts(direction1); //shoot out poison darts to pred
         this.colorState = true; //turn invisible
         }
     }
 
     for(let i = 0; i < world.creatures.pred2.length; i++){
-        let dist = this.loc.dist(world.creatures.pred2[i].loc);
-        //let direction = world.creatures.pred2[i].getDirection();
-        if(dist <= 200){
-            //this.loadDarts(direction); 
+        let dist2 = this.loc.dist(world.creatures.pred2[i].loc);
+        let direction2 = world.creatures.pred2[i].getDirection();
+        if(dist2 <= 200){
+            this.loadDarts(direction2); 
             this.colorState = true; 
             }
     }
 
     for(let i = 0; i < world.creatures.pred3.length; i++){
-        let dist = this.loc.dist(world.creatures.pred3[i].loc);
-        //let direction = world.creatures.pred3[i].getDirection();
-        if(dist <= 200){
-           // this.loadDarts(direction);
+        let dist3 = this.loc.dist(world.creatures.pred3[i].loc);
+        let direction3 = world.creatures.pred3[i].getDirection();
+        if(dist3 <= 200){
+            this.loadDarts(direction3);
             this.colorState = true;
             }
     }
@@ -135,6 +135,7 @@ if(dist<200){
     let dartCol = "rgba(128, 0, 128, 0)";
     let acc = new JSVector(0, 0);
     let vel = new JSVector(); //shoots in direction of predators
+    vel.setDirection(direction);
     let diam = 4;
     this.poisonDarts.push(new PoisonDartsBJC(this, dartCol, acc, vel, diam));
 
