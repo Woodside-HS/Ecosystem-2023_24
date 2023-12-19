@@ -53,7 +53,7 @@ class Pred4jdg extends Creature {
     let d = this.loc.distance(this.closestTarget());
     if ((d > 10) && (d < 50000)) {
       this.flock(this.wrld.creatures.pred4);
-      console.log("Flocking");
+      //console.log("Flocking");
     } else {
       // console.log("Here");
     }
@@ -77,6 +77,7 @@ class Pred4jdg extends Creature {
     desired.multiply(this.maxSpeed);
     let steer = JSVector.subGetNew(desired, this.vel);
     steer.limit(this.maxForce);
+   // console.log(steer);
     return (steer);
   }
 
@@ -84,60 +85,65 @@ class Pred4jdg extends Creature {
   applyForce(force) {
     this.acc.add(force);
   }
-  arrive(target) {
-    let desired = JSVector.subGetNew(target, this.loc);
-    let d = desired.getMagnitude();
-    desired.normalize();
+  // arrive(target) {
+  //   let desired = JSVector.subGetNew(target, this.loc);
+  //   let d = desired.getMagnitude();
+  //   desired.normalize();
 
-    if (d < 100) {
-      let m = map(d, 0, 100, 0, this.maxSpeed);
-      desired.mult(m);
-    } else {
-      desired.mult(this.maxSpeed);
-    }
+  //   if (d < 100) {
+  //   //  let m = map(d, 0, 100, 0, this.maxSpeed);
+  //   let m = d;
+  //     desired.mult(m);
+  //   } else {
+  //     desired.mult(this.maxSpeed);
+  //   }
 
-    let steer = JSVector.subGetNew(desired, this.vel);
-    steer.limit(this.maxForce);
+  //   let steer = JSVector.subGetNew(desired, this.vel);
+  //   steer.limit(this.maxForce);
 
-    this.applyForce(steer);
-  }
+  //   this.applyForce(steer);
+  // }
 
 
 
   flock(arr) {
-    // this.seek(this.closestTarget());
     //  flock force is the accumulation of all forces
     this.flockForce = new JSVector(0, 0);
+   // this.flockForce.add(this.seek(this.closestTarget));
     // set up force vectors to be added to acc
-    let sep = this.separate(arr);
-    let ali = this.align(arr);
-    let coh = this.cohesion(arr);
+    let sep = this.separate(arr).copy();
+
+    let ali = this.align(arr).copy();
+    let coh = this.cohesion(arr).copy();
     // multipliersssss!!!!!!
-    let sepMult = .5;
+    let sepMult = .9;
     let aliMult = .5;
-    let cohMult = .5;
+    let cohMult = .15;
     //  calculate three forces
     sep.multiply(sepMult);
-    ali.multiply(sepMult);
-    coh.multiply(sepMult);
+    ali.multiply(aliMult);
+    coh.multiply(cohMult);
     //  add each of these to flockForce
     this.flockForce.add(sep);
     this.flockForce.add(ali);
     this.flockForce.add(coh);
-    this.acc.add(this.flockForce);
+   // 
+    this.flockForce.limit(this.maxForce);
+    this.applyForce(this.flockForce);
+    //this.acc.add(this.flockForce);
     // console.log("flocking!");
   }
   //+++++++++++++++++++++++++++++++++  Flocking functions
-  separate(array) {
+  separate(arr) {
     let desiredseparation = 10;
     let sum = new JSVector();
     let count = 0;
-    for (let i = 0; i < array.length; i++) {
-      let d = this.loc.distance(array[i].loc);
-      if ((d > 0) && (d < desiredseparation)) {
+    for (let i = 0; i < arr.length; i++) {
+      let d = this.loc.distance(arr[i].loc);
+      if ((d > 0) && (d <= desiredseparation)) {
 
-        let diff = JSVector.subGetNew(this.loc, array[i].loc);
-        //diff.normalize();
+        let diff = JSVector.subGetNew(this.loc, arr[i].loc);
+        diff.normalize();
         if (d > 0.0001) {
           diff.divide(d * d);
           sum.add(diff);
@@ -151,18 +157,24 @@ class Pred4jdg extends Creature {
       sum.multiply(this.maxSpeed);
       let steer = JSVector.subGetNew(sum, this.vel);
       steer.limit(this.maxForce);
-      this.applyForce(steer);
+      //console.log("steer");
+      return steer;
+
+    } else {
+      return new JSVector(0, 0);
+      //console.log("seeking");
+      //return this.seek(this.closestTarget);
     }
 
   }
-  align(array) {
-    let neighbordist = 50;
+  align(arr) {
+    let neighbordist = 10;
     let sum = new JSVector(0, 0);
     let count = 0;
-    for (let i = 0; i < array.length; i++) {
-      let d = this.loc.distance(array[i].loc);
+    for (let i = 0; i < arr.length; i++) {
+      let d = this.loc.distance(arr[i].loc);
       if ((d > 0) && (d < neighbordist)) {
-        sum.add(array[i].vel);
+        sum.add(arr[i].vel);
         count++;
       }
     }
@@ -178,14 +190,14 @@ class Pred4jdg extends Creature {
     }
   }
 
-  cohesion(array) {
+  cohesion(arr) {
     let neighbordist = 50;
     let sum = new JSVector(0, 0);
     let count = 0;
-    for (let i = 0; i < array.length; i++) {
-      let d = this.loc.distance(array[i].loc);
+    for (let i = 0; i < arr.length; i++) {
+      let d = this.loc.distance(arr[i].loc);
       if ((d > 0) && (d < neighbordist)) {
-        sum.add(array[i].loc);
+        sum.add(arr[i].loc);
         count++;
       }
     }
