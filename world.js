@@ -12,7 +12,7 @@ class World {
       width: 4000,
       height: 3000,
     };
-    this.backgroundMusic = new Audio("resources/sounds/mario.mp3");
+    //this.backgroundMusic = new Audio("resources/sounds/mario.mp3");
     this.showGrid = true;
     this.numRows = 90;
     this.numCols = 120;
@@ -37,7 +37,7 @@ class World {
 
     this.creatures = {
       pred1: [],
-      pred2: [],
+      pred2: [new predDosC(new JSVector(200, 300), new JSVector(0,1), 1, 80, this, 0)],
       pred3: [],
       herb1: [],
       herb2: [],
@@ -114,7 +114,16 @@ class World {
   }
   
   runCreatures() {
-
+    for(let i = 0; i<world.creatures.pred2.length; i++){
+      if(world.creatures.pred2[i] != null){
+        world.creatures.pred2[i].run();
+      }
+    }
+    for(let i = 0; i<world.creatures.pred3.length; i++){
+      if(world.creatures.pred3[i] != null){
+        world.creatures.pred3[i].run();
+      }
+    }
   }
  
   runFood() {

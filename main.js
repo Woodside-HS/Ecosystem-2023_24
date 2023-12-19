@@ -11,6 +11,7 @@ function init(){
 
 function animate(){
   world.run();
+  
   requestAnimationFrame(animate);
 }
 
