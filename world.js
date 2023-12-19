@@ -120,12 +120,7 @@ class World {
     this.ctxMain.fillText(fps, 20, this.cnvMain.height - 105);
 
   } //+++++++++++++++++++++++++++ end run
-=======
-    for (let i = 0; i < this.creatures.length; i++) {//  All food and creatures
-      this.creatures[i].run();
 
-    }
-  }
 
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
@@ -156,7 +151,7 @@ class World {
 
       this.foods.food4.push(new Plant4YBR(this, x, y))
     }
-
+  }
   runherb4LYT(){
     let c = this.creatures;
     for (let i = 0; i < c.herb4LYT.length; i++) {
