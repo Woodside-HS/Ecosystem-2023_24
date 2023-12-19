@@ -20,10 +20,10 @@ class Creature extends Entity {
          sleeping:false,
          attack:false,
          deathProc:false
-         
+
       };
 
-      this.dataBlock = {//  status block 
+      this.dataBlock = {//  status block
          health: 100,
          isDead: false,
          nourishment: 100,
@@ -43,6 +43,7 @@ class Creature extends Entity {
       this.update();
       this.checkEdges();
       this.render();
+      this.antibodyCheck();
    }
    update() {
       if(this.dataBlock.lifeSpan-- <= 0){
@@ -69,10 +70,13 @@ class Creature extends Entity {
       ctx.fill();
       //  render balls in mini map
    }
-   antibodyCheck(){ 
+   antibodyCheck(){
 
+     let dist = this.loc.distance(world.foods);
       if(this.loc <= dist){
-         
+         if(world.foods.cellType === "Antibody"){
+           this.antibodies = true;
+         }
       }
    }
 
