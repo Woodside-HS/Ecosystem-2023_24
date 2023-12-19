@@ -57,7 +57,7 @@ class predDosC extends Creature {
       this.a = 1;
       this.backwards = [false, false, false, false];
       this.searchFood = false;
-      this.dataBlock.lifeSpan = 2400;
+      this.dataBlock.lifeSpan = 24000;
       this.preyIndex = [];
       this.eat = [false, false, false, false];
       this.antibodies = false;
@@ -116,7 +116,7 @@ class predDosC extends Creature {
                //check if prey is at creature 
                if(!this.eat[n] && world.creatures.pred3[this.preyIndex[n]] != null && world.creatures.pred3[this.preyIndex[n]].loc.distance(this.segments[n][this.segments[n].length-1])<15){
                   world.creatures.pred3.splice(this.preyIndex[n], 1);
-                  this.dataBlock.lifeSpan += 60;
+                  this.dataBlock.lifeSpan += 600;
                   for(let i = 0; i<this.preyIndex.length; i++){
                      if(this.preyIndex[n]<this.preyIndex[i]){
                         this.preyIndex[i]--;
