@@ -76,7 +76,7 @@ class World {
   }
 
   run() {
-    console.log(this.foods.food4.length);
+   
     // performance
     this.framecount++;
     // run the world in animation
