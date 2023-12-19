@@ -51,27 +51,30 @@ class Pred4jdg extends Creature {
         this.checkEdges();
         this.render();
 
-        let d = this.loc.distance(this.closestTarget());
-              if ((d > 10) && (d < 50000)) {
-                this.flock(this.wrld.creatures.pred4);
+       // let d = this.loc.distance(this.closestTarget());
+            //  if ((d > 10) && (d < 50000)) {
+               this.flock(this.wrld.creatures.pred4);
                 //console.log("Flocking");
          
-              }else{
+           //   }else{
                // console.log("Here");
-              }
+           //   }
         
         //if(this.closestTarget() );
         //console.log("running");
     }
 
     update() {
-        if (this.dataBlock.lifeSpan-- <= 0) {
-            this.dataBlock.isDead = true;
-        }
-        this.vel.add(this.acc);
-        this.vel.limit(this.maxSpeed);
-        this.loc.add(this.vel);
-    }
+      if (this.dataBlock.lifeSpan-- <= 0) {
+          this.dataBlock.isDead = true;
+      }
+      this.vel.add(this.acc);
+      this.vel.limit(this.maxSpeed);
+      this.loc.add(this.vel);
+      // Check if the position is updating correctly
+     // console.log(this.loc.x, this.loc.y);
+  }
+  
     
     seek(target) {
         let desired = JSVector.subGetNew(target, this.loc);
@@ -109,17 +112,17 @@ class Pred4jdg extends Creature {
 
 
     flock(array) {
-        this.seek(this.target);
+       // this.seek(this.closestTarget());
         //  flock force is the accumulation of all forces
-        this.flockForce = new JSVector(0, 0);
+        this.flockForce = new JSVector(0,0);
         // set up force vectors to be added to acc
         let sep = this.separate(array);
         let ali = this.align(array);
         let coh = this.cohesion(array);
         // multipliersssss!!!!!!
-        let sepMult = 5;
-        let aliMult = 5;
-        let cohMult = 5;
+        let sepMult = .5;
+        let aliMult = .5;
+        let cohMult = .5;
         //  calculate three forces
         sep *= sepMult;
         ali *= aliMult;
@@ -139,18 +142,20 @@ class Pred4jdg extends Creature {
             for (let i = 0; i < array.length; i++) {
               let d = this.loc.distance(array[i].loc);
               if ((d > 0) && (d < desiredseparation)) {
+                
                 let diff = JSVector.subGetNew(this.loc, array[i].loc);
-                diff.normalize();
-                diff.divide(d);
-                sum.add(diff);
-                count++;
-         
+                //diff.normalize();
+                if (d > 0.0001) {
+                  diff.divide(d * d);
+                  sum.add(diff);
+                  count++;
+              }
               }
             }
             if (count > 0) {
               sum.divide(count);
               sum.normalize();
-              sum.multiply(this.maxspeed);
+              sum.multiply(this.maxSpeed);
             let steer = JSVector.subGetNew(sum, this.vel);
               steer.limit(this.maxForce);
               this.applyForce(steer);
@@ -171,9 +176,9 @@ class Pred4jdg extends Creature {
                 if (count > 0) {
                   sum.divide(count);
                   sum.normalize();
-                  sum.multiply(this.maxspeed);
+                  sum.multiply(this.maxSpeed);
                   let steer = JSVector.subGetNew(sum, this.vel);
-                  steer.limit(this.maxforce);
+                  steer.limit(this.maxForce);
                   return steer;
                 } else {
                   return new JSVector(0,0);
@@ -207,7 +212,7 @@ class Pred4jdg extends Creature {
     }
     closestTarget() {
         let distance = 0;
-       let closestCreatureLoc = new JSVector(0,0);
+       let closestCreatureLoc = new JSVector(1000,100);
       //  for (let i = 1; i < wrld.creatures.herb1.length; i++) {
           //  const currentDistance = this.loc.distance(wrld.creatures.herb1.length[i]);
           //  if (currentDistance < distance) {
@@ -216,7 +221,7 @@ class Pred4jdg extends Creature {
           //  }
        // }
         //closestCreatureLoc = new JSVector(creatures[i].loc.x, creature[i].loc.y);
-        closestCreatureLoc = new JSVector(0,0);
+        closestCreatureLoc = new JSVector(1000,100);
 
         return(closestCreatureLoc);
 
@@ -227,26 +232,6 @@ class Pred4jdg extends Creature {
     attack(target) {
 
     }
-    //+++++++++++++++++++++++++++++++++  Flocking functions
-    /* 
-     Vehicle.prototype.render = function () {
-         let ctx = game.ctx;
-         ctx.save();
-         ctx.translate(this.loc.x, this.loc.y);
-         ctx.rotate(this.vel.getDirection() + Math.PI / 2); //offset 90 degrees
-         ctx.beginPath();
-         ctx.strokeStyle = this.clr;
-         ctx.fillStyle = this.clr;
-         ctx.moveTo(0, -this.scl);
-         ctx.lineTo(-this.scl, this.scl);
-         ctx.lineTo(0, 0);
-         ctx.lineTo(this.scl, this.scl);
-         ctx.closePath();
-         ctx.stroke();
-         ctx.fill();
-         ctx.restore();
-     }
-     */
     checkEdges() {
         if (this.loc.x >= world.dims.width / 2 || this.loc.x <= -world.dims.width / 2) {
             this.vel.x *= -1;
