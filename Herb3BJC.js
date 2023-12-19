@@ -69,27 +69,27 @@ class Herb3BJC extends Creature {
     //if close to pred
     if(this.colorState = false){
     for(let i = 0; i < world.creatures.pred1.length; i++){
-        let dist1 = this.loc.distance(world.creatures.pred1[i].loc);
+        let dist1 = this.loc.dist(world.creatures.pred1[i].loc);
         //let direction = world.creatures.pred1[i].getDirection();
-        if(dist1 <= 200){
+        if(dist <= 200){
         //this.loadDarts(direction); //shoot out poison darts to pred
         this.colorState = true; //turn invisible
         }
     }
 
     for(let i = 0; i < world.creatures.pred2.length; i++){
-        let dist2 = this.loc.distance(world.creatures.pred2[i].loc);
+        let dist = this.loc.dist(world.creatures.pred2[i].loc);
         //let direction = world.creatures.pred2[i].getDirection();
-        if(dist2 <= 200){
+        if(dist <= 200){
             //this.loadDarts(direction); 
             this.colorState = true; 
             }
     }
 
     for(let i = 0; i < world.creatures.pred3.length; i++){
-        let dist3 = this.loc.distance(world.creatures.pred3[i].loc);
+        let dist = this.loc.dist(world.creatures.pred3[i].loc);
         //let direction = world.creatures.pred3[i].getDirection();
-        if(dist3 <= 200){
+        if(dist <= 200){
            // this.loadDarts(direction);
             this.colorState = true;
             }
