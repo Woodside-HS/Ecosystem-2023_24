@@ -120,7 +120,7 @@ class World {
 
   runCreatures() {
     for (let i = 0; i < this.creatures.SKHerb4.length; i++) {
-      
+
       this.creatures.SKHerb4[i].run();
     }
   }
