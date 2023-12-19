@@ -36,8 +36,8 @@ class World {
     this.foodItems = [];
 
     this.creatures = {
-      pred1: [new Pred1(new JSVector(400, 600), new JSVector(-20, -20), 20, this)],
-      pred2: [],
+      pred1: [new Pred1(new JSVector(400, 600), new JSVector(0, -20), 20, this)],
+      pred2: [new Creature(new JSVector(100, 120), new JSVector(10, 0), 20, this)],
       pred3: [],
       herb1: [],
       herb2: [],
