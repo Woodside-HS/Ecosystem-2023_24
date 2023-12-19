@@ -6,9 +6,7 @@ window.onload = init;
 
 function init(){
     world = new World();
-    // food3s = new Food3(new JSVector(100, 100), new JSVector(2, -4), 5, world)
 
-    // partsys = new PartSysF3(100, 100, world)
     animate();
 }
 
