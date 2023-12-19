@@ -6,8 +6,9 @@ class Pred5KGF extends Creature{
         this.a=Math.random();
         this.dis = true;
         for(let i = 0; i<50; i++){
-        this.arr.add(new JSVector(this.loc.x, this.loc.y));
+        this.arr.add(new Segment(this.loc.x, this.loc.y));
         }
+        this.antibodies = false;
     }
     
     run() {
@@ -15,25 +16,25 @@ class Pred5KGF extends Creature{
         for(let i = 0; i<50; i++){
             arr[i].render();
         }
-        this.checkEdges();
+        //this.checkEdges();
     }
     
     render() {
         //  render balls in world
         let ctx = this.ctx;
-        context.lineCap = "round";
-        ctx.lineWidth = 10;
-        ctx.strokeStyle = this.clr;
-        ctx.save();
-        ctx.beginPath();
-        ctx.fillStyle = this.clr;
-        ctx.translate(this.loc.x, this.loc.y);
-        ctx.rotate(this.vel.getDirection());
-        ctx.moveTo(0, 0);
-        ctx.lineTo(0, 10);
-        ctx.closePath();
-        ctx.stroke();
-        ctx.restore();
+        // context.lineCap = "round";
+        // ctx.lineWidth = 10;
+        // ctx.strokeStyle = this.clr;
+        // ctx.save();
+        // ctx.beginPath();
+        // ctx.fillStyle = this.clr;
+        // ctx.translate(this.loc.x, this.loc.y);
+        // ctx.rotate(this.vel.getDirection());
+        // ctx.moveTo(0, 0);
+        // ctx.lineTo(0, 10);
+        // ctx.closePath();
+        // ctx.stroke();
+        // ctx.restore();
         //ctx.fill();
         //  render balls in mini map
      }
@@ -56,11 +57,11 @@ class Pred5KGF extends Creature{
         for(let i = 1; i<50; i++){
             this.arr[i].vel = JSVector.subGetNew(this.arr[i-1].loc, this.arr[i].loc);
             this.arr[i].vel.multiply(this.a);
-            this.arr[i].acc.normalize();
-            this.arr[i].acc.multiply(0.03);
-            this.arr[i].vel.add(this.arr[i].acc);
-            this.arr[i].vel.limit(1);
-            this.arr[i].loc.add(this.arr[i].vel);
+            // this.arr[i].acc.normalize();
+            // this.arr[i].acc.multiply(0.03);
+            // this.arr[i].vel.add(this.arr[i].acc);
+            // this.arr[i].vel.limit(1);
+            // this.arr[i].loc.add(this.arr[i].vel);
                 
         }
         //expand and collapse length
