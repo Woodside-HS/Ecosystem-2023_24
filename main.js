@@ -7,13 +7,11 @@ window.onload = init;
 function init(){
     world = new World();
 
-    herb2 = new Herb2(new JSVector(300, 300), new JSVector(0.1, 0), 10, world)
     animate();
 }
 
 function animate(){
   world.run();
-  herb2.run();
   requestAnimationFrame(animate);
 }
 
