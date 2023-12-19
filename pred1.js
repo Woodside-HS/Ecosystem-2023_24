@@ -64,6 +64,7 @@ class Pred1 extends Creature {
                     this.mode = "searching"; //reverts to search mode
                     this.orbiting = false; //deactivates orbiting mode
                     this.acc = new JSVector(0, 0); //reverts acceleration so that checkEdges will work
+                    this.dataBlock.lifeSpan += 2000;
                 }
             }
         }
