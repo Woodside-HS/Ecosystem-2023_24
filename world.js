@@ -80,18 +80,12 @@ class World {
       world.framecount = 0;
     }, 1000);
 
-
-
     this.entities = [];
     this.foodItems = [];
-
-
     this.loadherb6LYT(200);
-    // load all foods (currently only Food4)
     this.loadFood4YBR(30);
 
     this.loadherb4LYT(80);
-    // performance -- change the number of entities to see the effect on framerate
     this.numEntities = 100;
     this.loadEntities(
       this.numEntities,
@@ -200,6 +194,7 @@ runCreatures() {
   for (const creatureType in this.creatures) {
     for (const creature of this.creatures[creatureType]) {
       creature.run();
+  
     }
   }
   for (const virus of this.viruses) {
