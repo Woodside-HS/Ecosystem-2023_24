@@ -43,7 +43,7 @@ class Creature extends Entity {
       this.update();
       this.checkEdges();
       this.render();
-      this.antibodyCheck();
+      this.particleCheck();
    }
    update() {
       if(this.dataBlock.lifeSpan-- <= 0){
@@ -70,12 +70,15 @@ class Creature extends Entity {
       ctx.fill();
       //  render balls in mini map
    }
-   antibodyCheck(){
+   particleCheck(){
 
      let dist = this.loc.distance(world.foods);
-      if(this.loc <= dist){
+      if(dist <= 20){
          if(world.foods.cellType === "Antibody"){
            this.antibodies = true;
+         } else if(world.foods.cellType === "Poison"){
+            this.dataBlock.lifeSpan -= 40;
+            this.dataBlock.health -= 10;
          }
       }
    }
