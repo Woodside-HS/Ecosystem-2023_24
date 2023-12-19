@@ -41,7 +41,7 @@ class World {
       pred2: [],
       pred3: [],
       herb1: [],
-      herb2: [],
+      herb2: [new Herb2(new JSVector(300, 300), new JSVector(0.1, 0), 10, this)],
       herb3: [],
       herb4LYT: [],
       herb5: [],
@@ -126,6 +126,7 @@ class World {
     
   }
 
+
   loadherb4LYT(n){
     for (let i = 0; i < n; i++) {
       let x = (Math.random() * this.dims.width)-this.dims.width/2;
@@ -151,7 +152,8 @@ class World {
 
   runCreatures() {
     
-   
+       this.creatures.herb2[0].run()
+
 
     
     }
