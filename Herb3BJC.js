@@ -11,6 +11,7 @@ class Herb3BJC extends Creature {
        this.col = this.getRandomColor();
         this.colorState = false; //false = normal color, true = invisible for defense 
         this.antibodies = false;
+        this.maxLifeSpan = this.dataBlock.lifeSpan;
     }
 
     run(){
@@ -49,46 +50,86 @@ class Herb3BJC extends Creature {
 
     update(){
 
-        if(this.dataBlock.lifeSpan-- <= 0){
+        if (this.dataBlock.lifeSpan >= 0) {
+            this.dataBlock.lifeSpan -= 1.5;
+
+        }
+        if (this.dataBlock.lifeSpan <= 2000) {
             this.dataBlock.isDead = true;
-         }
-         this.vel.add(this.acc);
-         this.vel.limit(this.maxSpeed);
-         this.loc.add(this.vel);
+
+        }
+
+        this.dataBlock.health = (this.dataBlock.lifeSpan / this.maxLifeSpan) * 100;
+        this.vel.add(this.acc);
+        this.vel.limit(1.5);
+        this.vel.multiply(this.dataBlock.health / 100);
+        this.loc.add(this.vel);
+        this.vel.divide(this.dataBlock.health / 100);
 
     //if close to pred
+    if(this.colorState = false){
     for(let i = 0; i < world.creatures.pred1.length; i++){
         let dist = this.loc.dist(world.creatures.pred1[i].loc);
-        let direction = world.creatures.pred1[i].getDirection();
+        //let direction = world.creatures.pred1[i].getDirection();
         if(dist <= 200){
-        this.loadDarts(direction); //shoot out poison darts to pred
+        //this.loadDarts(direction); //shoot out poison darts to pred
         this.colorState = true; //turn invisible
         }
     }
 
     for(let i = 0; i < world.creatures.pred2.length; i++){
         let dist = this.loc.dist(world.creatures.pred2[i].loc);
-        let direction = world.creatures.pred2[i].getDirection();
+        //let direction = world.creatures.pred2[i].getDirection();
         if(dist <= 200){
-            this.loadDarts(direction); 
+            //this.loadDarts(direction); 
             this.colorState = true; 
             }
     }
 
     for(let i = 0; i < world.creatures.pred3.length; i++){
         let dist = this.loc.dist(world.creatures.pred3[i].loc);
-        let direction = world.creatures.pred3[i].getDirection();
+        //let direction = world.creatures.pred3[i].getDirection();
         if(dist <= 200){
-            this.loadDarts(direction);
+           // this.loadDarts(direction);
             this.colorState = true;
             }
     }
 
+}
+
+
     //if need food
-        //if eat yoyo's food, antibodies = true
+    if(this.dataBlock.health < 100){
+for(let i = 0; i < world.foods.food1; i++){
+let dist = this.loc.distance(food1[i].loc);
+if(dist<200){
+    this.seek(food1[i].loc);
+}
+
+}
+    }
+
+    if(this.dataBlock.health < 100){
+        for(let i = 0; i < world.foods.food2; i++){
+        let dist = this.loc.distance(food1[i].loc);
+        if(dist<200){
+            this.seek(food1[i].loc);
+        }
+        
+        }
+            }
 
     //if need to reproduce
 
+    }
+
+    seek(target) {
+        let desired = JSVector.subGetNew(target, this.loc);
+        desired.normalize();
+        desired.multiply(this.maxSpeed);
+        let steer = JSVector.subGetNew(desired, this.vel);
+        steer.limit(this.maxForce);
+        return steer;
     }
 
    loadDarts(direction){
