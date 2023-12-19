@@ -9,7 +9,7 @@ class Herb2 extends Creature{
         this.time = 0;
         this.timeDiff = 0;
         this.dontDoAnything = false
-        this.foodRadii = 10
+        this.foodRadii = Math.floor(Math.random() * (15 - 5) ) + 5;
     }
 
     run(){
@@ -88,7 +88,7 @@ class Herb2 extends Creature{
             if(this.time - this.timeDiff == 50){
                 this.dontDoAnything = false
                 this.timeDiff = 0
-                this.foodRadii = 10
+                this.foodRadii = Math.floor(Math.random() * (15 - 5) ) + 5;
                 let randX = Math.floor(Math.random() * (800 - 0 + 1) + 0);
                 let randY = Math.floor(Math.random() * (600 - 0 + 1) + 0);
                 this.targetLoc = new JSVector(randX, randY)
