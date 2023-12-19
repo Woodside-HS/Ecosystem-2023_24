@@ -11,19 +11,19 @@ class Creature extends Entity {
       this.ctx = wrld.ctxMain;
       this.wWidth = wrld.dims.width;
       this.wHeight = wrld.dims.height;
-
+      this.antibodies = false;
       this.statusBlock = {
-         searchFood: true,
-         searchMate: true,
-         eating: false,
-         sprint: false,
-         sleeping: false,
-         attack: false,
-         deathProc: false
+         searchFood:true,
+         searchMate:true,
+         eating:false,
+         sprint:false,
+         sleeping:false,
+         attack:false,
+         deathProc:false
 
       };
 
-      this.dataBlock = {//  status block 
+      this.dataBlock = {//  status block
          health: 100,
          isDead: false,
          nourishment: 100,
@@ -43,6 +43,7 @@ class Creature extends Entity {
       this.update();
       this.checkEdges();
       this.render();
+      this.particleCheck();
    }
    update() {
       if (this.dataBlock.lifeSpan-- <= 0) {
@@ -50,7 +51,7 @@ class Creature extends Entity {
       }
       this.vel.add(this.acc);
       this.vel.limit(this.maxSpeed);
-      this.loc.add(this.vel);
+      this.locs.add(this.vel);
    }
    checkEdges() {
       if (this.loc.x >= world.dims.width / 2 || this.loc.x <= -world.dims.width / 2) {
@@ -68,6 +69,18 @@ class Creature extends Entity {
       ctx.arc(this.loc.x, this.loc.y, this.size, 0, 2 * Math.PI, false);
       ctx.fill();
       //  render balls in mini map
+   }
+   particleCheck(){
+
+     let dist = this.loc.distance(world.foods);
+      if(dist <= 20){
+         if(world.foods.cellType === "Antibody"){
+           this.antibodies = true;
+         } else if(world.foods.cellType === "Poison"){
+            this.dataBlock.lifeSpan -= 40;
+            this.dataBlock.health -= 10;
+         }
+      }
    }
 
    getRandomColor() {

@@ -12,7 +12,6 @@ class World {
       width: 4000,
       height: 3000,
     };
-    this.backgroundMusic = new Audio("resources/sounds/mario.mp3");
     this.showGrid = true;
     this.numRows = 90;
     this.numCols = 120;
@@ -32,6 +31,7 @@ class World {
       }
     }
 
+
     this.entities = [];
     this.foodItems = [];
 
@@ -40,8 +40,13 @@ class World {
       pred2: [new Creature(new JSVector(100, 120), new JSVector(20, 0), 20, this)],
       pred3: [],
       herb1: [],
-      herb2: [],
+      herb2: [new Herb2(new JSVector(300, 300), new JSVector(0.1, 0), 10, this)],
       herb3: [],
+      herb4LYT: [],
+      herb5: [],
+      herb6: [],
+
+
       flocks: [],
     };
 
@@ -52,9 +57,12 @@ class World {
       food4: [],
       food5: [],
     };
+    // load all foods (currently only Food4)
+      this.loadFood4YBR(30);
 
+    this.loadherb4LYT(80);
     // performance -- change the number of entities to see the effect on framerate
-    this.numEntities = 50;
+    this.numEntities = 100;
     this.loadEntities(
       this.numEntities,
       this.ctxMain,
@@ -73,6 +81,7 @@ class World {
   }
 
   run() {
+   
     // performance
     this.framecount++;
     // run the world in animation
@@ -82,7 +91,9 @@ class World {
     this.ctxMain.save();
     //  move the main canvas inside of the world
     this.ctxMain.translate(-this.cnvMainLoc.x, -this.cnvMainLoc.y);
+
     this.runCreatures();
+    this.runherb4LYT();
     this.runFood();
     this.ctxMain.restore();
 
@@ -107,11 +118,25 @@ class World {
     this.ctxMain.fillStyle = "orange";
     let fps = this.framerate + " FPS"; // frames per second
     this.ctxMain.fillText(fps, 20, this.cnvMain.height - 105);
-  }
+
+
+  } //+++++++++++++++++++++++++++ end run
+
 
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
+    for(let i = 0; i < numEntities; i++){
+      let x = (Math.random() * w) - w/2;
+      let y = (Math.random() * h) - h/2;
+      let loc = new JSVector(x, y);
+      let dx = Math.random() * 2 - 1;
+      let dy = Math.random() * 2 - 1;
+      let vel = new JSVector(dx, dy);
+      let sz = Math.floor(Math.random()*0.5+0.5);
+      this.creatures.herb3.push(new Herb3BJC(loc, vel, sz, this));
+    }
   }
+
 
   runCreatures() {
     for (let i = 0; i < this.creatures.pred1.length; i++) {
@@ -120,10 +145,68 @@ class World {
     for (let i = 0; i < this.creatures.pred2.length; i++) {
       this.creatures.pred2[i].run();
     }
+    
+           this.creatures.herb2[0].run()
+let c = this.creatures;
+for(let i = 0; i < c.herb3.length; i++){
+  c.herb3[i].run();
+  if(c.herb3[i].isDead === true){
+    c.herb3.splice(i, 1);
+
   }
+}
+  }
+
+
+
+
+  loadherb4LYT(n){
+    for (let i = 0; i < n; i++) {
+      let x = (Math.random() * this.dims.width)-this.dims.width/2;
+      let y = (Math.random() * this.dims.height) -this.dims.height/2;
+      let loc = new JSVector(x, y);
+      let dx = Math.random() * 2 - 1;
+      let dy = Math.random() * 2 - 1;
+      let vel = new JSVector(dx, dy);
+      let sz = Math.floor(Math.random()*4 + 4);
+      this.creatures.herb4LYT.push(new Herb4LYT(loc, vel, sz, this));
+
+    }
+  }
+
+
+  loadFood4YBR(n) { // loads the initial amounts of food 4 particle systems
+    for (let i = 0; i < n; i++) {
+      let x = Math.random() * (1920 - (-1920)) + (-1920);
+      let y = Math.random() * (1420 - (-1420)) + (-1420);
+
+      this.foods.food4.push(new Plant4YBR(this, x, y))
+    }
+  }
+  runherb4LYT(){
+    let c = this.creatures;
+    for (let i = 0; i < c.herb4LYT.length; i++) {
+      c.herb4LYT[i].run();
+        if (c.herb4LYT[i].dataBlock.isDead === true) {
+          c.herb4LYT.splice(i, 1);
+        }
+    }
+  }
+
+
+    
+  
+
+    
+    }
+  
+
 
   runFood() {
-
+    for (let i = 0; i < this.foods.food4.length; i++) {
+      this.foods.food4[i].run();
+    }
   }
+
 } //++++++++++++++++++++++++++++++  end world constructor
 
