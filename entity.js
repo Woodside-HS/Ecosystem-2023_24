@@ -7,10 +7,10 @@ class Entity {
     this.clr = this.getRandomColor();
     this.size = sz;
     this.maxSpeed = 0.1;
+    this.wrld = wrld;
     this.ctx = wrld.ctxMain;
     this.wWidth = wrld.dims.width;
     this.wHeight = wrld.dims.height;
-    this.wrld = wrld;
     this.row = (this.loc.y - wrld.dims.top) / this.wrld.rowHeight;
     this.col = (this.loc.x - wrld.dims.left) / this.wrld.colWidth;
     this.ents = this.wrld.entities;
@@ -31,6 +31,7 @@ class Entity {
     this.loc.add(this.vel);
     this.row = Math.floor((this.loc.y - this.wrld.dims.top) / this.wrld.rowHeight);
     this.col = Math.floor((this.loc.x - this.wrld.dims.left) / this.wrld.colWidth);
+    
     //  draw a line to the closest entity in my cell
     this.closest = 1000000;
     this.clsIndex = -1;
