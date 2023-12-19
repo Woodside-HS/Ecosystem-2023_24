@@ -65,7 +65,8 @@ class Herb2 extends Creature{
         let newrandY = Math.floor(Math.random() * (600 - 0 + 1) + 0);
         let newRandVec = new JSVector(newrandX, newrandY)
 
-        let dirNew = JSVector.subGetNew(newRandVec, this.loc)
+        // let dirNew = JSVector.subGetNew(newRandVec, this.loc)
+        let dirNew = JSVector.addGetNew(this.targetLoc, this.loc)
 
         if (dirNew.getMagnitude() > 1) {
             dirNew.setMagnitude(1)
@@ -85,7 +86,7 @@ class Herb2 extends Creature{
 
             this.foodRadii-= 0.1
 
-            if(this.time - this.timeDiff == 50){
+            if(this.foodRadii <= 0){
                 this.dontDoAnything = false
                 this.timeDiff = 0
                 this.foodRadii = Math.floor(Math.random() * (15 - 5) ) + 5;
