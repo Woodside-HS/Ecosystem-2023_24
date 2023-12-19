@@ -1,5 +1,5 @@
 class World {
-  //  Commit 1: 221109
+
   constructor() {
     this.cnvMain = document.getElementById("cnv1");
     this.ctxMain = this.cnvMain.getContext("2d");
@@ -12,7 +12,6 @@ class World {
       width: 4000,
       height: 3000,
     };
-
     this.showGrid = true;
     this.numRows = 90;
     this.numCols = 120;
@@ -58,6 +57,9 @@ class World {
       food4: [],
       food5: [],
     };
+    // load all foods (currently only Food4)
+      this.loadFood4YBR(30);
+
     this.loadherb4LYT(80);
     // performance -- change the number of entities to see the effect on framerate
     this.numEntities = 50;
@@ -79,6 +81,7 @@ class World {
   }
 
   run() {
+   
     // performance
     this.framecount++;
     // run the world in animation
@@ -88,6 +91,7 @@ class World {
     this.ctxMain.save();
     //  move the main canvas inside of the world
     this.ctxMain.translate(-this.cnvMainLoc.x, -this.cnvMainLoc.y);
+
     this.runCreatures();
     this.runherb4LYT();
     this.runFood();
@@ -114,6 +118,9 @@ class World {
     this.ctxMain.fillStyle = "orange";
     let fps = this.framerate + " FPS"; // frames per second
     this.ctxMain.fillText(fps, 20, this.cnvMain.height - 105);
+
+  } //+++++++++++++++++++++++++++ end run
+=======
     for (let i = 0; i < this.creatures.length; i++) {//  All food and creatures
       this.creatures[i].run();
 
@@ -140,6 +147,16 @@ class World {
 
     }
   }
+
+
+  loadFood4YBR(n) { // loads the initial amounts of food 4 particle systems
+    for (let i = 0; i < n; i++) {
+      let x = Math.random() * (1920 - (-1920)) + (-1920);
+      let y = Math.random() * (1420 - (-1420)) + (-1420);
+
+      this.foods.food4.push(new Plant4YBR(this, x, y))
+    }
+
   runherb4LYT(){
     let c = this.creatures;
     for (let i = 0; i < c.herb4LYT.length; i++) {
@@ -158,12 +175,13 @@ class World {
     
     }
   
- 
+
 
 
   runFood() {
-
+    for (let i = 0; i < this.foods.food4.length; i++) {
+      this.foods.food4[i].run();
+    }
   }
+
 } //++++++++++++++++++++++++++++++  end world constructor
-
-
