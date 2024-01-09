@@ -59,7 +59,7 @@ class World {
     };
     this.loadherb6LYT(200);
     // load all foods (currently only Food4)
-      this.loadFood4YBR(30);
+    this.loadFood4YBR(30);
 
     this.loadherb4LYT(80);
     // performance -- change the number of entities to see the effect on framerate
@@ -82,7 +82,7 @@ class World {
   }
 
   run() {
-   
+
     // performance
     this.framecount++;
     // run the world in animation
@@ -126,21 +126,21 @@ class World {
 
 
 
-  loadherb6LYT(n){
+  loadherb6LYT(n) {
     for (let i = 0; i < 500; i++) {
-=======
-    for(let i = 0; i < numEntities; i++){
-      let x = (Math.random() * w) - w/2;
-      let y = (Math.random() * h) - h/2;
-      let loc = new JSVector(x, y);
-      let dx = Math.random() * 2 - 1;
-      let dy = Math.random() * 2 - 1;
-      let vel = new JSVector(dx, dy);
-      let sz = Math.floor(Math.random()*0.5+0.5);
-      this.creatures.herb3.push(new Herb3BJC(loc, vel, sz, this));
+
+      for (let i = 0; i < numEntities; i++) {
+        let x = (Math.random() * w) - w / 2;
+        let y = (Math.random() * h) - h / 2;
+        let loc = new JSVector(x, y);
+        let dx = Math.random() * 2 - 1;
+        let dy = Math.random() * 2 - 1;
+        let vel = new JSVector(dx, dy);
+        let sz = Math.floor(Math.random() * 0.5 + 0.5);
+        this.creatures.herb3.push(new Herb3BJC(loc, vel, sz, this));
+      }
     }
   }
-
 
   runCreatures() {
     for (let i = 0; i < this.creatures.pred1.length; i++) {
@@ -149,51 +149,51 @@ class World {
     for (let i = 0; i < this.creatures.pred2.length; i++) {
       this.creatures.pred2[i].run();
     }
-    
-           this.creatures.herb2[0].run()
-let c = this.creatures;
-for(let i = 0; i < c.herb3.length; i++){
-  c.herb3[i].run();
-  if(c.herb3[i].isDead === true){
-    c.herb3.splice(i, 1);
 
+    this.creatures.herb2[0].run()
+    let c = this.creatures;
+    for (let i = 0; i < c.herb3.length; i++) {
+      c.herb3[i].run();
+      if (c.herb3[i].isDead === true) {
+        c.herb3.splice(i, 1);
+
+      }
+    }
   }
-}
-  }
 
 
 
 
-  loadherb4LYT(n){
+  loadherb4LYT(n) {
     for (let i = 0; i < n; i++) {
-      let x = (Math.random() * this.dims.width)-this.dims.width/2;
-      let y = (Math.random() * this.dims.height) -this.dims.height/2;
+      let x = (Math.random() * this.dims.width) - this.dims.width / 2;
+      let y = (Math.random() * this.dims.height) - this.dims.height / 2;
       let loc = new JSVector(x, y);
       let dx = Math.random() * 2 - 1;
       let dy = Math.random() * 2 - 1;
       let vel = new JSVector(dx, dy);
-      let sz = Math.random()*0.2+0.6;
+      let sz = Math.random() * 0.2 + 0.6;
       this.creatures.herb6LYT.push(new Herb6FlockLYT(loc, vel, sz, this));
 
     }
   }
   runherb6LYT() {
     let c = this.creatures;
-    
+
     for (let i = 0; i < c.herb6LYT.length; i++) {
       c.herb6LYT[i].run(c.herb6LYT);
-        if (c.herb6LYT[i].isDead === true) {
-          c.herb6LYT.splice(i, 1)
-        }
+      if (c.herb6LYT[i].isDead === true) {
+        c.herb6LYT.splice(i, 1)
+      }
     }
   }
   runCreatures() {
 
-      let sz = Math.floor(Math.random()*4 + 4);
-      this.creatures.herb4LYT.push(new Herb4LYT(loc, vel, sz, this));
+    let sz = Math.floor(Math.random() * 4 + 4);
+    this.creatures.herb4LYT.push(new Herb4LYT(loc, vel, sz, this));
 
-    }
   }
+
 
 
   loadFood4YBR(n) { // loads the initial amounts of food 4 particle systems
@@ -204,22 +204,22 @@ for(let i = 0; i < c.herb3.length; i++){
       this.foods.food4.push(new Plant4YBR(this, x, y))
     }
   }
-  runherb4LYT(){
+  runherb4LYT() {
     let c = this.creatures;
     for (let i = 0; i < c.herb4LYT.length; i++) {
       c.herb4LYT[i].run();
-        if (c.herb4LYT[i].dataBlock.isDead === true) {
-          c.herb4LYT.splice(i, 1);
-        }
+      if (c.herb4LYT[i].dataBlock.isDead === true) {
+        c.herb4LYT.splice(i, 1);
+      }
     }
   }
 
-    
-  
 
-    
-    
-  
+
+
+
+
+
 
 
   runFood() {
