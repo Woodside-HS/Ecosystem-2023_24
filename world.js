@@ -39,7 +39,8 @@ class World {
     this.foodItems = [];
 
     this.viruses = [];
-    for (let i = 0; i < 1; ++i) {
+    let numViruses = 100;
+    for (let i = 0; i < numViruses; ++i) {
       this.viruses.push(new Virus(
         new JSVector(0, 0), // position/location
         20,		// speed
