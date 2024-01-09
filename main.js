@@ -5,10 +5,10 @@ let world;
 window.onload = init;
 
 
-function init(){
-    world = new World();
+function init() {
+  world = new World();
 
-    animate();
+  animate();
 }
 
 function animate() {
