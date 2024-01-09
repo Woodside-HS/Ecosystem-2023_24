@@ -41,8 +41,7 @@ class World {
       pred2: [],
       pred3: [],
       herb1: [],
-      herb2: [new Herb2(new JSVector(300, 300), new JSVector(0.1, 0), 10, this)],
-      herb3: [],
+      herb2: [],
       herb4LYT: [],
       herb5: [],
       herb6: [],
@@ -152,7 +151,7 @@ class World {
 
   runCreatures() {
     
-       this.creatures.herb2[0].run()
+
 
 
     
