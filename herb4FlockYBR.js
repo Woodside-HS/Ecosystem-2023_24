@@ -1,4 +1,4 @@
-class Herb4 extends Creature {
+class Herb4YBR extends Creature {
     constructor(loc, vel, sz, world) {
         super(loc, vel, sz, world);
         this.loc = loc;
@@ -40,11 +40,13 @@ class Herb4 extends Creature {
     }
 
     isHunted() {
-
+        if(world.creatures.loc < 30){
+            this.vel.multiply(-world.creatures.vel);
+        }
     }
 
     foodSeek() {
-
+       
     }
 
     flock(herbivores) {
@@ -56,9 +58,9 @@ class Herb4 extends Creature {
         let ali = this.align(herbivores);
         let coh = this.cohesion(herbivores);
 
-        sep.multiply(5);
+        sep.multiply(1.2);
         ali.multiply(6);
-        coh.multiply(5);
+        coh.multiply(1.3);
 
         //  add each of these to flockForce
         flockForce.add(sep);

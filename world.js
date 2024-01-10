@@ -54,7 +54,7 @@ class World {
     };
 
     // load all foods (currently only Food4)
-    // this.loadFood4YBR(30);
+    this.loadFood4YBR(30);
 
     // load all herbivores (Currently only herb4)
     this.loadHerb4YBR(500)
@@ -129,7 +129,7 @@ class World {
       let x = Math.random() * (1920 - (-1920)) + (-1920);
       let y = Math.random() * (1420 - (-1420)) + (-1420);
       let loc = new JSVector(x, y);
-      this.creatures.herb4.push(new Herb4(loc, vel, sz, this))
+      this.creatures.herb4.push(new Herb4YBR(loc, vel, sz, this))
     
   }
 }
