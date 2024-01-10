@@ -29,13 +29,12 @@ class Herb4LYT extends Creature {
     }
     run() {
 
-        this.update();
+       this.update();
         this.render();
         this.life();
         this.checkEdges();
-        this.seekOthers();
-        //this is very no no working
-        //  this.seekFoods();
+        //this.seekOthers();
+        this.seekFoods();
     }
     seekOthers() {
 
@@ -60,8 +59,7 @@ class Herb4LYT extends Creature {
 
                                 let h4 = world.creatures.herb4LYT;
 
-                                //  let x = Math.random() * world.dims.width - world.dims.width / 2;
-                                //  let y = Math.random() * world.dims.height - world.dims.height / 2;
+                            
                                 let x = this.loc.x;
                                 let y = this.loc.y;
                                 let dx = Math.random() * 2 - 1;
@@ -71,7 +69,7 @@ class Herb4LYT extends Creature {
                                 h4[i].cc = true;
                                 if (h4.length < 1000) {
                                     this.vel = new JSVector(0, 0);
-                                 //   h4[i].vel = new JSVector(0, 0);
+                               
 
                                     setTimeout(() => {//idk I found this
                                         //bascially just waits x/1000 seconds thens runs the code
@@ -80,9 +78,7 @@ class Herb4LYT extends Creature {
                                         this.vel.x = Math.random() * 2 - 1;
                                         this.vel.y = Math.random() * 2 - 1;
                                       
-                                      //  h4[i].vel.x = Math.random() * 2 - 1;//ditto with the bottom comment this will not work if 
-                                        //this parent dies in in this 2500 milisecond window
-                                       // h4[i].vel.y = Math.random() * 2 - 1;
+                                     
                                         h4[h4.length - 1].cc = true;
 
                                         setTimeout(() => {//my brains hurting rn the logic this uses is incorrect
@@ -107,25 +103,30 @@ class Herb4LYT extends Creature {
 
     seekFoods() {
         let dd = 120;
-        if (this.dataBlock.health < 70) {
-            let f4 = world.creatures.food4;
+        console.log(this.loc)
+        if (this.dataBlock.health <= 100) {
+            let f4 = world.foods.food4;
             for (let i = 0; i < f4.length; i++) {
                 let oo = f4[i];
-                let dist = this.loc.dist(oo.loc);
+                let dist = this.loc.distance(oo.loc);
+            
                 if (dd < dist) {
-                    let ee = JSVector.subGetNew(oo.loc);
-                    ee.normalize();
-                    ee.multiply(0.08)
-                    this.vel.add(ee);
-                    this.vel.limit(1.5);
-                    if (dist < 20) {
-                        this.vel = new JSVector(0, 0);
-                        this.vel.x = Math.random() * 2 - 1;
-                        this.vel.y = Math.random() * 2 - 1;
+                    let ee = JSVector.subGetNew(oo.loc, this.loc);
+                  
+                    this.acc.add(ee);
+                    this.acc.normalize();
+                    this.acc.multiply(0.008)
+                   this.vel.add(this.acc)
+                    this.vel.limit(.15);
+                    this.loc.add(this.vel);
+                    // if (dist < 20) {
+                    //     this.vel = new JSVector(0, 0);
+                    //     this.vel.x = Math.random() * 2 - 1;
+                    //     this.vel.y = Math.random() * 2 - 1;
 
 
                     }
-                }
+                //}
             }
         }
     }
