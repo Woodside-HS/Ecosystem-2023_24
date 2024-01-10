@@ -49,6 +49,7 @@ class World {
 
     this.creatures = {
       pred1: [new Pred1(new JSVector(400, 600), new JSVector(0, -30), 20, this)],
+      pred1: [],
       pred2: [],
       pred3: [],
       herb1: [],
@@ -84,6 +85,7 @@ class World {
     this.foodItems = [];
     this.loadherb6LYT(200);
     this.loadFood4YBR(30);
+    this.loadPred1(5);
 
     this.loadherb4LYT(80);
     this.numEntities = 100;
@@ -207,6 +209,52 @@ class World {
   }
 
 
+
+
+  loadherb4LYT(n) {
+    for (let i = 0; i < n; i++) {
+      let x = (Math.random() * this.dims.width) - this.dims.width / 2;
+      let y = (Math.random() * this.dims.height) - this.dims.height / 2;
+      let loc = new JSVector(x, y);
+      let dx = Math.random() * 2 - 1;
+      let dy = Math.random() * 2 - 1;
+      let vel = new JSVector(dx, dy);
+      let sz = Math.random() * 4 + 4;
+      this.creatures.herb6LYT.push(new Herb4LYT(loc, vel, sz, this));
+
+    }
+  }
+  runherb6LYT() {
+    let c = this.creatures;
+
+    for (let i = 0; i < c.herb6LYT.length; i++) {
+      c.herb6LYT[i].run(c.herb6LYT);
+      if (c.herb6LYT[i].isDead === true) {
+        c.herb6LYT.splice(i, 1)
+      }
+    }
+  }
+
+
+
+
+  loadFood4YBR(n) { // loads the initial amounts of food 4 particle systems
+    for (let i = 0; i < n; i++) {
+      let x = Math.random() * (1920 - (-1920)) + (-1920);
+      let y = Math.random() * (1420 - (-1420)) + (-1420);
+
+      this.foods.food4.push(new Plant4YBR(this, x, y))
+    }
+  }
+  loadPred1(n) {
+    for (let i = 0; i < n; i++) {
+      let locx = Math.random() * 500 + 400;
+      let locy = Math.random() * 600 + 200;
+      let velx = Math.random() * -1 * 60 + 30;
+      let vely = Math.random() * -1 * 60 + 30;
+      this.creatures.pred1[i] = new Pred1(new JSVector(locx, locy), new JSVector(velx, vely), 20, this);
+    }
+  }
 
 
   loadherb4LYT(n) {

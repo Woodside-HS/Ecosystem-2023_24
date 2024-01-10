@@ -23,18 +23,49 @@ class Pred1 extends Creature {
 
 
     update() {
-        let creatures = this.wrld.creatures; //passing in array of creatures in global world
+        let creatures = this.wrld.creatures; //passing in array of creatures in global world        
+
+        let creaturesArray = [];
+
+        for (let i = 0; i < creatures.pred2.length; i++) {
+            creaturesArray.push(creatures.pred2[i]);
+        }
+        for (let i = 0; i < creatures.pred3.length; i++) {
+            creaturesArray.push(creatures.pred3[i]);
+        }
+        for (let i = 0; i < creatures.herb1.length; i++) {
+            creaturesArray.push(creatures.herb1[i]);
+        }
+        for (let i = 0; i < creatures.herb2.length; i++) {
+            creaturesArray.push(creatures.herb2[i]);
+        }
+        for (let i = 0; i < creatures.herb3.length; i++) {
+            creaturesArray.push(creatures.herb3[i]);
+        }
+        for (let i = 0; i < creatures.herb4LYT.length; i++) {
+            creaturesArray.push(creatures.herb4LYT[i]);
+        }
+        for (let i = 0; i < creatures.herb5.length; i++) {
+            creaturesArray.push(creatures.herb5[i]);
+        }
+        for (let i = 0; i < creatures.herb6LYT.length; i++) {
+            creaturesArray.push(creatures.herb6LYT[i]);
+        }
+
+
+
+
         let orbitalRadius = this.orbitalRadius; //passing in orbital radius into simpler variable
 
         if (this.mode == "searching") { //runs block iff predator is in searching mode
             //this is just regular straight-line movement
-            this.vel.limit(this.maxSpeed / 2);
+            this.vel.limit(this.maxSpeed / 10);
             this.vel.add(this.acc);
             this.loc.add(this.vel);
         }
 
-        for (let i = 0; i < creatures.pred2.length; i++) { //running through array of pred2s
-            let target = creatures.pred2[i]; //making target variable equal to the predator in question
+        for (let i = 0; i < creaturesArray.length; i++) { //running through array of pred2s
+            let target = creaturesArray[i]; //making target variable equal to the predator in question
             let d = target.loc.distance(this.loc); //calculating the distance between itself and the predator
             if (d < 200 && d > orbitalRadius + 5 && target.dataBlock.isDead == false) { //if the target is within 200 pixels and isn't dead
                 this.mode = "seeking"; //turns to seeking mode
