@@ -19,6 +19,7 @@ class Herb6FlockLYT extends Creature {
         //this.count;
         this.numClose = 0;
         this.cc = false;
+        this.health = 100
     }
 
 
@@ -30,6 +31,7 @@ class Herb6FlockLYT extends Creature {
         this.checkEdges();
         this.bigFish();
         this.seekOthers();
+        this.seekFood();
 
     }
 
@@ -126,10 +128,21 @@ class Herb6FlockLYT extends Creature {
 
         if (this.loc.x >= this.wrld.dims.width / 2 || this.loc.x <= -this.wrld.dims.width / 2) {
             this.vel.x *= -1;
+            this.count++; 
+            if(this.count > 1000){
+                this.loc.x = Math.random() * this.wrld.dims.width - this.wrld.dims.width/2;
+                this.loc.y = Math.random() * this.wrld.dims.height - this.wrld.dims.height/2;
+                this.count = 0;
+            }
         }
         if (this.loc.y >= this.wrld.dims.height / 2 || this.loc.y <= -this.wrld.dims.height / 2) {
             this.vel.y *= -1;
-
+            this.count++;
+            if(this.count > 1000){
+                this.loc.x = Math.random() * this.wrld.dims.width - this.wrld.dims.width/2;
+                this.loc.y = Math.random() * this.wrld.dims.height - this.wrld.dims.height/2;
+                this.count = 0;
+            }
         }
     }
 
@@ -151,13 +164,15 @@ class Herb6FlockLYT extends Creature {
         this.acc.add(flockForce);
     }
     update() {
+        this.dataBlock.health = this.health*(this.dataBlock.lifeSpan/this.maxLifeSpan);
         this.vel.add(this.acc);
         this.vel.limit(0.5);
         this.loc.add(this.vel);
         if(this.dataBlock.lifeSpan > 2000){
         this.dataBlock.lifeSpan--;
+        this.health -= 0.02;
         }
-        if(this.dataBlock.lifeSpan < 2000){
+        if(this.dataBlock.lifeSpan < 2000 || this.dataBlock.health < 30){
             this.isDead = true;
         }
 
@@ -174,11 +189,6 @@ class Herb6FlockLYT extends Creature {
         ctx.beginPath();
         
 
-
-
-
-        // this.sz *= this.health;
-        //ill attempt to get with to work but so far this is going to be very annoying 
         ctx.moveTo(-this.sz * 4, 0, this.sz, Math.PI * 2, 0, false);
         ctx.ellipse(-this.sz * 4, 0, this.sz * 1.2, this.sz * 7, Math.PI * 0.75, 0, Math.PI * 2);
         ctx.moveTo(this.sz * 4, 0, this.sz, Math.PI * 2, 0, false);
