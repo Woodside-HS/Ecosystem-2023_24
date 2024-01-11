@@ -6,6 +6,7 @@ class Plant4YBR {
         this.foods4 = [];
         this.r = 15;
         this.loadParticle(1);
+        
         this.shootCount = 0; // determines time when particle is shot out
         this.pollenCount = 0; // determines whether
     }

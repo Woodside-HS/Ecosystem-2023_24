@@ -19,11 +19,13 @@ class Herb4LYT extends Creature {
         this.gUP = true;//dumb way but only way I can think of 
         this.eUP = true;
         this.jumpDistance = 200;//this just states how long it takes to get from bottom-top-bottom
-        this.dataBlock.lifeSpan = 8000;
+        this.dataBlock.lifeSpan = 16000;
         this.dataBlock.health;
+        this.health = 100;//very very scuffed idk 
         this.dataBlock.isDead = false;//do you even need to declare this as false?
         this.maxLifeSpan = this.dataBlock.lifeSpan;
         this.antibodies = false;
+        this.count++;
 
 
     }
@@ -33,7 +35,7 @@ class Herb4LYT extends Creature {
         this.render();
         this.life();
         this.checkEdges();
-        //this.seekOthers();
+        this.seekOthers();
         this.seekFoods();
     }
     seekOthers() {
@@ -42,6 +44,7 @@ class Herb4LYT extends Creature {
 
             let dd = 120;
             let h4 = world.creatures.herb4LYT;
+            
             for (let i = 0; i < h4.length; i++) {
                 if (!this.cc && !h4[i].cc) {
                     let oo = h4[i];
@@ -75,8 +78,8 @@ class Herb4LYT extends Creature {
                                         //bascially just waits x/1000 seconds thens runs the code
                                         h4.push(new Herb4LYT(new JSVector(x, y), new JSVector(dx, dy), this.sz, this.wrld));
                                         let mature = h4[h4.length - 1];
-                                        this.vel.x = Math.random() * 2 - 1;
-                                        this.vel.y = Math.random() * 2 - 1;
+                                        this.vel.x = Math.random() * 1 - 0.5;
+                                        this.vel.y = Math.random() * 1 - 0.5;
                                       
                                      
                                         h4[h4.length - 1].cc = true;
@@ -102,42 +105,61 @@ class Herb4LYT extends Creature {
 
 
     seekFoods() {
-        let dd = 120;
-        console.log(this.loc)
-        if (this.dataBlock.health <= 100) {
-            let f4 = world.foods.food4;
-            for (let i = 0; i < f4.length; i++) {
-                let oo = f4[i];
+        let dd = 150;
+      
+        if (this.dataBlock.health < 70) {
+         
+
+        
+            for (let i = 0; i < world.foods.food4.length; i++) {
+        
+                for(let j = 0; j < world.foods.food4[i].foods4.length; j ++){
+                    let f4 = world.foods.food4[i];
+                let oo = f4.foods4[j];
                 let dist = this.loc.distance(oo.loc);
-            
-                if (dd < dist) {
-                    let ee = JSVector.subGetNew(oo.loc, this.loc);
+                if(dist < 60){
+                    this.vel = new JSVector(0, 0);
                   
-                    this.acc.add(ee);
+                  this.wrld.foods.food4[i].foods4[j].lifeSpan-=200;
+                  this.health+=0.5;
+            }
+                if (dd > dist && dist > 60) {
+                  
+                   let t = new JSVector(oo.loc.x, oo.loc.y);//bro idk this is one of the only way I can get this to work
+                    this.acc = JSVector.subGetNew(t, this.loc);
+               
                     this.acc.normalize();
-                    this.acc.multiply(0.008)
-                   this.vel.add(this.acc)
-                    this.vel.limit(.15);
+                    this.acc.multiply(0.235128);
+                   this.vel.add(this.acc);
+                    this.vel.limit(1.0);
+                    
                     this.loc.add(this.vel);
-                    // if (dist < 20) {
-                    //     this.vel = new JSVector(0, 0);
-                    //     this.vel.x = Math.random() * 2 - 1;
-                    //     this.vel.y = Math.random() * 2 - 1;
-
-
-                    }
-                //}
+                 
+                }
+               
             }
         }
+        }
     }
-    checkEdges() {//idk the creature checkEdges does not work very well
+    checkEdges() {
 
         if (this.loc.x >= this.wrld.dims.width / 2 || this.loc.x <= -this.wrld.dims.width / 2) {
             this.vel.x *= -1;
+            this.count++; 
+            if(this.count > 1000){
+                this.loc.x = Math.random() * this.wrld.dims.width - this.wrld.dims.width/2;
+                this.loc.y = Math.random() * this.wrld.dims.height - this.wrld.dims.height/2;
+                this.count = 0;
+            }
         }
         if (this.loc.y >= this.wrld.dims.height / 2 || this.loc.y <= -this.wrld.dims.height / 2) {
             this.vel.y *= -1;
-
+            this.count++;
+            if(this.count > 1000){
+                this.loc.x = Math.random() * this.wrld.dims.width - this.wrld.dims.width/2;
+                this.loc.y = Math.random() * this.wrld.dims.height - this.wrld.dims.height/2;
+                this.count = 0;
+            }
         }
     }
     render() {
@@ -231,7 +253,7 @@ class Herb4LYT extends Creature {
     update() {
 
 
-        this.dataBlock.health = (this.dataBlock.lifeSpan / this.maxLifeSpan) * 100;
+        this.dataBlock.health = this.health*(this.dataBlock.lifeSpan / this.maxLifeSpan)
         this.vel.add(this.acc);
         this.vel.limit(1.5);
         this.vel.multiply(this.dataBlock.health / 100);
@@ -262,6 +284,7 @@ class Herb4LYT extends Creature {
     life() {//would just putting this in update be better? 
         if (this.dataBlock.lifeSpan >= 0) {
             this.dataBlock.lifeSpan -= 0.5;//Prob would be better at -1.5 
+            this.health -= 0.005;//ok ok idk 
 
         }
         if (this.dataBlock.lifeSpan <= 2000) {

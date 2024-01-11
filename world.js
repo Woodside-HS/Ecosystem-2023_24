@@ -59,7 +59,7 @@ class World {
     };
 
     this.loadFood4YBR(30);
-    this.loadherb4LYT(1);
+    this.loadherb4LYT(50);
     // performance -- change the number of entities to see the effect on framerate
     this.numEntities = 50;
     this.loadEntities(
@@ -172,6 +172,7 @@ class World {
     runFood() {
       for (let i = 0; i < this.foods.food4.length; i++) {
         this.foods.food4[i].run();
+       
       }
     }
 } //++++++++++++++++++++++++++++++  end world constructor
