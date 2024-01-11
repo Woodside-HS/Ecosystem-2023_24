@@ -99,7 +99,9 @@ class Herb6FlockLYT extends Creature {
                                 this.vel = new JSVector(0, 0);
                                 setTimeout(() => {//idk I found this
                                     //bascially just waits x/1000 seconds thens runs the code
-                                    h4.push(new Herb6FlockLYT(new JSVector(x, y), new JSVector(dx, dy), this.sz, this.wrld));
+                                    let lc = new JSVector(x, y);
+                                    let vl = new JSVector(dx, dy);
+                                    h4.push(new Herb6FlockLYT(lc, vl, this.sz, this.wrld));
                                     let mature = h4[h4.length - 1];
                                     this.vel.x = Math.random() * 2 - 1;
                                     this.vel.y = Math.random() * 2 - 1;
