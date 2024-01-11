@@ -8,17 +8,20 @@ class Herb6FlockLYT extends Creature {
         this.wrld = wrld;
         this.acc = new JSVector(0, 0);
         this.sz = sz;
-        this.dataBlock.lifeSpan = 12000;
+        this.dataBlock.lifeSpan = 16000;
         this.dataBlock.health = 100;
         this.isDead;
         this.maxForce = 3.5;
         this.maxSpeed = 1.5;
         this.maxLifeSpan = this.dataBlock.lifeSpan;
         this.desiredSep = 16;
-        this.clr = this.getRandomColor();
+        let red = Math.floor(Math.random() * 256);
+    let green = Math.floor(Math.random() * 256);
+    let blue = Math.floor(Math.random() * 256);
+    this.clr = 'rgba(' + red + ',' + green + ',' + blue + ',' + 0.5 + ')';
         this.numClose = 0;
         this.cc = false;
-        this.health = 100
+        this.health = 100;
     }
 
 
@@ -54,7 +57,7 @@ class Herb6FlockLYT extends Creature {
                     this.acc = JSVector.subGetNew(t, this.loc);
 
                     this.acc.normalize();
-                    this.acc.multiply(0.235128);
+                    this.acc.multiply(0.1235128);
                     this.vel.add(this.acc);
                     this.vel.limit(1.0);
 
@@ -192,12 +195,13 @@ class Herb6FlockLYT extends Creature {
     }
     update() {
         this.dataBlock.health = this.health * (this.dataBlock.lifeSpan / this.maxLifeSpan);
+
         this.vel.add(this.acc);
         this.vel.limit(0.5);
         this.loc.add(this.vel);
         if (this.dataBlock.lifeSpan > 2000) {
             this.dataBlock.lifeSpan--;
-            this.health -= 0.02;
+            this.health -= 0.008;
         }
         if (this.dataBlock.lifeSpan < 2000 || this.dataBlock.health < 30) {
             this.isDead = true;

@@ -73,12 +73,13 @@ class Creature extends Entity {
    particleCheck(){
 
      let dist = this.loc.distance(world.foods);
+     console.log(dist)
       if(dist <= 20){
          if(world.foods.cellType === "Antibody"){
            this.antibodies = true;
          } else if(world.foods.cellType === "Poison"){
-            this.dataBlock.lifeSpan -= 40;
-            this.dataBlock.health -= 10;
+            this.dataBlock.lifeSpan -= 1.2;
+            this.dataBlock.health -= 0.02;
          }
       }
    }
