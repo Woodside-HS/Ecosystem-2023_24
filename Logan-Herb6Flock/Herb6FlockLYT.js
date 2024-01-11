@@ -67,8 +67,6 @@ class Herb6FlockLYT extends Creature {
     }
 
     seekOthers() {
-
-
         let dd = 120;
         let h4 = world.creatures.herb6LYT;
         for (let i = 0; i < h4.length; i++) {
@@ -96,6 +94,7 @@ class Herb6FlockLYT extends Creature {
 
                             this.cc = true;
                             h4[i].cc = true;
+  
                             if (h4.length < 1000) {
                                 this.vel = new JSVector(0, 0);
                                 setTimeout(() => {//idk I found this
@@ -104,12 +103,10 @@ class Herb6FlockLYT extends Creature {
                                     let mature = h4[h4.length - 1];
                                     this.vel.x = Math.random() * 2 - 1;
                                     this.vel.y = Math.random() * 2 - 1;
-
-
                                     h4[h4.length - 1].cc = true;
 
                                     setTimeout(() => {//my brains hurting rn the logic this uses is incorrect
-
+                                        this.cc = false;
                                         mature.cc = false;
                                     }, "2000");
                                 }, "2500");//time in miliseconds
