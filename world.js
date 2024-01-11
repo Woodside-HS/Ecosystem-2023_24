@@ -62,12 +62,12 @@ class World {
     this.loadFood4YBR(30);
     // performance -- change the number of entities to see the effect on framerate
     this.numEntities = 100;
-    this.loadEntities(
-      this.numEntities,
-      this.ctxMain,
-      this.dims.width,
-      this.dims.height
-    );
+    // this.loadEntities(
+    //   this.numEntities,
+    //   this.ctxMain,
+    //   this.dims.width,
+    //   this.dims.height
+    // );
     // performance
     this.framerate = 60;
     this.framecount = 0;

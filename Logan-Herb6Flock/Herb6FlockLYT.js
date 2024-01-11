@@ -10,7 +10,7 @@ class Herb6FlockLYT extends Creature {
         this.sz = sz;
         this.dataBlock.lifeSpan = 12000;
         this.dataBlock.health = 100;
-        this.dataBlock.isDead;
+        this.isDead;
         this.maxForce = 3.5;
         this.maxSpeed = 1.5;
         this.maxLifeSpan = this.dataBlock.lifeSpan;
@@ -30,6 +30,7 @@ class Herb6FlockLYT extends Creature {
         this.checkEdges();
         this.bigFish();
         this.seekOthers();
+
     }
 
     seekOthers() {
@@ -108,7 +109,7 @@ class Herb6FlockLYT extends Creature {
                     let ctx = this.ctx;
                     ctx.save();
                     ctx.translate(this.loc.x, this.loc.y)
-                    ctx.strokeStyle = "rgba(255,0,0,0.1)";//overlapping causes this to be a lot thicker
+                    ctx.strokeStyle = "rgba(255,0,0,0.08)";//overlapping causes this to be a lot thicker
                     ctx.beginPath();
                     ctx.arc(0, 0, 75, 0, Math.PI*2, false);
 
@@ -153,6 +154,12 @@ class Herb6FlockLYT extends Creature {
         this.vel.add(this.acc);
         this.vel.limit(0.5);
         this.loc.add(this.vel);
+        if(this.dataBlock.lifeSpan > 2000){
+        this.dataBlock.lifeSpan--;
+        }
+        if(this.dataBlock.lifeSpan < 2000){
+            this.isDead = true;
+        }
 
     }
 
