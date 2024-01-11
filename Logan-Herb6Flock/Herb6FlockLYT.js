@@ -16,7 +16,6 @@ class Herb6FlockLYT extends Creature {
         this.maxLifeSpan = this.dataBlock.lifeSpan;
         this.desiredSep = 16;
         this.clr = this.getRandomColor();
-        //this.count;
         this.numClose = 0;
         this.cc = false;
         this.health = 100
@@ -31,71 +30,99 @@ class Herb6FlockLYT extends Creature {
         this.checkEdges();
         this.bigFish();
         this.seekOthers();
-        this.seekFood();
+        this.seekFoods();
 
+    }
+    seekFoods() {
+        let dd = 80;
+        if (this.dataBlock.health < 70 && this.numClose > 1) {
+
+            for (let i = 0; i < world.foods.food4.length; i++) {
+
+                let f4 = world.foods.food4[i];
+                let oo = f4;
+                let dist = this.loc.distance(oo.loc);
+                if (dist < 30) {
+                    this.vel = new JSVector(0, 0);
+
+                    this.wrld.foods.food4[i].lifeSpan -= 50;
+                    this.health += 0.5;
+                }
+                if (dd > dist && dist > 15) {
+
+                    let t = new JSVector(oo.loc.x, oo.loc.y);//bro idk this is one of the only way I can get this to work
+                    this.acc = JSVector.subGetNew(t, this.loc);
+
+                    this.acc.normalize();
+                    this.acc.multiply(0.235128);
+                    this.vel.add(this.acc);
+                    this.vel.limit(1.0);
+
+                    this.loc.add(this.vel);
+
+                }
+
+            }
+        }
     }
 
     seekOthers() {
 
-        if (this.dataBlock.health > 70) {
-            let dd = 120;
-            let h4 = world.creatures.herb6LYT;
-            for (let i = 0; i < h4.length; i++) {
-                if (!this.cc && !h4[i].cc) {
-                   
-                    let oo = h4[i];
-                    if (this != oo) {
-                        let dist = this.loc.distance(oo.loc);
-                        if (dd > dist) {
-                            let ee = JSVector.subGetNew(oo.loc, this.loc);
-                            ee.normalize();
-                            ee.multiply(0.20)
-                            this.vel.add(ee);
-                            this.vel.limit(1.5);
-                            if (dist < 5) {//this number is giving me annoyance
+
+        let dd = 120;
+        let h4 = world.creatures.herb6LYT;
+        for (let i = 0; i < h4.length; i++) {
+            if (!this.cc && !h4[i].cc) {
+
+                let oo = h4[i];
+                if (this != oo) {
+                    let dist = this.loc.distance(oo.loc);
+                    if (dd > dist) {
+                        let ee = JSVector.subGetNew(oo.loc, this.loc);
+                        ee.normalize();
+                        ee.multiply(0.20)
+                        this.vel.add(ee);
+                        this.vel.limit(1.5);
+                        if (dist < 5) {//this number is giving me annoyance
 
 
 
-                                let h4 = world.creatures.herb6LYT;
-                                //  let x = Math.random() * world.dims.width - world.dims.width / 2;
-                                //  let y = Math.random() * world.dims.height - world.dims.height / 2;
-                                let x = this.loc.x;
-                                let y = this.loc.y;
-                                let dx = Math.random() * 2 - 1;
-                                let dy = Math.random() * 2 - 1;
+                            let h4 = world.creatures.herb6LYT;
 
-                                this.cc = true;
-                                h4[i].cc = true;
-                                if (h4.length < 1000) {
-                                    this.vel = new JSVector(0, 0);
-                                 //   h4[i].vel = new JSVector(0, 0);
-                                    setTimeout(() => {//idk I found this
-                                        //bascially just waits x/1000 seconds thens runs the code
-                                        h4.push(new Herb6FlockLYT(new JSVector(x, y), new JSVector(dx, dy), this.sz, this.wrld));
-                                        let mature = h4[h4.length - 1];
-                                        this.vel.x = Math.random() * 2 - 1;
-                                        this.vel.y = Math.random() * 2 - 1;
-                                      
-                                      //  h4[i].vel.x = Math.random() * 2 - 1;//ditto with the bottom comment this will not work if 
-                                        //this parent dies in in this 2500 milisecond window
-                                       // h4[i].vel.y = Math.random() * 2 - 1;
-                                        h4[h4.length - 1].cc = true;
+                            let x = this.loc.x;
+                            let y = this.loc.y;
+                            let dx = Math.random() * 2 - 1;
+                            let dy = Math.random() * 2 - 1;
 
-                                        setTimeout(() => {//my brains hurting rn the logic this uses is incorrect
+                            this.cc = true;
+                            h4[i].cc = true;
+                            if (h4.length < 1000) {
+                                this.vel = new JSVector(0, 0);
+                                setTimeout(() => {//idk I found this
+                                    //bascially just waits x/1000 seconds thens runs the code
+                                    h4.push(new Herb6FlockLYT(new JSVector(x, y), new JSVector(dx, dy), this.sz, this.wrld));
+                                    let mature = h4[h4.length - 1];
+                                    this.vel.x = Math.random() * 2 - 1;
+                                    this.vel.y = Math.random() * 2 - 1;
 
-                                            mature.cc = false;
-                                        }, "2000");
-                                    }, "2500");//time in miliseconds
+
+                                    h4[h4.length - 1].cc = true;
+
+                                    setTimeout(() => {//my brains hurting rn the logic this uses is incorrect
+
+                                        mature.cc = false;
+                                    }, "2000");
+                                }, "2500");//time in miliseconds
 
 
 
 
-                                }
                             }
                         }
                     }
                 }
             }
+
         }
     }
     bigFish() {
@@ -113,34 +140,35 @@ class Herb6FlockLYT extends Creature {
                     ctx.translate(this.loc.x, this.loc.y)
                     ctx.strokeStyle = "rgba(255,0,0,0.08)";//overlapping causes this to be a lot thicker
                     ctx.beginPath();
-                    ctx.arc(0, 0, 75, 0, Math.PI*2, false);
+                    ctx.arc(0, 0, 75, 0, Math.PI * 2, false);
 
                     ctx.closePath();
                     ctx.stroke();
 
                     ctx.restore();
+
                 }
             }
         }
-       
+
     }
     checkEdges() {//this does not work
 
         if (this.loc.x >= this.wrld.dims.width / 2 || this.loc.x <= -this.wrld.dims.width / 2) {
             this.vel.x *= -1;
-            this.count++; 
-            if(this.count > 1000){
-                this.loc.x = Math.random() * this.wrld.dims.width - this.wrld.dims.width/2;
-                this.loc.y = Math.random() * this.wrld.dims.height - this.wrld.dims.height/2;
+            this.count++;
+            if (this.count > 1000) {
+                this.loc.x = Math.random() * this.wrld.dims.width - this.wrld.dims.width / 2;
+                this.loc.y = Math.random() * this.wrld.dims.height - this.wrld.dims.height / 2;
                 this.count = 0;
             }
         }
         if (this.loc.y >= this.wrld.dims.height / 2 || this.loc.y <= -this.wrld.dims.height / 2) {
             this.vel.y *= -1;
             this.count++;
-            if(this.count > 1000){
-                this.loc.x = Math.random() * this.wrld.dims.width - this.wrld.dims.width/2;
-                this.loc.y = Math.random() * this.wrld.dims.height - this.wrld.dims.height/2;
+            if (this.count > 1000) {
+                this.loc.x = Math.random() * this.wrld.dims.width - this.wrld.dims.width / 2;
+                this.loc.y = Math.random() * this.wrld.dims.height - this.wrld.dims.height / 2;
                 this.count = 0;
             }
         }
@@ -164,15 +192,15 @@ class Herb6FlockLYT extends Creature {
         this.acc.add(flockForce);
     }
     update() {
-        this.dataBlock.health = this.health*(this.dataBlock.lifeSpan/this.maxLifeSpan);
+        this.dataBlock.health = this.health * (this.dataBlock.lifeSpan / this.maxLifeSpan);
         this.vel.add(this.acc);
         this.vel.limit(0.5);
         this.loc.add(this.vel);
-        if(this.dataBlock.lifeSpan > 2000){
-        this.dataBlock.lifeSpan--;
-        this.health -= 0.02;
+        if (this.dataBlock.lifeSpan > 2000) {
+            this.dataBlock.lifeSpan--;
+            this.health -= 0.02;
         }
-        if(this.dataBlock.lifeSpan < 2000 || this.dataBlock.health < 30){
+        if (this.dataBlock.lifeSpan < 2000 || this.dataBlock.health < 30) {
             this.isDead = true;
         }
 
@@ -187,7 +215,7 @@ class Herb6FlockLYT extends Creature {
 
         ctx.fillStyle = this.clr;
         ctx.beginPath();
-        
+
 
         ctx.moveTo(-this.sz * 4, 0, this.sz, Math.PI * 2, 0, false);
         ctx.ellipse(-this.sz * 4, 0, this.sz * 1.2, this.sz * 7, Math.PI * 0.75, 0, Math.PI * 2);

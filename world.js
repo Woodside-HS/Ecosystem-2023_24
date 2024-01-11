@@ -161,8 +161,12 @@ class World {
   }
 
   runFood() {
+    let c = this.foods;
     for (let i = 0; i < this.foods.food4.length; i++) {
       this.foods.food4[i].run();
+      if(c.food4[i].isDead === true){
+        c.food4.splice(i, 1);
+      }
     }
   }
 

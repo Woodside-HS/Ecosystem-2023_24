@@ -6,6 +6,8 @@ class Plant4YBR {
         this.foods4 = [];
         this.r = 15;
         this.loadParticle(1);
+        this.lifeSpan = 16000;
+        this.isDead = false;
         this.shootCount = 0; // determines time when particle is shot out
         this.pollenCount = 0; // determines whether
     }
@@ -65,7 +67,11 @@ class Plant4YBR {
 
     update() {
         this.shootCount++;
-
+        this.lifeSpan-= 0.5;
+        if(this.lifeSpan < 0){
+            this.isDead = true;
+        }
+        
         /*
         This chonky piece of code is the reproduction system, which checks whether any
         cells created are healthy, and if it is, it checks if there is another one,
