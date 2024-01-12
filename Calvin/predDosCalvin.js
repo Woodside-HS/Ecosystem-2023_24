@@ -110,12 +110,12 @@ class predDosC extends Creature {
                this.Svel[n][0].limit(1);
                this.segments[n][0] = JSVector.addGetNew(this.segments[n][0], this.Svel[n][0]);
                //move prey with head 
-               if(!this.eat[n] && world.creatures.pred3[this.preyIndex[n]] != null){
-                  world.creatures.pred3[this.preyIndex[n]].loc = this.segments[n][0].copy();
+               if(!this.eat[n] && world.creatures.herb6LYT[this.preyIndex[n]] != null){
+                  world.creatures.herb6LYT[this.preyIndex[n]].loc = this.segments[n][0].copy();
                }
                //check if prey is at creature 
-               if(!this.eat[n] && world.creatures.pred3[this.preyIndex[n]] != null && world.creatures.pred3[this.preyIndex[n]].loc.distance(this.segments[n][this.segments[n].length-1])<15){
-                  world.creatures.pred3.splice(this.preyIndex[n], 1);
+               if(!this.eat[n] && world.creatures.herb6LYT[this.preyIndex[n]] != null && world.creatures.herb6LYT[this.preyIndex[n]].loc.distance(this.segments[n][this.segments[n].length-1])<15){
+                  world.creatures.herb6LYT.splice(this.preyIndex[n], 1);
                   this.dataBlock.lifeSpan += 600;
                   for(let i = 0; i<this.preyIndex.length; i++){
                      if(this.preyIndex[n]<this.preyIndex[i]){
@@ -158,11 +158,11 @@ class predDosC extends Creature {
                //    }
                   //snake arms go out to prey 
                   let preyCount = 0;
-                  for(let i = 0; i<world.creatures.pred3.length; i++){
-                     let distance = this.segments[n][0].distance(world.creatures.pred3[i].loc);
+                  for(let i = 0; i<world.creatures.herb6LYT.length; i++){
+                     let distance = this.segments[n][0].distance(world.creatures.herb6LYT[i].loc);
                      if(distance <=100){
                         preyCount++;
-                        this.Sacc[n][0] = JSVector.subGetNew(world.creatures.pred3[i].loc, this.segments[n][0]);
+                        this.Sacc[n][0] = JSVector.subGetNew(world.creatures.herb6LYT[i].loc, this.segments[n][0]);
                         this.Sacc[n][0].normalize();
                         this.Sacc[n][0].multiply(0.05);
                         this.Svel[n][0] = JSVector.addGetNew(this.Svel[n][0], this.Sacc[n][0]);
@@ -239,11 +239,11 @@ class predDosC extends Creature {
                this.segments[n][this.segments[n].length - 1] = new JSVector(this.loc.x+this.predWidth-5, this.loc.y+5);
             }
             //if head reaches prey, come back 
-            for(let i = 0; i<world.creatures.pred3.length; i++){
-               if(this.segments[n][0].distance(world.creatures.pred3[i].loc)<15){
+            for(let i = 0; i<world.creatures.herb6LYT.length; i++){
+               if(this.segments[n][0].distance(world.creatures.herb6LYT[i].loc)<15){
                   this.backwards[n] = true;
                   this.preyIndex[n] = i;
-                  i = world.creatures.pred3.length;
+                  i = world.creatures.herb6LYT.length;
                }
             }
          }//end of massive for loop 
