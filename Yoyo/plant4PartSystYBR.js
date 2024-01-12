@@ -6,6 +6,8 @@ class Plant4YBR {
         this.foods4 = [];
         this.r = 15;
         this.loadParticle(1);
+        this.lifeSpan = 16000;
+        this.isDead = false;
         this.shootCount = 0; // determines time when particle is shot out
         this.pollenCount = 0; // determines whether
     }
@@ -65,7 +67,10 @@ class Plant4YBR {
 
     update() {
         this.shootCount++;
-
+        if(this.lifeSpan < 0){
+            this.isDead = true;
+        }
+        
         /*
         This chonky piece of code is the reproduction system, which checks whether any
         cells created are healthy, and if it is, it checks if there is another one,
@@ -77,7 +82,7 @@ class Plant4YBR {
                 for (let k = 0; k < this.foods4.length; k++) { //traverse particle array second time
                     if (this.foods4[k].cellType === "Healthy" && this.foods4[k] != this.foods4[i]) { // find dif healthy particle
                         let dist = this.foods4[i].loc.distance(this.foods4[k].loc);
-                        if (dist <= 100) {
+                        if (dist <= 100) {//a
                             this.pollenCount++;
                             if (this.pollenCount === 10) {
                                 this.wrld.foods.food4.push(new Plant4YBR(this.wrld, this.foods4[i].loc.x, this.foods4[k].loc.y));
