@@ -145,18 +145,21 @@ class World {
   }  //+++++++++++++++++++++++++++ end run
 
 
-loadEntities(numEntities, ctx, w, h) {
-  for (let i = 0; i < numEntities; i++) {
-    let x = (Math.random() * w) - w / 2;
-    let y = (Math.random() * h) - h / 2;
-    let loc = new JSVector(x, y);
-    let dx = Math.random() * 2 - 1;
-    let dy = Math.random() * 2 - 1;
-    let vel = new JSVector(dx, dy);
-    let sz = Math.floor(Math.random() * 0.5 + 0.5);
-    this.creatures.herb3.push(new Herb3BJC(loc, vel, sz, this));
+
+
+  loadEntities(numEntities, ctx, w, h) {
+    //++++++++++++++++++++++++++++  load entities
+    for(let i = 0; i < numEntities; i++){
+      let x = (Math.random() * w) - w/2;
+      let y = (Math.random() * h) - h/2;
+      let loc = new JSVector(x, y);
+      let dx = Math.random() * 2 - 1.;
+      let dy = Math.random() * 2 - 1;
+      let vel = new JSVector(dx, dy);
+      let sz = Math.floor(Math.random()*0.5+0.5);
+      this.creatures.herb3.push(new Herb3BJC(loc, vel, sz, this));
+    }
   }
-}
   loadpred2(n){
     for(let i = 0; i<n; i++){
       let x = (Math.random() * this.dims.width) - this.dims.width / 2;
@@ -166,6 +169,7 @@ loadEntities(numEntities, ctx, w, h) {
     let vel = new JSVector(dx, dy);
     vel.setMagnitude(0.2);
     this.creatures.pred2.push(new predDosC(new JSVector(x, y), vel, 1, 80, this, 0));
+
     }
   }
   runCreatures() {
@@ -262,6 +266,18 @@ runherb6LYT() {
 }
 
 
+  runCreatures() {
+    
+       this.creatures.herb2[0].run()
+let c = this.creatures;
+for(let i = 0; i < c.herb3.length; i++){
+  c.herb3[i].run();
+  if(c.herb3[i].dataBlock.isDead === true){
+    c.herb3.splice(i, 1);
+=======
+  }
+  }
+}
 
 
 loadFood4YBR(n) { // loads the initial amounts of food 4 particle systems
@@ -270,6 +286,7 @@ loadFood4YBR(n) { // loads the initial amounts of food 4 particle systems
     let y = Math.random() * (1420 - (-1420)) + (-1420);
 
     this.foods.food4.push(new Plant4YBR(this, x, y))
+
   }
 }
 runherb4LYT() {
