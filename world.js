@@ -50,7 +50,7 @@ class World {
 
     this.creatures = {
       pred1: [new Pred1(new JSVector(400, 600), new JSVector(0, -30), 20, this)],
-      pred2: [new Creature(new JSVector(100, 120), new JSVector(20, 0), 20, this)],
+      pred2: [],
       pred3: [],
       herb1: [],
       herb2: [new Herb2(new JSVector(300, 300), new JSVector(0.1, 0), 10, this)],
@@ -67,8 +67,6 @@ class World {
       food3: [],
       food4: [],
       food5: [],
-      food6: [new PartSysF3(100, 100, this) ],
-      food7: [],
     };
 
     // performance -- change the number of entities to see the effect on framerate
@@ -87,7 +85,7 @@ class World {
     this.foodItems = [];
     this.loadherb6LYT(200);
     this.loadFood4YBR(30);
-
+    this.loadpred2(10);
     this.loadherb4LYT(80);
     this.numEntities = 100;
     this.loadEntities(
@@ -158,14 +156,62 @@ loadEntities(numEntities, ctx, w, h) {
     let sz = Math.floor(Math.random() * 0.5 + 0.5);
     this.creatures.herb3.push(new Herb3BJC(loc, vel, sz, this));
   }
-  
-
-    //++++++++++++++++++++++++++++  load entities
-    this.loadHerb5JJL(5);
-    this.loadFood7JJL(20);
-
+}
+  loadpred2(n){
+    for(let i = 0; i<n; i++){
+      let x = (Math.random() * this.dims.width) - this.dims.width / 2;
+      let y = (Math.random() * this.dims.height) - this.dims.height / 2;
+      let dx = Math.random() * 2 - 1;
+    let dy = Math.random() * 2 - 1;
+    let vel = new JSVector(dx, dy);
+    vel.setMagnitude(0.2);
+    this.creatures.pred2.push(new predDosC(new JSVector(x, y), vel, 1, 80, this, 0));
+    }
   }
+  runCreatures() {
+    for(let i = 0; i<world.creatures.pred2.length; i++){
+      if(world.creatures.pred2[i] != null){
+        world.creatures.pred2[i].run();
+      }
+    }
+    for(let i = 0; i<world.creatures.pred3.length; i++){
+      if(world.creatures.pred3[i] != null){
+        world.creatures.pred3[i].run();
+      }
+    }
+    for (let i = 0; i < this.creatures.pred1.length; i++) {
+      this.creatures.pred1[i].run();
+    }
+    for (let i = 0; i < this.creatures.pred2.length; i++) {
+      this.creatures.pred2[i].run();
+    }
+    if(this.creatures.herb2[0] != null){
+      this.creatures.herb2[0].run()
+    }
+    
+    let c = this.creatures;
+    for (let i = 0; i < c.herb3.length; i++) {
+      c.herb3[i].run();
+      if (c.herb3[i].isDead === true) {
+        c.herb3.splice(i, 1);
   
+      }
+    }
+    //virus 
+  for (const creatureType in this.creatures) {
+    for (const creature of this.creatures[creatureType]) {
+      creature.run();
+  
+    }
+  }
+  for (const virus of this.viruses) {
+    virus.run();
+    if (virus.dataBlock.lifeSpan <= 0 ||
+      virus.dataBlock.isDead) {
+      this.viruses.splice(this.viruses.indexOf(virus), 1);
+    }
+  }
+}
 
 
 
@@ -184,68 +230,9 @@ loadherb6LYT(n) {
   }
 }
 
-loadHerb5JJL(n){
-  for (let i = 0; i < n; i++) {
-    let x = (Math.random() * this.dims.width) - this.dims.width / 2;
-    let y = (Math.random() * this.dims.height) - this.dims.height / 2;
-    let loc = new JSVector(x, y);
-    let dx = Math.random() * 2 - 1;
-    let dy = Math.random() * 2 - 1;
-    let vel = new JSVector(dx, dy);
-    let sz = Math.random() * 5 + 10;
-    let sporeNumber=Math.floor(Math.random()*15)+1;
-    this.creatures.herb5.push(new Herb5(loc, vel, sz, this,sporeNumber));
 
-  }
-}
-loadFood7JJL(n){
-  for (let i = 0; i < n; i++) {
-    let x = (Math.random() * this.dims.width) - this.dims.width / 2;
-    let y = (Math.random() * this.dims.height) - this.dims.height / 2;
-    let loc = new JSVector(x, y);
-    let dx = Math.random() * 2 - 1;
-    let dy = Math.random() * 2 - 1;
-    let vel = new JSVector(dx, dy);
-    let sz = Math.random() * 10 + 25;
-    this.foods.food7.push(new Food7(loc, vel,sz,this));
-
-  }
-}
-runCreatures() {
-  for (let i = 0; i < this.creatures.pred1.length; i++) {
-    this.creatures.pred1[i].run();
-  }
-  for (let i = 0; i < this.creatures.pred2.length; i++) {
-    this.creatures.pred2[i].run();
-  }
-  this.creatures.herb2[0].run()
-  let c = this.creatures;
-  for (let i = 0; i < c.herb3.length; i++) {
-    c.herb3[i].run();
-    if (c.herb3[i].isDead === true) {
-      c.herb3.splice(i, 1);
-
-    }
-  }
-  //virus 
-  for (const creatureType in this.creatures) {
-    for (const creature of this.creatures[creatureType]) {
-      creature.run();
   
-    }
-  }
-  for (const virus of this.viruses) {
-    virus.run();
-    if (virus.dataBlock.lifeSpan <= 0 ||
-      virus.dataBlock.isDead) {
-      this.viruses.splice(this.viruses.indexOf(virus), 1);
-    }
-  }
-  if(this.creatures.herb5.length!==0){
-    this.runHerb5JJL();
-  }
 
-}
 
 
 
@@ -295,29 +282,13 @@ runherb4LYT() {
   }
 }
 
-runHerb5JJL() {
-  for (let i = 0; i < this.creatures.herb5.length; i++) {
-    this.creatures.herb5[i].run();
-    if (this.creatures.herb5[i].dataBlock.isDead === true) {
-      this.creatures.herb5.splice(i, 1);
-    }
-  }
-}
 
-runFood7JJL() {
-  for (let i = 0; i < this.foods.food7.length; i++) {
-    this.foods.food7[i].run();
-    if (this.foods.food7[i].statBlock.isDead === true) {
-      this.foods.food7.splice(i, 1);
-    }
-  }
-}
+
 
 runFood() {
   for (let i = 0; i < this.foods.food4.length; i++) {
     this.foods.food4[i].run();
   }
-  this.runFood7JJL();
 }
 
 
