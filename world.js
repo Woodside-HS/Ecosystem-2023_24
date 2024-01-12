@@ -94,7 +94,6 @@ class World {
     this.loadFood4YBR(30);
     this.loadHerb5JJL(5);
     this.loadFood7JJL(20);
-    this.loadherb4LYT(80);
 
     this.numEntities = 100;
     // this.loadEntities(
@@ -280,7 +279,7 @@ runCreatures() {
   for (let i = 0; i < this.creatures.pred2.length; i++) {
     this.creatures.pred2[i].run();
   }
-  this.creatures.herb2[0].run()
+  // this.creatures.herb2[0].run()
   let c = this.creatures;
   for (let i = 0; i < c.herb3.length; i++) {
     c.herb3[i].run();
@@ -312,19 +311,7 @@ runCreatures() {
 
 
 
-loadherb4LYT(n) {
-  for (let i = 0; i < n; i++) {
-    let x = (Math.random() * this.dims.width) - this.dims.width / 2;
-    let y = (Math.random() * this.dims.height) - this.dims.height / 2;
-    let loc = new JSVector(x, y);
-    let dx = Math.random() * 2 - 1;
-    let dy = Math.random() * 2 - 1;
-    let vel = new JSVector(dx, dy);
-    let sz = Math.random() * 4 + 4;
-    this.creatures.herb4LYT.push(new Herb4LYT(loc, vel, sz, this));
 
-  }
-}
 runherb6LYT() {
   let c = this.creatures;
 
