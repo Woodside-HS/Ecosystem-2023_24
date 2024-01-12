@@ -8,7 +8,7 @@ class Herb6FlockLYT extends Creature {
         this.wrld = wrld;
         this.acc = new JSVector(0, 0);
         this.sz = sz;
-        this.dataBlock.lifeSpan = 16000;
+        this.dataBlock.lifeSpan = 32000;
         this.dataBlock.health = 100;
         this.isDead;
         this.maxForce = 3.5;
@@ -16,12 +16,13 @@ class Herb6FlockLYT extends Creature {
         this.maxLifeSpan = this.dataBlock.lifeSpan;
         this.desiredSep = 16;
         let red = Math.floor(Math.random() * 256);
-    let green = Math.floor(Math.random() * 256);
-    let blue = Math.floor(Math.random() * 256);
-    this.clr = 'rgba(' + red + ',' + green + ',' + blue + ',' + 0.5 + ')';
+        let green = Math.floor(Math.random() * 256);
+        let blue = Math.floor(Math.random() * 256);
+        this.clr = 'rgba(' + red + ',' + green + ',' + blue + ',' + 0.5 + ')';
         this.numClose = 0;
         this.cc = false;
         this.health = 100;
+        this.count = 0;
     }
 
 
@@ -37,6 +38,7 @@ class Herb6FlockLYT extends Creature {
 
     }
     seekFoods() {
+
         let dd = 80;
         if (this.dataBlock.health < 70 && this.numClose > 1) {
 
@@ -97,7 +99,7 @@ class Herb6FlockLYT extends Creature {
 
                             this.cc = true;
                             h4[i].cc = true;
-  
+
                             if (h4.length < 1000) {
                                 this.vel = new JSVector(0, 0);
                                 setTimeout(() => {//idk I found this
@@ -113,7 +115,7 @@ class Herb6FlockLYT extends Creature {
                                     setTimeout(() => {//my brains hurting rn the logic this uses is incorrect
                                         this.cc = false;
                                         mature.cc = false;
-                                    }, "2000");
+                                    }, "1000");
                                 }, "2500");//time in miliseconds
 
 
@@ -194,6 +196,8 @@ class Herb6FlockLYT extends Creature {
         this.acc.add(flockForce);
     }
     update() {
+        console.log(this.dataBlock.health);
+        console.log(this.dataBlock.lifeSpan)
         this.dataBlock.health = this.health * (this.dataBlock.lifeSpan / this.maxLifeSpan);
 
         this.vel.add(this.acc);
