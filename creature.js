@@ -84,15 +84,14 @@ class Creature extends Entity {
       //  render balls in mini map
    }
    particleCheck(){
-console.log("b")
+
      let dist = this.loc.distance(world.foods);
-     console.log("a")
       if(dist <= 20){
          if(world.foods.cellType === "Antibody"){
            this.antibodies = true;
          } else if(world.foods.cellType === "Poison"){
-            this.dataBlock.lifeSpan -= 1.2;
-            this.dataBlock.health -= 0.02;
+            this.dataBlock.lifeSpan -= 40;
+            this.dataBlock.health -= 10;
          }
       }
    }
