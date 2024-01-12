@@ -50,7 +50,7 @@ class World {
 
     this.creatures = {
       pred1: [new Pred1(new JSVector(400, 600), new JSVector(0, -30), 20, this)],
-      pred2: [new predDosC(new JSVector(200, 300), new JSVector(0, 0.2), 1, 80, this, 0)],
+      pred2: [],
       pred3: [],
       herb1: [],
       herb2: [new Herb2(new JSVector(300, 300), new JSVector(0.1, 0), 10, this)],
@@ -85,7 +85,7 @@ class World {
     this.foodItems = [];
     this.loadherb6LYT(200);
     this.loadFood4YBR(30);
-
+    this.loadpred2(10);
     this.loadherb4LYT(80);
     this.numEntities = 100;
     this.loadEntities(
@@ -157,7 +157,17 @@ loadEntities(numEntities, ctx, w, h) {
     this.creatures.herb3.push(new Herb3BJC(loc, vel, sz, this));
   }
 }
-  
+  loadpred2(n){
+    for(let i = 0; i<n; i++){
+      let x = (Math.random() * this.dims.width) - this.dims.width / 2;
+      let y = (Math.random() * this.dims.height) - this.dims.height / 2;
+      let dx = Math.random() * 2 - 1;
+    let dy = Math.random() * 2 - 1;
+    let vel = new JSVector(dx, dy);
+    vel.setMagnitude(0.2);
+    this.creatures.pred2.push(new predDosC(new JSVector(x, y), vel, 1, 80, this, 0));
+    }
+  }
   runCreatures() {
     for(let i = 0; i<world.creatures.pred2.length; i++){
       if(world.creatures.pred2[i] != null){
