@@ -6,6 +6,7 @@ class Herb3BJC extends Creature {
         this.vel = vel;
         this.size = sz;
         this.acc = new JSVector(0, 0);
+        this.wrld = wrld;
         this.context = wrld.ctxMain;
         this.poisonDarts = [];
         this.col = this.getRandomColor();
@@ -18,7 +19,7 @@ class Herb3BJC extends Creature {
         this.render();
         this.update();
         this.checkEdges();
-        this.runDarts();
+      //  this.runDarts();
     }
 
     render(){
@@ -58,7 +59,7 @@ class Herb3BJC extends Creature {
             this.dataBlock.isDead = true;
 
         }
-
+        
         this.dataBlock.health = (this.dataBlock.lifeSpan / this.maxLifeSpan) * 100;
         this.vel.add(this.acc);
         this.vel.limit(1.5);
@@ -70,52 +71,51 @@ class Herb3BJC extends Creature {
     if(this.colorState = false){
     for(let i = 0; i < world.creatures.pred1.length; i++){
         let dist1 = this.loc.dist(world.creatures.pred1[i].loc);
-        let direction1 = world.creatures.pred1[i].getDirection();
         if(dist1 <= 200){
-        this.loadDarts(direction1); //shoot out poison darts to pred
         this.colorState = true; //turn invisible
         }
     }
 
     for(let i = 0; i < world.creatures.pred2.length; i++){
         let dist2 = this.loc.dist(world.creatures.pred2[i].loc);
-        let direction2 = world.creatures.pred2[i].getDirection();
         if(dist2 <= 200){
-            this.loadDarts(direction2); 
             this.colorState = true; 
             }
     }
 
     for(let i = 0; i < world.creatures.pred3.length; i++){
         let dist3 = this.loc.dist(world.creatures.pred3[i].loc);
-        let direction3 = world.creatures.pred3[i].getDirection();
         if(dist3 <= 200){
-            this.loadDarts(direction3);
             this.colorState = true;
             }
     }
+
+    // for(let i = 0; i < world.creatures.pred4.length; i++){
+    //     let dist4 = this.loc.dist(world.creatures.pred4[i].loc);
+    //     if(dist4 <= 200){
+    //         this.colorState = true;
+    //         }
+    // }
+
+    // for(let i = 0; i < world.creatures.pred5.length; i++){
+    //     let dist5 = this.loc.dist(world.creatures.pred5[i].loc);
+    //     if(dist5 <= 200){
+    //         this.colorState = true;
+    //         }
+    // }
 
 }
 
 
     //if need food
+//this.wrld.foods.cellType === "Poison";
     if(this.dataBlock.health <= 35){
-for(let i = 0; i < world.foods.food1; i++){
-let dist = this.loc.distance(food1[i].loc);
-if(dist<200){
-    this.seek(food1[i].loc);
-}
-
-}
-    }
-
-    if(this.dataBlock.health <= 35){
-        for(let i = 0; i < world.foods.food2; i++){
+        for(let i = 0; i < world.foods.food4; i++){
         let dist = this.loc.distance(food1[i].loc);
         if(dist<200){
             this.seek(food1[i].loc);
         }
-        
+         
         }
             }
 
@@ -131,20 +131,20 @@ if(dist<200){
         return steer;
     }
 
-   loadDarts(direction){
-    let dartCol = "rgba(128, 0, 128, 0)";
-    let acc = new JSVector(0, 0);
-    let vel = new JSVector(); //shoots in direction of predators
-    vel.setDirection(direction);
-    let diam = 4;
-    this.poisonDarts.push(new PoisonDartsBJC(this, dartCol, acc, vel, diam));
+//    loadDarts(direction){
+//     let dartCol = "rgba(128, 0, 128, 0)";
+//     let acc = new JSVector(0, 0);
+//     let vel = new JSVector(); //shoots in direction of predators
+//     vel.setDirection(direction);
+//     let diam = 4;
+//     this.poisonDarts.push(new PoisonDartsBJC(this, dartCol, acc, vel, diam));
 
-   }
+//    }
 
-   runDarts(){
-    for (let i = 0; i < this.poisonDarts.length; i++) {
-        this.poisonDarts[i].run();
-    }
-   }
+//    runDarts(){
+//     for (let i = 0; i < this.poisonDarts.length; i++) {
+//         this.poisonDarts[i].run();
+//     }
+//    }
 
 }
