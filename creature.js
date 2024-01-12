@@ -12,6 +12,7 @@ class Creature extends Entity {
       this.wWidth = wrld.dims.width;
       this.wHeight = wrld.dims.height;
       this.antibodies = false;
+
       this.statusBlock = {
          searchFood:true,
          searchMate:true,
@@ -59,6 +60,18 @@ class Creature extends Entity {
       }
       if (this.loc.y >= world.dims.height / 2 || this.loc.y < -world.dims.height / 2) {
          this.vel.y *= -1;
+      }
+   }
+   particleCheck() {
+      let dist = this.loc.distance(world.foods);
+      if (dist <= 2000) {
+         if (world.foods.cellType === "Antibody") {
+            console.log("hit")
+            this.antibodies = true;
+         } else if (world.foods.cellType === "Poison") {
+            this.dataBlock.lifeSpan -= 40;
+            this.dataBlock.health -= 0.3;
+         }
       }
    }
    render() {

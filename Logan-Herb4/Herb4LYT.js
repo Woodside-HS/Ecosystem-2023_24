@@ -19,30 +19,31 @@ class Herb4LYT extends Creature {
         this.gUP = true;//dumb way but only way I can think of 
         this.eUP = true;
         this.jumpDistance = 200;//this just states how long it takes to get from bottom-top-bottom
-        this.dataBlock.lifeSpan = 8000;
+        this.dataBlock.lifeSpan = 16000;
         this.dataBlock.health;
+        this.health = 100;//very very scuffed idk 
         this.dataBlock.isDead = false;//do you even need to declare this as false?
         this.maxLifeSpan = this.dataBlock.lifeSpan;
         this.antibodies = false;
+        this.count++;
 
 
     }
     run() {
 
-        this.update();
+       this.update();
         this.render();
         this.life();
         this.checkEdges();
         this.seekOthers();
-        //this is very no no working
-        //  this.seekFoods();
+        this.seekFoods();
     }
     seekOthers() {
-
         if (this.dataBlock.health > 70) {
 
             let dd = 120;
             let h4 = world.creatures.herb4LYT;
+            
             for (let i = 0; i < h4.length; i++) {
                 if (!this.cc && !h4[i].cc) {
                     let oo = h4[i];
@@ -60,8 +61,7 @@ class Herb4LYT extends Creature {
 
                                 let h4 = world.creatures.herb4LYT;
 
-                                //  let x = Math.random() * world.dims.width - world.dims.width / 2;
-                                //  let y = Math.random() * world.dims.height - world.dims.height / 2;
+                            
                                 let x = this.loc.x;
                                 let y = this.loc.y;
                                 let dx = Math.random() * 2 - 1;
@@ -71,18 +71,16 @@ class Herb4LYT extends Creature {
                                 h4[i].cc = true;
                                 if (h4.length < 1000) {
                                     this.vel = new JSVector(0, 0);
-                                 //   h4[i].vel = new JSVector(0, 0);
+                               
 
                                     setTimeout(() => {//idk I found this
                                         //bascially just waits x/1000 seconds thens runs the code
                                         h4.push(new Herb4LYT(new JSVector(x, y), new JSVector(dx, dy), this.sz, this.wrld));
                                         let mature = h4[h4.length - 1];
-                                        this.vel.x = Math.random() * 2 - 1;
-                                        this.vel.y = Math.random() * 2 - 1;
+                                        this.vel.x = Math.random() * 1 - 0.5;
+                                        this.vel.y = Math.random() * 1 - 0.5;
                                       
-                                      //  h4[i].vel.x = Math.random() * 2 - 1;//ditto with the bottom comment this will not work if 
-                                        //this parent dies in in this 2500 milisecond window
-                                       // h4[i].vel.y = Math.random() * 2 - 1;
+                                     
                                         h4[h4.length - 1].cc = true;
 
                                         setTimeout(() => {//my brains hurting rn the logic this uses is incorrect
@@ -106,37 +104,61 @@ class Herb4LYT extends Creature {
 
 
     seekFoods() {
-        let dd = 120;
+        let dd = 150;
+      
         if (this.dataBlock.health < 70) {
-            let f4 = world.creatures.food4;
-            for (let i = 0; i < f4.length; i++) {
-                let oo = f4[i];
-                let dist = this.loc.dist(oo.loc);
-                if (dd < dist) {
-                    let ee = JSVector.subGetNew(oo.loc);
-                    ee.normalize();
-                    ee.multiply(0.08)
-                    this.vel.add(ee);
-                    this.vel.limit(1.5);
-                    if (dist < 20) {
-                        this.vel = new JSVector(0, 0);
-                        this.vel.x = Math.random() * 2 - 1;
-                        this.vel.y = Math.random() * 2 - 1;
+         
 
-
-                    }
+        
+            for (let i = 0; i < world.foods.food4.length; i++) {
+        
+                for(let j = 0; j < world.foods.food4[i].foods4.length; j ++){
+                    let f4 = world.foods.food4[i];
+                let oo = f4.foods4[j];
+                let dist = this.loc.distance(oo.loc);
+                if(dist < 60){
+                    this.vel = new JSVector(0, 0);
+                  
+                  this.wrld.foods.food4[i].foods4[j].lifeSpan-=200;
+                  this.health+=0.5;
+            }
+                if (dd > dist && dist > 60) {
+                  
+                   let t = new JSVector(oo.loc.x, oo.loc.y);//bro idk this is one of the only way I can get this to work
+                    this.acc = JSVector.subGetNew(t, this.loc);
+               
+                    this.acc.normalize();
+                    this.acc.multiply(0.235128);
+                   this.vel.add(this.acc);
+                    this.vel.limit(1.0);
+                    
+                    this.loc.add(this.vel);
+                 
                 }
+               
             }
         }
+        }
     }
-    checkEdges() {//idk the creature checkEdges does not work very well
+    checkEdges() {
 
         if (this.loc.x >= this.wrld.dims.width / 2 || this.loc.x <= -this.wrld.dims.width / 2) {
             this.vel.x *= -1;
+            this.count++; 
+            if(this.count > 1000){
+                this.loc.x = Math.random() * this.wrld.dims.width - this.wrld.dims.width/2;
+                this.loc.y = Math.random() * this.wrld.dims.height - this.wrld.dims.height/2;
+                this.count = 0;
+            }
         }
         if (this.loc.y >= this.wrld.dims.height / 2 || this.loc.y <= -this.wrld.dims.height / 2) {
             this.vel.y *= -1;
-
+            this.count++;
+            if(this.count > 1000){
+                this.loc.x = Math.random() * this.wrld.dims.width - this.wrld.dims.width/2;
+                this.loc.y = Math.random() * this.wrld.dims.height - this.wrld.dims.height/2;
+                this.count = 0;
+            }
         }
     }
     render() {
@@ -230,7 +252,7 @@ class Herb4LYT extends Creature {
     update() {
 
 
-        this.dataBlock.health = (this.dataBlock.lifeSpan / this.maxLifeSpan) * 100;
+        this.dataBlock.health = this.health*(this.dataBlock.lifeSpan / this.maxLifeSpan)
         this.vel.add(this.acc);
         this.vel.limit(1.5);
         this.vel.multiply(this.dataBlock.health / 100);
@@ -261,6 +283,7 @@ class Herb4LYT extends Creature {
     life() {//would just putting this in update be better? 
         if (this.dataBlock.lifeSpan >= 0) {
             this.dataBlock.lifeSpan -= 0.5;//Prob would be better at -1.5 
+            this.health -= 0.005;//ok ok idk 
 
         }
         if (this.dataBlock.lifeSpan <= 2000) {

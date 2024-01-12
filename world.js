@@ -38,6 +38,9 @@ class World {
     this.entities = [];
     this.foodItems = [];
 
+    this.bone = [];
+
+
     this.viruses = [];
     let numViruses = 100;
     for (let i = 0; i < numViruses; ++i) {
@@ -53,8 +56,7 @@ class World {
       pred2: [],
       pred3: [],
       herb1: [],
-      herb2: [new Herb2(new JSVector(300, 300), new JSVector(0.1, 0), 10, this)],
-      herb3: [],
+      herb2: [],
       herb4LYT: [],
       herb5: [],
       herb6LYT: [],
@@ -68,6 +70,11 @@ class World {
       food4: [],
       food5: [],
     };
+
+    this.loadBone(50);
+    this.loadFood4YBR(30);
+
+
 
     // performance -- change the number of entities to see the effect on framerate
     this.numEntities = 50;
@@ -116,6 +123,7 @@ class World {
     this.ctxMain.save();
     //  move the main canvas inside of the world
     this.ctxMain.translate(-this.cnvMainLoc.x, -this.cnvMainLoc.y);
+    this.runBone();
     this.runCreatures();
     this.runFood();
     this.ctxMain.restore();
@@ -235,25 +243,82 @@ loadherb6LYT(n) {
 }
 
 
+
+    }
+  }
+
+}
+  loadEntities(numEntities, ctx, w, h) {
+    //++++++++++++++++++++++++++++  load entities
+   
+    
+  }
+
+
+  loadherb4LYT(n){
+    for (let i = 0; i < n; i++) {
+      let x = (Math.random() * this.dims.width)-this.dims.width/2;
+      let y = (Math.random() * this.dims.height) -this.dims.height/2;
+      let loc = new JSVector(x, y);
+      let dx = Math.random() * 2 - 1;
+      let dy = Math.random() * 2 - 1;
+      let vel = new JSVector(dx, dy);
+      let sz = Math.floor(Math.random()*4 + 4);
+      this.creatures.herb4LYT.push(new Herb4LYT(loc, vel, sz, this));
+
+    }
+  }
+  loadBone(n){
+    for (let i = 0; i < n; i++) {
+      let x = (Math.random() * this.dims.width)-this.dims.width/2;
+      let y = (Math.random() * this.dims.height) -this.dims.height/2;
+      let loc = new JSVector(x, y);
+      let sz = Math.floor(Math.random()*2 + 8);
+      this.bone.push(new Bone(loc, sz, this));
+
+    }
+  }
+  runBone(){
+    let c = this.bone;
+    for (let i = 0; i < c.length; i++) {
+      c[i].run();
+    }
+  }
+  runherb4LYT(){
+    let c = this.creatures;
+    for (let i = 0; i < c.herb4LYT.length; i++) {
+      c.herb4LYT[i].run();
+        if (c.herb4LYT[i].dataBlock.isDead === true) {
+          c.herb4LYT.splice(i, 1);
+        }
+    }
+  }
+  loadFood4YBR(n) { // loads the initial amounts of food 4 particle systems
+    for (let i = 0; i < n; i++) {
+      let x = Math.random() * (1920 - (-1920)) + (-1920);
+      let y = Math.random() * (1420 - (-1420)) + (-1420);
+
+      this.foods.food4.push(new Plant4YBR(this, x, y))
+    }
+  }
+  runCreatures() {
+    
+  //virus 
+  for (const creatureType in this.creatures) {
+    for (const creature of this.creatures[creatureType]) {
+      creature.run();
   
 
 
 
 
+    runFood() {
+      for (let i = 0; i < this.foods.food4.length; i++) {
+        this.foods.food4[i].run();
+       
+      }
+    }
 
-loadherb4LYT(n) {
-  for (let i = 0; i < n; i++) {
-    let x = (Math.random() * this.dims.width) - this.dims.width / 2;
-    let y = (Math.random() * this.dims.height) - this.dims.height / 2;
-    let loc = new JSVector(x, y);
-    let dx = Math.random() * 2 - 1;
-    let dy = Math.random() * 2 - 1;
-    let vel = new JSVector(dx, dy);
-    let sz = Math.random() * 4 + 4;
-    this.creatures.herb6LYT.push(new Herb4LYT(loc, vel, sz, this));
-
-  }
-}
 runherb6LYT() {
   let c = this.creatures;
 
@@ -274,7 +339,6 @@ for(let i = 0; i < c.herb3.length; i++){
   c.herb3[i].run();
   if(c.herb3[i].dataBlock.isDead === true){
     c.herb3.splice(i, 1);
-=======
   }
   }
 }
@@ -307,7 +371,6 @@ runFood() {
     this.foods.food4[i].run();
   }
 }
-
 
 
 } //++++++++++++++++++++++++++++++  end world constructor
