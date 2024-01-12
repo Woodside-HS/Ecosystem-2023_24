@@ -321,7 +321,7 @@ loadherb4LYT(n) {
     let dy = Math.random() * 2 - 1;
     let vel = new JSVector(dx, dy);
     let sz = Math.random() * 4 + 4;
-    this.creatures.herb6LYT.push(new Herb4LYT(loc, vel, sz, this));
+    this.creatures.herb4LYT.push(new Herb4LYT(loc, vel, sz, this));
 
   }
 }
