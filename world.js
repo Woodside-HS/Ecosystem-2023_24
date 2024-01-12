@@ -194,8 +194,6 @@ class World {
         c.herb3.splice(i, 1);
       }
       }
-    for(let i = 0; i<world.creatures.pred2.length; i++){
-      if(world.creatures.pred2[i] != null){
 
     for (let i = 0; i < world.creatures.pred2.length; i++) {
       if (world.creatures.pred2[i] != null) {
@@ -219,7 +217,7 @@ class World {
       this.creatures.herb2[0].run()
     }
 
-    let c = this.creatures;
+
 
     for (let i = 0; i < c.herb3.length; i++) {
       c.herb3[i].run();
