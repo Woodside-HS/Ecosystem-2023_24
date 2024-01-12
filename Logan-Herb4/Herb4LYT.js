@@ -39,7 +39,6 @@ class Herb4LYT extends Creature {
         this.seekFoods();
     }
     seekOthers() {
-console.log(world.creatures.herb4.length)
         if (this.dataBlock.health > 70) {
 
             let dd = 120;
