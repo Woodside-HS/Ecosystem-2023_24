@@ -57,6 +57,7 @@ class World {
       pred3: [],
       herb1: [],
       herb2: [],
+      herb3: [],
       herb4LYT: [],
       herb5: [],
       herb6LYT: [],
@@ -179,6 +180,23 @@ class World {
     }
   }
   runCreatures() {
+
+    let c = this.creatures;
+    for (let i = 0; i < c.herb4LYT.length; i++) {
+      c.herb4LYT[i].run();
+        if (c.herb4LYT[i].dataBlock.isDead === true) {
+          c.herb4LYT.splice(i, 1);
+        }
+    }
+    for(let i = 0; i < c.herb3.length; i++){
+      c.herb3[i].run();
+      if(c.herb3[i].dataBlock.isDead === true){
+        c.herb3.splice(i, 1);
+      }
+      }
+    for(let i = 0; i<world.creatures.pred2.length; i++){
+      if(world.creatures.pred2[i] != null){
+
     for (let i = 0; i < world.creatures.pred2.length; i++) {
       if (world.creatures.pred2[i] != null) {
         world.creatures.pred2[i].run();
@@ -202,6 +220,7 @@ class World {
     }
 
     let c = this.creatures;
+
     for (let i = 0; i < c.herb3.length; i++) {
       c.herb3[i].run();
       if (c.herb3[i].isDead === true) {
@@ -245,8 +264,6 @@ class World {
 
 
 
-
-
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
 
@@ -267,6 +284,9 @@ class World {
 
     }
   }
+
+
+
   runherb4LYT() {
     let c = this.creatures;
     for (let i = 0; i < c.herb4LYT.length; i++) {
@@ -276,6 +296,7 @@ class World {
       }
     }
   }
+
   loadFood4YBR(n) { // loads the initial amounts of food 4 particle systems
     for (let i = 0; i < n; i++) {
       let x = Math.random() * (1920 - (-1920)) + (-1920);
@@ -284,17 +305,8 @@ class World {
       this.foods.food4.push(new Plant4YBR(this, x, y))
     }
   }
-  runCreatures() {
 
-    //virus 
-    for (const creatureType in this.creatures) {
-      for (const creature of this.creatures[creatureType]) {
-        creature.run();
-
-
-      }
-    }
-  }
+ 
 
 
   runFood() {
@@ -307,6 +319,8 @@ class World {
   runherb6LYT() {
     let c = this.creatures;
 
+
+
     for (let i = 0; i < c.herb6LYT.length; i++) {
       c.herb6LYT[i].run(c.herb6LYT);
       if (c.herb6LYT[i].isDead === true) {
@@ -314,6 +328,7 @@ class World {
       }
     }
   }
+
 
 
 

@@ -122,7 +122,7 @@ class Herb4LYT extends Creature {
                   this.wrld.foods.food4[i].foods4[j].lifeSpan-=200;
                   this.health+=0.5;
             }
-                if (dd > dist && dist > 60) {
+                if (dd > dist && dist > 40) {
                   
                    let t = new JSVector(oo.loc.x, oo.loc.y);//bro idk this is one of the only way I can get this to work
                     this.acc = JSVector.subGetNew(t, this.loc);

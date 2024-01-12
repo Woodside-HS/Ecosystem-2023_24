@@ -78,6 +78,7 @@ class Pred1 extends Creature {
             ctx.fillStyle = "#800000";
             ctx.arc(this.loc.x, this.loc.y, this.size, 0, 2 * Math.PI, false);
             ctx.fill();
+           
         }
         //  render balls in mini map
         this.dataBlock.lifeSpan -= 0.2;
