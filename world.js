@@ -282,21 +282,6 @@ runCreatures() {
       }
     }
 
-
-
-loadherb4LYT(n) {
-  for (let i = 0; i < n; i++) {
-    let x = (Math.random() * this.dims.width) - this.dims.width / 2;
-    let y = (Math.random() * this.dims.height) - this.dims.height / 2;
-    let loc = new JSVector(x, y);
-    let dx = Math.random() * 2 - 1;
-    let dy = Math.random() * 2 - 1;
-    let vel = new JSVector(dx, dy);
-    let sz = Math.random() * 4 + 4;
-    this.creatures.herb6LYT.push(new Herb4LYT(loc, vel, sz, this));
-
-  }
-}
 runherb6LYT() {
   let c = this.creatures;
 
