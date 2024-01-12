@@ -49,11 +49,11 @@ class World {
     }
 
     this.creatures = {
-      pred1: [new Pred1(new JSVector(400, 600), new JSVector(0, -30), 20, this)],
-      pred2: [new Creature(new JSVector(100, 120), new JSVector(20, 0), 20, this)],
+      //pred1: [new Pred1(new JSVector(400, 600), new JSVector(0, -30), 20, this)],
+      //pred2: [new Creature(new JSVector(100, 120), new JSVector(20, 0), 20, this)],
       pred3: [],
       herb1: [],
-      herb2: [new Herb2(new JSVector(300, 300), new JSVector(0.1, 0), 10, this)],
+     // herb2: [new Herb2(new JSVector(300, 300), new JSVector(0.1, 0), 10, this)],
       herb3: [],
       herb4LYT: [],
       herb5: [],
@@ -67,6 +67,7 @@ class World {
       food3: [],
       food4: [],
       food5: [],
+      food6: [new CalFood(new JSVector(200, 200), new JSVector(0.1, 0.1), 10, this, 0)],
     };
 
     // performance -- change the number of entities to see the effect on framerate
@@ -83,12 +84,12 @@ class World {
 
     this.entities = [];
     this.foodItems = [];
-    this.loadherb6LYT(200);
-    this.loadFood4YBR(30);
+    //this.loadherb6LYT(200);
+   // this.loadFood4YBR(30);
 
-    this.loadherb4LYT(80);
+   // this.loadherb4LYT(80);
     this.numEntities = 100;
-    this.loadEntities(
+   this.loadEntities(
       this.numEntities,
       this.ctxMain,
       this.dims.width,
@@ -154,7 +155,7 @@ loadEntities(numEntities, ctx, w, h) {
     let dy = Math.random() * 2 - 1;
     let vel = new JSVector(dx, dy);
     let sz = Math.floor(Math.random() * 0.5 + 0.5);
-    this.creatures.herb3.push(new Herb3BJC(loc, vel, sz, this));
+    //this.creatures.herb3.push(new Herb3BJC(loc, vel, sz, this));
   }
 }
 
@@ -169,27 +170,30 @@ loadherb6LYT(n) {
     let dy = Math.random() * 2 - 1;
     let vel = new JSVector(dx, dy);
     let sz = Math.random() * 0.2 + 0.6;
-    this.creatures.herb6LYT.push(new Herb6FlockLYT(loc, vel, sz, this));
+    //this.creatures.herb6LYT.push(new Herb6FlockLYT(loc, vel, sz, this));
 
   }
 }
 
 
 runCreatures() {
-  for (let i = 0; i < this.creatures.pred1.length; i++) {
-    this.creatures.pred1[i].run();
-  }
-  for (let i = 0; i < this.creatures.pred2.length; i++) {
-    this.creatures.pred2[i].run();
-  }
-  this.creatures.herb2[0].run()
-  let c = this.creatures;
-  for (let i = 0; i < c.herb3.length; i++) {
-    c.herb3[i].run();
-    if (c.herb3[i].isDead === true) {
-      c.herb3.splice(i, 1);
+  // for (let i = 0; i < this.creatures.pred1.length; i++) {
+  //   this.creatures.pred1[i].run();
+  // }
+  // for (let i = 0; i < this.creatures.pred2.length; i++) {
+  //   this.creatures.pred2[i].run();
+  // }
+  // this.creatures.herb2[0].run()
+  // let c = this.creatures;
+  // for (let i = 0; i < c.herb3.length; i++) {
+  //   c.herb3[i].run();
+  //   if (c.herb3[i].isDead === true) {
+  //     c.herb3.splice(i, 1);
 
-    }
+  //   }
+  // }
+  for(let ii = 0; ii<this.creatures.food6.length; ii++){
+    this.creatures.food6[ii].run();
   }
   //virus 
   for (const creatureType in this.creatures) {
