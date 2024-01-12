@@ -30,8 +30,40 @@ class Herb6FlockLYT extends Creature {
         this.checkEdges();
         this.bigFish();
         this.seekOthers();
+        this.seekFoods();
     }
+    seekFoods() {
+        let dd = 80;
+        if (this.dataBlock.health < 70 && this.numClose > 1) {
 
+            for (let i = 0; i < world.foods.food4.length; i++) {
+
+                let f4 = world.foods.food4[i];
+                let oo = f4;
+                let dist = this.loc.distance(oo.loc);
+                if (dist < 30) {
+                    this.vel = new JSVector(0, 0);
+
+                    this.wrld.foods.food4[i].lifeSpan -= 50;
+                    this.health += 0.5;
+                }
+                if (dd > dist && dist > 15) {
+
+                    let t = new JSVector(oo.loc.x, oo.loc.y);//bro idk this is one of the only way I can get this to work
+                    this.acc = JSVector.subGetNew(t, this.loc);
+
+                    this.acc.normalize();
+                    this.acc.multiply(0.235128);
+                    this.vel.add(this.acc);
+                    this.vel.limit(1.0);
+
+                    this.loc.add(this.vel);
+
+                }
+
+            }
+        }
+    }
     seekOthers() {
 
         if (this.dataBlock.health > 70) {
