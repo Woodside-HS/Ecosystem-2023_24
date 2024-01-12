@@ -57,6 +57,7 @@ class World {
       pred3: [],
       herb1: [],
       herb2: [],
+      herb3: [],
       herb4LYT: [],
       herb5: [],
       herb6LYT: [],
@@ -70,8 +71,6 @@ class World {
       food4: [],
       food5: [],
     };
-
-    this.loadBone(50);
     this.loadFood4YBR(30);
 
 
@@ -123,7 +122,6 @@ class World {
     this.ctxMain.save();
     //  move the main canvas inside of the world
     this.ctxMain.translate(-this.cnvMainLoc.x, -this.cnvMainLoc.y);
-    this.runBone();
     this.runCreatures();
     this.runFood();
     this.ctxMain.restore();
@@ -181,6 +179,19 @@ class World {
     }
   }
   runCreatures() {
+    let c = this.creatures;
+    for (let i = 0; i < c.herb4LYT.length; i++) {
+      c.herb4LYT[i].run();
+        if (c.herb4LYT[i].dataBlock.isDead === true) {
+          c.herb4LYT.splice(i, 1);
+        }
+    }
+    for(let i = 0; i < c.herb3.length; i++){
+      c.herb3[i].run();
+      if(c.herb3[i].dataBlock.isDead === true){
+        c.herb3.splice(i, 1);
+      }
+      }
     for(let i = 0; i<world.creatures.pred2.length; i++){
       if(world.creatures.pred2[i] != null){
         world.creatures.pred2[i].run();
@@ -200,8 +211,6 @@ class World {
     if(this.creatures.herb2[0] != null){
       this.creatures.herb2[0].run()
     }
-    
-    let c = this.creatures;
     for (let i = 0; i < c.herb3.length; i++) {
       c.herb3[i].run();
       if (c.herb3[i].isDead === true) {
@@ -244,10 +253,9 @@ loadherb6LYT(n) {
 
 
 
-    }
-  }
+      
 
-}
+
   loadEntities(numEntities, ctx, w, h) {
     //++++++++++++++++++++++++++++  load entities
    
@@ -268,31 +276,8 @@ loadherb6LYT(n) {
 
     }
   }
-  loadBone(n){
-    for (let i = 0; i < n; i++) {
-      let x = (Math.random() * this.dims.width)-this.dims.width/2;
-      let y = (Math.random() * this.dims.height) -this.dims.height/2;
-      let loc = new JSVector(x, y);
-      let sz = Math.floor(Math.random()*2 + 8);
-      this.bone.push(new Bone(loc, sz, this));
 
-    }
-  }
-  runBone(){
-    let c = this.bone;
-    for (let i = 0; i < c.length; i++) {
-      c[i].run();
-    }
-  }
-  runherb4LYT(){
-    let c = this.creatures;
-    for (let i = 0; i < c.herb4LYT.length; i++) {
-      c.herb4LYT[i].run();
-        if (c.herb4LYT[i].dataBlock.isDead === true) {
-          c.herb4LYT.splice(i, 1);
-        }
-    }
-  }
+
   loadFood4YBR(n) { // loads the initial amounts of food 4 particle systems
     for (let i = 0; i < n; i++) {
       let x = Math.random() * (1920 - (-1920)) + (-1920);
@@ -301,13 +286,6 @@ loadherb6LYT(n) {
       this.foods.food4.push(new Plant4YBR(this, x, y))
     }
   }
-  runCreatures() {
-    
-  //virus 
-  for (const creatureType in this.creatures) {
-    for (const creature of this.creatures[creatureType]) {
-      creature.run();
-  
 
 
 
@@ -331,17 +309,7 @@ runherb6LYT() {
 }
 
 
-  runCreatures() {
-    
-       this.creatures.herb2[0].run()
-let c = this.creatures;
-for(let i = 0; i < c.herb3.length; i++){
-  c.herb3[i].run();
-  if(c.herb3[i].dataBlock.isDead === true){
-    c.herb3.splice(i, 1);
-  }
-  }
-}
+
 
 
 loadFood4YBR(n) { // loads the initial amounts of food 4 particle systems

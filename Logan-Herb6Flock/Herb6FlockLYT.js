@@ -195,10 +195,7 @@ class Herb6FlockLYT extends Creature {
         let sum = new JSVector(0, 0);
         for (let i = 0; i < l.length; i++) {
             let d = this.loc.distance(l[i].loc);
-            // if (d < 2 && d > 0) {//really stupid way of fixxing a bug
-            //     this.loc.x = Math.random() * world.dims.width;
-            //     this.loc.y = Math.random() * world.dims.height;
-            // }
+   
             if (d > 0 && d < this.desiredSep) {
                 let diff = JSVector.subGetNew(this.loc, l[i].loc);
 
