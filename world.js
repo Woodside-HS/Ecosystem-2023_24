@@ -35,7 +35,7 @@ class World {
 
     this.entities = [];
     this.foodItems = [];
-
+    this.bone = [];
     this.creatures = {
       pred1: [],
       pred2: [],
@@ -57,7 +57,7 @@ class World {
       food4: [],
       food5: [],
     };
-
+    this.loadBone(50);
     this.loadFood4YBR(30);
     this.loadherb4LYT(50);
     // performance -- change the number of entities to see the effect on framerate
@@ -89,6 +89,7 @@ class World {
     this.ctxMain.save();
     //  move the main canvas inside of the world
     this.ctxMain.translate(-this.cnvMainLoc.x, -this.cnvMainLoc.y);
+    this.runBone();
     this.runCreatures();
     this.runherb4LYT();
     this.runFood();
@@ -139,6 +140,22 @@ class World {
       let sz = Math.floor(Math.random()*4 + 4);
       this.creatures.herb4LYT.push(new Herb4LYT(loc, vel, sz, this));
 
+    }
+  }
+  loadBone(n){
+    for (let i = 0; i < n; i++) {
+      let x = (Math.random() * this.dims.width)-this.dims.width/2;
+      let y = (Math.random() * this.dims.height) -this.dims.height/2;
+      let loc = new JSVector(x, y);
+      let sz = Math.floor(Math.random()*4 + 4);
+      this.bone.push(new Bone(loc, sz, this));
+
+    }
+  }
+  runBone(){
+    let c = this.bone;
+    for (let i = 0; i < c.length; i++) {
+      c[i].run();
     }
   }
   runherb4LYT(){
