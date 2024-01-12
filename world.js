@@ -67,6 +67,7 @@ class World {
       food3: [],
       food4: [],
       food5: [],
+      food6: [new PartSysF3(100, 100, this) ]
       food7: [],
     };
 
