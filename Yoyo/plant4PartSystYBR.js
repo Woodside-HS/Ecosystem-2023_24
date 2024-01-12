@@ -67,7 +67,6 @@ class Plant4YBR {
 
     update() {
         this.shootCount++;
-        this.lifeSpan-= 0.5;
         if(this.lifeSpan < 0){
             this.isDead = true;
         }
@@ -83,7 +82,7 @@ class Plant4YBR {
                 for (let k = 0; k < this.foods4.length; k++) { //traverse particle array second time
                     if (this.foods4[k].cellType === "Healthy" && this.foods4[k] != this.foods4[i]) { // find dif healthy particle
                         let dist = this.foods4[i].loc.distance(this.foods4[k].loc);
-                        if (dist <= 100) {
+                        if (dist <= 100) {//a
                             this.pollenCount++;
                             if (this.pollenCount === 10) {
                                 this.wrld.foods.food4.push(new Plant4YBR(this.wrld, this.foods4[i].loc.x, this.foods4[k].loc.y));
