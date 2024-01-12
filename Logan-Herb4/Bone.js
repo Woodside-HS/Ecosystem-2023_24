@@ -9,13 +9,12 @@ class Bone{
     }
 
     run(){
-        this.render();
+        //this.render();
     }
     render(){
         let ctx = this.ctx;
         ctx.save();
         ctx.translate(this.loc.x, this.loc.y);
-        ctx.rotate();
         ctx.strokeStyle = "rgba(0,0,0,1)";//idk black outline looks better rn for me
         ctx.fillStyle = this.clr;
         ctx.beginPath();
