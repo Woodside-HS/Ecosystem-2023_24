@@ -196,8 +196,6 @@ class Herb6FlockLYT extends Creature {
         this.acc.add(flockForce);
     }
     update() {
-        console.log(this.dataBlock.health);
-        console.log(this.dataBlock.lifeSpan)
         this.dataBlock.health = this.health * (this.dataBlock.lifeSpan / this.maxLifeSpan);
 
         this.vel.add(this.acc);
