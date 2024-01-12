@@ -13,8 +13,6 @@ function init(){
 
 function animate() {
   world.run();
-  // food3s.run();
-  // partsys.run()
   requestAnimationFrame(animate);
 }
 
