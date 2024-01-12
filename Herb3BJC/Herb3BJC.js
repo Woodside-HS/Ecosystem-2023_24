@@ -59,13 +59,13 @@ class Herb3BJC extends Creature {
             this.dataBlock.isDead = true;
 
         }
-        
+
         this.dataBlock.health = (this.dataBlock.lifeSpan / this.maxLifeSpan) * 100;
         this.vel.add(this.acc);
         this.vel.limit(1.5);
-        this.vel.multiply(this.dataBlock.health / 100);
+        //this.vel.multiply(this.dataBlock.health / 100);
         this.loc.add(this.vel);
-        this.vel.divide(this.dataBlock.health / 100);
+    //    this.vel.divide(this.dataBlock.health / 100);
 
     //if close to pred
     if(this.colorState = false){

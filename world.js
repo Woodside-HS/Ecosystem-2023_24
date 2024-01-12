@@ -188,7 +188,7 @@ for(let i = 0; i < c.herb3.length; i++){
   
 
     
-    }
+    
   
 
 
