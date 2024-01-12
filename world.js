@@ -242,19 +242,6 @@ loadherb6LYT(n) {
   }
 }
 
-
-
-    }
-  }
-
-}
-  loadEntities(numEntities, ctx, w, h) {
-    //++++++++++++++++++++++++++++  load entities
-   
-    
-  }
-
-
   loadherb4LYT(n){
     for (let i = 0; i < n; i++) {
       let x = (Math.random() * this.dims.width)-this.dims.width/2;
@@ -308,7 +295,7 @@ loadherb6LYT(n) {
     for (const creature of this.creatures[creatureType]) {
       creature.run();
   
-
+    }}}
 
 
 
@@ -318,6 +305,7 @@ loadherb6LYT(n) {
        
       }
     }
+  
 
 runherb6LYT() {
   let c = this.creatures;
