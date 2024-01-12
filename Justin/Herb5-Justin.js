@@ -14,6 +14,7 @@ class Herb5 extends Creature{
         this.loadSpores(n);
         this.dataBlock.health=10000;
         this.antibodies=false;
+        this.targetFoodIndex=Math.floor(Math.random()*20);
     }
     run(){//runs array of spores and subtracts health
         if(!this.isDead){
@@ -44,21 +45,11 @@ class Herb5 extends Creature{
         }
     }
     render(){//trying to draw lines between each ball
-        let ctx=this.ctx;
-        ctx.beginPath();
-        ctx.moveTo(this.loc.x,this.loc.y);
-        for(let i=0;i<this.spores.length-1;i++){
-            ctx.lineTo(this.spores[i+1].loc.x,this.spores[i+1].loc.y);
-        }
-        ctx.closePath();
-        ctx.strokeStyle="red";
-        ctx.stroke();
     }
     eat(){
-        if(this.loc.distance(world.foods.food1.loc)<this.wrld.foods.food1.sz){
+        if(this.loc.distance(this.wrld.foods.food7[this.targetFoodIndex].loc)<this.wrld.foods.food7[this.targetFoodIndex].sz){
             this.dataBlock.health++;
             this.wrld.food.food1.nourishment--;
-            console.log("ate");
         }
     }
 }
@@ -83,7 +74,9 @@ class Spore extends Creature{
     run(){
         this.flock(this.herb.spores);
         super.update();
-        this.acc.add(this.seek(world.foods.food1.loc));
+        if(this.wrld.foods.food7[this.herb.targetFoodIndex].statBlock.health!==0){
+          this.acc.add(this.wrld.foods.food7[this.herb.targetFoodIndex].loc);
+        }
         this.vel.limit(2);
         super.checkEdges();
         this.render();
