@@ -191,7 +191,7 @@ loadHerb5JJL(n){
     let dx = Math.random() * 2 - 1;
     let dy = Math.random() * 2 - 1;
     let vel = new JSVector(dx, dy);
-    let sz = Math.random() * 0.2 + 0.6;
+    let sz = Math.random() * 5 + 10;
     let sporeNumber=Math.floor(Math.random()*15)+1;
     this.creatures.herb5.push(new Herb5(loc, vel, sz, this,sporeNumber));
 
@@ -205,7 +205,7 @@ loadFood7JJL(n){
     let dx = Math.random() * 2 - 1;
     let dy = Math.random() * 2 - 1;
     let vel = new JSVector(dx, dy);
-    let sz = Math.random() * 0.2 + 0.6;
+    let sz = Math.random() * 10 + 25;
     this.foods.food7.push(new Food7(loc, vel,sz,this));
 
   }

@@ -5,6 +5,7 @@ class Food7 extends Food{
         this.clr = this.getRandomColor();
         this.ctx = wrld.ctxMain;
         this.size = sz;
+        this.numTeleports=0;
     }
     run(){
         this.update();
@@ -12,11 +13,12 @@ class Food7 extends Food{
     }
     update(){
         //teleport when health drops too much
-        if(this.statBlock.health<=50||this.statBlock.health<=25||this.statBlock.health<=10){
+        if(this.statBlock.health<=50||this.statBlock.health<=25||this.statBlock.health<=10&&this.numTeleports<3){
             let x=Math.random()*this.wWidth;
             let y=Math.random()*this.wHeight;
             this.loc.x=x;
             this.loc.y=y;
+            this.numTeleports++;
         }
         
     }
