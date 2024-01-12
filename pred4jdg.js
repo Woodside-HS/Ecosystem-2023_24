@@ -283,8 +283,6 @@ class Pred4jdg extends Creature {
       "#1102AB",
       "#000256",
       "#0200ab",
-      "#02ab00",
-      "#AAAA02",
       "#77FFFF",
       "#ab0006",
       "#000874",
