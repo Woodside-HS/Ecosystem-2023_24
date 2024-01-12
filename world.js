@@ -147,7 +147,7 @@ class World {
       let x = (Math.random() * this.dims.width)-this.dims.width/2;
       let y = (Math.random() * this.dims.height) -this.dims.height/2;
       let loc = new JSVector(x, y);
-      let sz = Math.floor(Math.random()*4 + 4);
+      let sz = Math.floor(Math.random()*2 + 8);
       this.bone.push(new Bone(loc, sz, this));
 
     }

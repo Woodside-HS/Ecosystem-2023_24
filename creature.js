@@ -69,7 +69,7 @@ class Creature extends Entity {
             this.antibodies = true;
          } else if (world.foods.cellType === "Poison") {
             this.dataBlock.lifeSpan -= 40;
-            this.dataBlock.health -= 0.3;//health has a base of 100 (10 would be far too high) 
+            this.dataBlock.health -= 0.3;
          }
       }
    }

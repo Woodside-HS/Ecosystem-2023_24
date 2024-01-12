@@ -20,6 +20,7 @@ class Bone {
 
         ctx.fillStyle = this.clr;
         ctx.beginPath();
+        
     }
     update(){
 
