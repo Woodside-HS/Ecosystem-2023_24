@@ -65,10 +65,12 @@ class Herb6FlockLYT extends Creature {
         }
     }
     seekOthers() {
-
+for(let i = 0; i < world.creatures.pred2.length; i ++){
+    console.log(world.creatures.pred2.length)
         if (this.dataBlock.health > 70) {
             let dd = 120;
             let h4 = world.creatures.herb6LYT;
+            
             for (let i = 0; i < h4.length; i++) {
                 if (!this.cc && !h4[i].cc) {
                    
@@ -127,6 +129,7 @@ class Herb6FlockLYT extends Creature {
             }
         }
     }
+}
     bigFish() {
         let h4 = world.creatures.herb6LYT;
         this.numClose = 0;
