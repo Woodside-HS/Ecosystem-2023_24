@@ -83,6 +83,7 @@ class Virus extends Creature {
             this.dataBlock.isDead = true;
 	}
 
+
 	const dt = 1 / 60 * this.speed;
 	// Update all segments but the first
 	for (let i = this.segments.length - 1; i > 0; --i) {

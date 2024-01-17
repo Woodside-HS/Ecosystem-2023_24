@@ -26,8 +26,8 @@ class predDosC extends Creature {
             this.Svel[ii][i].normalize();
          }
       }
-      this.predWidth = 100;
-      this.predLength = 100;
+      this.predWidth = 40;
+      this.predLength = 40;
       this.segments = [[], [], [], []];//each segment has a vector 
       for(let ii = 0; ii<4; ii++){
          for (let i = 0; i <= segments; i++) {
