@@ -57,11 +57,12 @@ class predDosC extends Creature {
       this.a = 1;
       this.backwards = [false, false, false, false];
       this.searchFood = false;
-      this.dataBlock.lifeSpan = 24000;
+      this.dataBlock.lifeSpan = 16000;
       this.preyIndex = [];
       this.eat = [false, false, false, false];
       this.antibodies = false;
       this.index = index;
+      this.maxSpeed = 2;
    }
 
    run() {
@@ -79,10 +80,8 @@ class predDosC extends Creature {
       else{
          this.dataBlock.lifeSpan--;
          //make creature eat 
-         if(Math.random()*100>90){
-            let innn = Math.floor(Math.random()*4);
-            if(this.eat[innn] && !this.backwards[innn])
-               this.eat[innn] = false;
+         for(let i = 0; i<this.eat.length; i++){
+            this.eat[i] = false;
          }
          //move creature 
          this.vel.add(this.acc);
@@ -270,6 +269,7 @@ class predDosC extends Creature {
       }
    }
    render() {
+      this.ctx.save();
       //body round rectangle 
       this.ctx.fillStyle = "rgba(" + this.r + ", " + this.g + ", " + this.b + ", " + this.a + ")";
       this.ctx.beginPath();
@@ -290,6 +290,7 @@ class predDosC extends Creature {
             }
          }
       }
+      this.ctx.restore();
    }
 
    colorChange() {

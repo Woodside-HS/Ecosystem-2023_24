@@ -305,7 +305,7 @@ class World {
   
     }}
 
-
+    let c = this.creatures;
     for (let i = 0; i < c.herb6LYT.length; i++) {
       c.herb6LYT[i].run(c.herb6LYT);
       if (c.herb6LYT[i].isDead === true) {
